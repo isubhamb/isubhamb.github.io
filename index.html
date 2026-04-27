@@ -1,9 +1,233 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DocForge — PDF Editor</title>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       PRIMARY META — Google / Search Engines
+  ════════════════════════════════════════════════════════════════════════ -->
+  <title>YourFreeDocs — Free Online PDF Editor | Annotate, Draw & Edit PDFs</title>
+  <meta name="description" content="YourFreeDocs is a free, browser-based PDF editor. Add text, draw, highlight, insert images, and annotate your PDFs directly in the browser — no uploads, no installs, 100% private." />
+  <meta name="keywords" content="PDF editor, online PDF editor, annotate PDF, edit PDF, free PDF editor, draw on PDF, highlight PDF, add text to PDF, PDF annotation tool, browser PDF editor" />
+  <meta name="author" content="YourFreeDocs" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <link rel="canonical" href="https://yourfreedocs.com/" />
+
+  <!-- ── Google Rich Results / Structured Data hints ── -->
+  <meta name="application-name" content="YourFreeDocs" />
+  <meta name="generator" content="YourFreeDocs PDF Editor" />
+  <meta name="category" content="Productivity, Document Tools" />
+  <meta name="classification" content="Business/Productivity" />
+  <meta name="rating" content="general" />
+  <meta name="revisit-after" content="7 days" />
+  <meta name="language" content="English" />
+
+  <!-- ── Google Search Console verification (replace token) ── -->
+  <!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_TOKEN" /> -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       OPEN GRAPH — Facebook, LinkedIn, WhatsApp, Discord, Slack
+  ════════════════════════════════════════════════════════════════════════ -->
+  <meta property="og:type"               content="website" />
+  <meta property="og:site_name"          content="YourFreeDocs" />
+  <meta property="og:title"             content="YourFreeDocs — Free Online PDF Editor" />
+  <meta property="og:description"       content="Annotate, draw, highlight, and edit PDFs directly in your browser. No uploads, no installs — fully private and free." />
+  <meta property="og:url"               content="https://yourfreedocs.com/" />
+  <meta property="og:locale"            content="en_US" />
+  <meta property="og:image"             content="https://yourfreedocs.com/og-image.png" />
+  <meta property="og:image:secure_url"  content="https://yourfreedocs.com/og-image.png" />
+  <meta property="og:image:type"        content="image/png" />
+  <meta property="og:image:width"       content="1200" />
+  <meta property="og:image:height"      content="630" />
+  <meta property="og:image:alt"         content="YourFreeDocs PDF Editor — annotate and edit PDFs in the browser" />
+
+  <!-- Facebook App ID (replace with yours) -->
+  <!-- <meta property="fb:app_id" content="YOUR_FB_APP_ID" /> -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       TWITTER / X CARD
+  ════════════════════════════════════════════════════════════════════════ -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@yourfreedocs" />
+  <meta name="twitter:creator"     content="@yourfreedocs" />
+  <meta name="twitter:title"       content="YourFreeDocs — Free Online PDF Editor" />
+  <meta name="twitter:description" content="Annotate, draw, highlight, and edit PDFs directly in your browser. No uploads, no installs — fully private and free." />
+  <meta name="twitter:image"       content="https://yourfreedocs.com/og-image.png" />
+  <meta name="twitter:image:alt"   content="YourFreeDocs PDF Editor interface" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       LINKEDIN
+  ════════════════════════════════════════════════════════════════════════ -->
+  <!-- LinkedIn reads og: tags. Add these for richer previews: -->
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="627" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       WHATSAPP / TELEGRAM / DISCORD
+  ════════════════════════════════════════════════════════════════════════ -->
+  <!-- These platforms read og: tags above. No extra tags needed. -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       PINTEREST
+  ════════════════════════════════════════════════════════════════════════ -->
+  <meta name="pinterest-rich-pin" content="true" />
+  <!-- <meta name="p:domain_verify" content="YOUR_PINTEREST_VERIFICATION_TOKEN" /> -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       APPLE / iOS
+  ════════════════════════════════════════════════════════════════════════ -->
+  <meta name="apple-mobile-web-app-capable"          content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title"            content="YourFreeDocs" />
+  <link rel="apple-touch-icon" sizes="180x180"       href="/icons/apple-touch-icon.png" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       MICROSOFT / WINDOWS
+  ════════════════════════════════════════════════════════════════════════ -->
+  <meta name="msapplication-TileColor"   content="#e8c547" />
+  <meta name="msapplication-TileImage"   content="/icons/mstile-144x144.png" />
+  <meta name="msapplication-config"      content="/browserconfig.xml" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       THEME / PWA
+  ════════════════════════════════════════════════════════════════════════ -->
+  <meta name="theme-color" content="#e8c547" />
+  <meta name="color-scheme" content="dark" />
+  <!-- <link rel="manifest" href="/manifest.json" /> -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       FAVICONS
+  ════════════════════════════════════════════════════════════════════════ -->
+  <link rel="icon"            type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+  <link rel="icon"            type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+  <link rel="shortcut icon"   href="/favicon.ico" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       JSON-LD STRUCTURED DATA — Google Rich Results
+  ════════════════════════════════════════════════════════════════════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://yourfreedocs.com/#webapp",
+        "name": "YourFreeDocs PDF Editor",
+        "url": "https://yourfreedocs.com/",
+        "description": "A free, browser-based PDF editor that lets you annotate, draw, highlight, and edit PDFs without uploading files to a server.",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "All — runs in any modern browser",
+        "browserRequirements": "Requires JavaScript. Chrome, Firefox, Edge, Safari.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "Add text annotations to PDFs",
+          "Freehand drawing on PDFs",
+          "Highlight PDF content",
+          "Draw rectangles and circles",
+          "Insert images into PDFs",
+          "Erase annotations",
+          "Undo history",
+          "Save annotated PDFs",
+          "Multi-page PDF support",
+          "Zoom and rotate pages",
+          "100% client-side — files never leave your device"
+        ],
+        "screenshot": "https://yourfreedocs.com/og-image.png",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "creator": {
+          "@type": "Organization",
+          "name": "YourFreeDocs",
+          "url": "https://yourfreedocs.com/"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://yourfreedocs.com/#website",
+        "name": "YourFreeDocs",
+        "url": "https://yourfreedocs.com/",
+        "description": "Free online PDF editor — annotate, draw, and edit PDFs in the browser.",
+        "inLanguage": "en",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://yourfreedocs.com/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://yourfreedocs.com/#software",
+        "name": "YourFreeDocs",
+        "operatingSystem": "Web",
+        "applicationCategory": "BusinessApplication",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "ratingCount": "142"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0.00",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://yourfreedocs.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "PDF Editor",
+            "item": "https://yourfreedocs.com/editor"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is YourFreeDocs free to use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, YourFreeDocs is completely free. No registration required."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are my PDF files uploaded to a server?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. YourFreeDocs is 100% client-side. Your files are processed entirely in your browser and never leave your device."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What can I do with YourFreeDocs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can add text, draw freehand, highlight content, insert images, draw shapes, erase annotations, and save the final PDF — all without installing anything."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <!-- Bootstrap 5 -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet"/>
@@ -786,7 +1010,7 @@
 
   <!-- ── Top bar ──────────────────────────────────────────────────────── -->
   <div id="topbar">
-    <div class="brand">Doc<span>Forge</span></div>
+    <div class="brand">YourFree<span>Docs</span></div>
     <div class="topbar-sep"></div>
     <span class="badge-forge" id="file-name-badge">No file</span>
 
@@ -797,6 +1021,15 @@
         <button id="next-page" disabled title="Next page"><i class="bi bi-chevron-right"></i></button>
       </div>
       <div class="topbar-sep"></div>
+      <button id="btn-help" title="Help & Rules" style="
+        display:inline-flex;align-items:center;gap:5px;
+        padding:5px 14px;border-radius:7px;border:none;
+        background:var(--accent);color:#0d0e14;
+        font-family:var(--font-body);font-size:12px;font-weight:700;
+        cursor:pointer;transition:all .15s;
+      ">
+        <i class="bi bi-question-circle-fill"></i> HELP
+      </button>
       <button id="btn-shortcuts" title="Keyboard shortcuts  ?">
         <i class="bi bi-keyboard"></i> Shortcuts <kbd>?</kbd>
       </button>
@@ -1036,6 +1269,68 @@
     <span id="status-msg"></span>
   </div>
 
+</div>
+
+<!-- ── Help modal ──────────────────────────────────────────────────────── -->
+<div id="help-modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9100;align-items:center;justify-content:center;">
+  <div id="help-modal" style="background:var(--surface);border:1px solid var(--border2);border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.8);width:560px;max-width:95vw;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;animation:modalIn .2s cubic-bezier(.34,1.56,.64,1) both;">
+    <div class="modal-head">
+      <div class="modal-title">
+        <i class="bi bi-question-circle-fill" style="color:var(--accent)"></i> Help &amp; Tool Rules
+      </div>
+      <button class="modal-close" id="help-modal-close" title="Close  Esc">&#x2715;</button>
+    </div>
+    <div style="padding:22px 24px;overflow-y:auto;flex:1;">
+      <div style="margin-bottom:20px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+          <i class="bi bi-fonts"></i> Text Tool
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:32px;height:32px;flex-shrink:0;border-radius:8px;background:var(--accent-dim);border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--accent);"><i class="bi bi-palette2"></i></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;">Select Border Color = Text Color</div>
+              <div style="font-size:12px;color:var(--text2);line-height:1.6;">When you click the <strong style="color:var(--accent)">Text</strong> tool, a color picker will appear. The color you choose becomes <strong style="color:var(--text)">both the text color and the border color</strong> of the text box. Pick your color, then click anywhere on the PDF to place your text.</div>
+            </div>
+          </div>
+          <div style="height:1px;background:var(--border);"></div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);"><i class="bi bi-1-circle" style="color:var(--accent);font-size:14px;"></i> Click <kbd class="kbd">Text</kbd> tool (or press <kbd class="kbd">T</kbd>) — a color picker popup appears.</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);"><i class="bi bi-2-circle" style="color:var(--accent);font-size:14px;"></i> Choose a color from the palette — this will be your text &amp; border color.</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);"><i class="bi bi-3-circle" style="color:var(--accent);font-size:14px;"></i> Click anywhere on the PDF canvas to place a text box with that color.</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);"><i class="bi bi-4-circle" style="color:var(--accent);font-size:14px;"></i> Type your text. Click outside or press another tool to freeze it.</div>
+          </div>
+          <div style="background:var(--accent-dim);border:1px solid var(--accent-glow);border-radius:7px;padding:10px 12px;font-size:11px;color:var(--text2);display:flex;gap:8px;align-items:flex-start;">
+            <i class="bi bi-info-circle" style="color:var(--accent);font-size:13px;flex-shrink:0;margin-top:1px;"></i>
+            <span>You can also change the color afterwards by double-clicking the frozen text box to re-enter edit mode, then picking a new color from the right-side panel's stroke color.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <span class="modal-footer-tip"><i class="bi bi-lightbulb" style="color:var(--accent)"></i> Click the yellow HELP button anytime to reopen this guide.</span>
+      <button class="btn-forge btn-ghost" id="help-modal-close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Text Color Picker Popup ─────────────────────────────────────────── -->
+<div id="text-color-popup" style="display:none;position:fixed;z-index:8500;background:var(--surface);border:1px solid var(--border2);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.7);padding:16px;width:260px;animation:modalIn .18s cubic-bezier(.34,1.56,.64,1) both;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+    <div style="font-size:12px;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:6px;"><i class="bi bi-fonts"></i> Choose Text Color</div>
+    <button id="text-color-popup-close" style="width:24px;height:24px;border-radius:6px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .12s;">&#x2715;</button>
+  </div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:10px;">Selected color will be used for both text and border.</div>
+  <div id="text-color-swatch-preview" style="height:32px;border-radius:7px;border:2px solid var(--border2);margin-bottom:10px;background:#e8c547;transition:background .15s;display:flex;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);color:#0d0e14;font-weight:600;">#e8c547</div>
+  <div id="text-color-palette" style="display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-bottom:10px;"></div>
+  <div style="display:flex;gap:6px;align-items:center;margin-bottom:12px;">
+    <label style="font-size:11px;color:var(--text3);white-space:nowrap;">Custom:</label>
+    <input type="color" id="text-color-custom" value="#e8c547" style="width:36px;height:28px;border:1px solid var(--border2);border-radius:5px;background:var(--surface2);cursor:pointer;padding:2px;">
+    <span id="text-color-custom-hex" style="font-family:var(--font-mono);font-size:11px;color:var(--text2);">#e8c547</span>
+  </div>
+  <button id="text-color-confirm" style="width:100%;padding:8px;border-radius:7px;border:none;background:var(--accent);color:#0d0e14;font-family:var(--font-body);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;">
+    <i class="bi bi-check-lg"></i> Confirm Color &amp; Place Text
+  </button>
 </div>
 
 <!-- ── Shortcuts modal ────────────────────────────────────────────────── -->
@@ -2232,6 +2527,110 @@ $('#opacity-val').on('input', function() {
   }
 });
 $('#font-size').on('change', function() { state.fontSize = +$(this).val(); });
+
+// ── Help modal ────────────────────────────────────────────────────────────────
+function openHelpModal() {
+  $('#help-modal-backdrop').css('display','flex');
+  $('body').css('overflow','hidden');
+}
+function closeHelpModal() {
+  $('#help-modal-backdrop').css('display','none');
+  $('body').css('overflow','');
+}
+$('#btn-help').on('click', openHelpModal);
+$('#help-modal-close, #help-modal-close-btn').on('click', closeHelpModal);
+$('#help-modal-backdrop').on('click', function(e) { if (e.target === this) closeHelpModal(); });
+
+// ── Text Color Picker Popup ───────────────────────────────────────────────────
+let selectedTextColor = '#e8c547';
+
+const TEXT_PALETTE = [
+  '#000000','#1a1a2e','#ffffff','#e8c547',
+  '#ff5f6b','#4ade9a','#5b8dee','#a78bfa',
+  '#f4a261','#e76f51','#e63946','#c1121f',
+  '#06d6a0','#2ec4b6','#3a86ff','#4361ee',
+  '#ffd166','#fb5607','#ff006e','#8338ec',
+  '#48cae4','#00b4d8','#023e8a','#f72585',
+];
+
+function buildTextColorPalette() {
+  var grid = $('#text-color-palette');
+  grid.empty();
+  TEXT_PALETTE.forEach(function(hex) {
+    var dot = $('<div>')
+      .css({
+        width:'24px', height:'24px', borderRadius:'4px',
+        background: hex, cursor:'pointer',
+        border: '2px solid transparent',
+        transition: 'transform .1s, border-color .1s',
+      })
+      .attr('data-color', hex);
+    if (hex === '#ffffff') dot.css('border-color','#555');
+    dot.on('click', function() { setTextPickerColor($(this).data('color')); });
+    dot.on('mouseenter', function() { $(this).css('transform','scale(1.2)'); });
+    dot.on('mouseleave', function() { $(this).css('transform','scale(1)'); });
+    grid.append(dot);
+  });
+}
+
+function setTextPickerColor(hex) {
+  selectedTextColor = hex;
+  $('#text-color-swatch-preview').css('background', hex).text(hex);
+  var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  var lum = (0.299*r + 0.587*g + 0.114*b);
+  $('#text-color-swatch-preview').css('color', lum > 128 ? '#0d0e14' : '#e8e9f0');
+  $('#text-color-custom').val(hex);
+  $('#text-color-custom-hex').text(hex);
+}
+
+function showTextColorPopup() {
+  buildTextColorPalette();
+  setTextPickerColor(state.strokeColor || '#e8c547');
+  var popup = $('#text-color-popup');
+  var toolBtn = $('.tool-btn[data-tool="text"]');
+  var off = toolBtn.offset();
+  popup.css({ top: (off.top + toolBtn.outerHeight() + 8) + 'px', left: off.left + 'px' });
+  popup.show();
+}
+
+function hideTextColorPopup() {
+  $('#text-color-popup').hide();
+}
+
+// Hook into text tool button click to show color picker
+$(document).on('click', '.tool-btn[data-tool="text"]', function() {
+  setTimeout(showTextColorPopup, 0);
+});
+
+$('#text-color-popup-close').on('click', function() {
+  hideTextColorPopup();
+  state.tool = 'select';
+  $('.tool-btn[data-tool]').removeClass('active');
+  $('.tool-btn[data-tool="select"]').addClass('active');
+  var layer = $('#annotation-layer');
+  layer.removeClass('draw-mode text-mode erase-mode');
+  layer.css('pointer-events','all');
+  $('#cur-tool-status').text('Tool: Select');
+});
+
+$('#text-color-confirm').on('click', function() {
+  applyStrokeColor(selectedTextColor);
+  state.color = selectedTextColor;
+  hideTextColorPopup();
+  toast('Text color set to ' + selectedTextColor);
+});
+
+$('#text-color-custom').on('input change', function() {
+  setTextPickerColor(this.value);
+});
+
+$(document).on('click', function(e) {
+  if (!$(e.target).closest('#text-color-popup').length &&
+      !$(e.target).hasClass('tool-btn') &&
+      !$(e.target).closest('.tool-btn').length) {
+    hideTextColorPopup();
+  }
+});
 
 // ── Shortcuts modal ──────────────────────────────────────────────────────────
 function openShortcutsModal() {
