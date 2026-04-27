@@ -1159,21 +1159,22 @@
     }
 
 
-    /* ── Font selector in toolbar ───────────────────────────────────── */
+    /* ── Font selector — custom searchable dropdown ─────────────────── */
     .font-selector-wrap {
       display: inline-flex;
       align-items: center;
       gap: 5px;
       padding: 0 4px;
+      position: relative;
     }
     .font-selector-wrap label {
       font-size: 11px;
       color: var(--text3);
       white-space: nowrap;
     }
-    #font-family-select {
+    #font-dropdown-trigger {
       height: 28px;
-      padding: 0 24px 0 8px;
+      padding: 0 10px;
       border-radius: 6px;
       border: 1px solid var(--border2);
       background: var(--surface);
@@ -1181,19 +1182,130 @@
       font-size: 12px;
       font-family: var(--font-body);
       cursor: pointer;
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239899b0'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 8px center;
-      transition: border-color .15s, background-color .15s;
-      min-width: 130px;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      min-width: 138px;
+      transition: border-color .15s, background .15s;
+      user-select: none;
     }
-    #font-family-select:focus { border-color: var(--accent); }
-    #font-family-select:hover { border-color: var(--border2); background-color: var(--surface2); }
-    html.light #font-family-select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235c5f7a'/%3E%3C/svg%3E");
+    #font-dropdown-trigger:hover { border-color: var(--accent); background: var(--surface2); }
+    #font-dropdown-trigger.open  { border-color: var(--accent); background: var(--surface2); }
+    #font-trigger-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* panel */
+    #font-picker-panel {
+      display: none;
+      position: fixed;
+      z-index: 9500;
+      width: 280px;
+      max-height: 420px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+      overflow: hidden;
+      flex-direction: column;
+    }
+    #font-picker-panel.open { display: flex; animation: fadeIn .13s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } }
+
+    /* search */
+    #font-picker-search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 12px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    #font-search-icon { color: var(--text3); font-size: 13px; flex-shrink: 0; }
+    #font-picker-search {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 13px;
+      font-family: var(--font-body);
+    }
+    #font-picker-search::placeholder { color: var(--text3); }
+    #font-search-clear {
+      background: none; border: none; cursor: pointer;
+      color: var(--text3); font-size: 13px; padding: 0 2px;
+      display: none;
+    }
+    #font-search-clear:hover { color: var(--text); }
+
+    /* category chips */
+    #font-picker-categories {
+      display: flex;
+      gap: 5px;
+      padding: 8px 10px 6px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+    }
+    .font-cat-chip {
+      padding: 2px 9px;
+      border-radius: 20px;
+      border: 1px solid var(--border2);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      cursor: pointer;
+      color: var(--text2);
+      background: var(--surface2);
+      transition: all .12s;
+      user-select: none;
+    }
+    .font-cat-chip:hover { border-color: var(--accent); color: var(--accent); }
+    .font-cat-chip.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+    /* list */
+    #font-picker-list {
+      overflow-y: auto;
+      flex: 1;
+      min-height: 0;
+      padding: 4px 0;
+    }
+    #font-picker-list::-webkit-scrollbar { width: 4px; }
+    #font-picker-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+    .font-item {
+      padding: 7px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      transition: background .1s;
+    }
+    .font-item:hover  { background: var(--surface2); }
+    .font-item.active { background: var(--accent-dim); }
+    .font-item-name {
+      font-size: 13px;
+      color: var(--text);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .font-item-preview {
+      font-size: 15px;
+      color: var(--text2);
+      flex-shrink: 0;
+    }
+    .font-item-cat {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--text3);
+      flex-shrink: 0;
+    }
+    .font-no-results {
+      padding: 24px 14px;
+      text-align: center;
+      color: var(--text3);
+      font-size: 13px;
     }
 
     .hidden { display: none !important; }
@@ -1304,20 +1416,24 @@
       <i class="bi bi-arrow-left-short"></i> Undo
     </button>
     <div class="tool-sep"></div>
-    <div class="font-selector-wrap">
-      <label for="font-family-select"><i class="bi bi-type" style="font-size:13px;color:var(--accent);"></i></label>
-      <select id="font-family-select" title="Font family for text annotations">
-        <option value="Arial" style="font-family:Arial">Arial</option>
-        <option value="'Times New Roman', Times, serif" style="font-family:'Times New Roman'">Times New Roman</option>
-        <option value="'Courier New', Courier, monospace" style="font-family:'Courier New'">Courier New</option>
-        <option value="Georgia, serif" style="font-family:Georgia">Georgia</option>
-        <option value="Verdana, Geneva, sans-serif" style="font-family:Verdana">Verdana</option>
-        <option value="Tahoma, Geneva, sans-serif" style="font-family:Tahoma">Tahoma</option>
-        <option value="'Trebuchet MS', Helvetica, sans-serif" style="font-family:'Trebuchet MS'">Trebuchet MS</option>
-        <option value="Impact, Charcoal, sans-serif" style="font-family:Impact">Impact</option>
-        <option value="'Comic Sans MS', cursive" style="font-family:'Comic Sans MS'">Comic Sans MS</option>
-        <option value="'Palatino Linotype', Palatino, serif" style="font-family:'Palatino Linotype'">Palatino</option>
-      </select>
+    <div class="font-selector-wrap" id="font-selector-wrap">
+      <label><i class="bi bi-type" style="font-size:13px;color:var(--accent);"></i></label>
+      <div id="font-dropdown-trigger" title="Font family for text annotations">
+        <span id="font-trigger-label">Arial</span>
+        <i class="bi bi-chevron-down" style="font-size:9px;opacity:.6;margin-left:4px;"></i>
+      </div>
+      <!-- hidden input keeps backward compat with JS that reads #font-family-select -->
+      <input type="hidden" id="font-family-select" value="Arial">
+    </div>
+    <!-- Font picker panel (portal, appended to body) -->
+    <div id="font-picker-panel">
+      <div id="font-picker-search-wrap">
+        <i class="bi bi-search" id="font-search-icon"></i>
+        <input id="font-picker-search" type="text" placeholder="Search fonts…" autocomplete="off" spellcheck="false">
+        <button id="font-search-clear" title="Clear">&#x2715;</button>
+      </div>
+      <div id="font-picker-categories"></div>
+      <div id="font-picker-list"></div>
     </div>
   </div>
 
@@ -1596,6 +1712,11 @@
 <div id="help-modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9100;align-items:center;justify-content:center;">
   <div id="help-modal" style="background:var(--surface);border:1px solid var(--border2);border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.8);width:560px;max-width:95vw;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;animation:modalIn .2s cubic-bezier(.34,1.56,.64,1) both;">
     <div class="modal-head">
+      <div class="modal-title">
+        <i class="bi bi-question-circle-fill" style="color:var(--accent)"></i> Help &amp; Tool Rules
+      </div>
+      <button class="modal-close" id="help-modal-close" title="Close  Esc">&#x2715;</button>
+    </div>
     <div style="padding:22px 24px;overflow-y:auto;flex:1;">
       <div style="margin-bottom:20px;">
         <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
@@ -2064,19 +2185,80 @@ function placeTextBox(pos) {
       height: '22px', fontSize: '11px', border: '1px solid var(--border2)',
       borderRadius: '4px', background: 'var(--surface2)', color: 'var(--text)',
       fontFamily: 'var(--font-body)', padding: '0 4px', cursor: 'pointer',
-      outline: 'none', maxWidth: '110px',
+      outline: 'none', maxWidth: '130px',
     });
   const FONTS = [
-    ['Arial', 'Arial'],
-    ["'Times New Roman', Times, serif", 'Times New Roman'],
-    ["'Courier New', Courier, monospace", 'Courier New'],
-    ['Georgia, serif', 'Georgia'],
-    ['Verdana, Geneva, sans-serif', 'Verdana'],
-    ['Tahoma, Geneva, sans-serif', 'Tahoma'],
-    ["'Trebuchet MS', Helvetica, sans-serif", 'Trebuchet MS'],
-    ['Impact, Charcoal, sans-serif', 'Impact'],
-    ["'Comic Sans MS', cursive", 'Comic Sans MS'],
-    ["'Palatino Linotype', Palatino, serif", 'Palatino'],
+    // System
+    ['Arial, sans-serif','Arial'],
+    ['"Arial Black", Gadget, sans-serif','Arial Black'],
+    ['Helvetica, Arial, sans-serif','Helvetica'],
+    ['Verdana, Geneva, sans-serif','Verdana'],
+    ['Tahoma, Geneva, sans-serif','Tahoma'],
+    ['"Trebuchet MS", Helvetica, sans-serif','Trebuchet MS'],
+    ['Calibri, Candara, Segoe, sans-serif','Calibri'],
+    ['"Segoe UI", Tahoma, Geneva, sans-serif','Segoe UI'],
+    ['"Times New Roman", Times, serif','Times New Roman'],
+    ['Georgia, serif','Georgia'],
+    ['"Palatino Linotype", Palatino, serif','Palatino'],
+    ['Garamond, serif','Garamond'],
+    ['"Courier New", Courier, monospace','Courier New'],
+    ['Consolas, "Courier New", monospace','Consolas'],
+    ['Impact, Charcoal, sans-serif','Impact'],
+    ['"Comic Sans MS", cursive','Comic Sans MS'],
+    // Google Sans-Serif
+    ['"Roboto", sans-serif','Roboto'],
+    ['"Open Sans", sans-serif','Open Sans'],
+    ['"Lato", sans-serif','Lato'],
+    ['"Nunito", sans-serif','Nunito'],
+    ['"Poppins", sans-serif','Poppins'],
+    ['"Raleway", sans-serif','Raleway'],
+    ['"Montserrat", sans-serif','Montserrat'],
+    ['"Source Sans Pro", sans-serif','Source Sans Pro'],
+    ['"Ubuntu", sans-serif','Ubuntu'],
+    ['"Inter", sans-serif','Inter'],
+    ['"Figtree", sans-serif','Figtree'],
+    ['"DM Sans", sans-serif','DM Sans'],
+    ['"Outfit", sans-serif','Outfit'],
+    ['"Manrope", sans-serif','Manrope'],
+    ['"Rubik", sans-serif','Rubik'],
+    ['"Jost", sans-serif','Jost'],
+    ['"Exo 2", sans-serif','Exo 2'],
+    // Google Serif
+    ['"Lora", serif','Lora'],
+    ['"Merriweather", serif','Merriweather'],
+    ['"Playfair Display", serif','Playfair Display'],
+    ['"Cormorant", serif','Cormorant'],
+    ['"EB Garamond", serif','EB Garamond'],
+    ['"Libre Baskerville", serif','Libre Baskerville'],
+    ['"Crimson Text", serif','Crimson Text'],
+    ['"Noto Serif", serif','Noto Serif'],
+    ['"PT Serif", serif','PT Serif'],
+    // Google Mono
+    ['"Fira Code", monospace','Fira Code'],
+    ['"JetBrains Mono", monospace','JetBrains Mono'],
+    ['"Source Code Pro", monospace','Source Code Pro'],
+    ['"Space Mono", monospace','Space Mono'],
+    ['"Inconsolata", monospace','Inconsolata'],
+    ['"IBM Plex Mono", monospace','IBM Plex Mono'],
+    // Google Display
+    ['"Bebas Neue", cursive','Bebas Neue'],
+    ['"Oswald", sans-serif','Oswald'],
+    ['"Righteous", cursive','Righteous'],
+    ['"Orbitron", sans-serif','Orbitron'],
+    ['"Audiowide", sans-serif','Audiowide'],
+    ['"Cinzel", serif','Cinzel'],
+    ['"Josefin Sans", sans-serif','Josefin Sans'],
+    // Google Handwriting
+    ['"Pacifico", cursive','Pacifico'],
+    ['"Dancing Script", cursive','Dancing Script'],
+    ['"Caveat", cursive','Caveat'],
+    ['"Satisfy", cursive','Satisfy'],
+    ['"Kalam", cursive','Kalam'],
+    ['"Handlee", cursive','Handlee'],
+    ['"Patrick Hand", cursive','Patrick Hand'],
+    ['"Indie Flower", cursive','Indie Flower'],
+    ['"Permanent Marker", cursive','Permanent Marker'],
+    ['"Shadows Into Light", cursive','Shadows Into Light'],
   ];
   FONTS.forEach(([val, label]) => {
     tbFontSelect.append($('<option>').val(val).text(label).css('font-family', val));
@@ -3033,6 +3215,268 @@ $('#font-family-select').on('change', function() { state.fontFamily = $(this).va
       toast('Failed to create PDF: ' + err.message, 'error');
     }
   });
+})();
+
+// ── Font Picker ───────────────────────────────────────────────────────────────
+(function() {
+
+  // ── Font catalogue ───────────────────────────────────────────────────────
+  // format: { name, css, category, google?, preview }
+  // google: true  → load from Google Fonts on demand
+  // css: the font-family stack to apply
+  var FONTS = [
+    // ── System / Web-safe ────────────────────────────────────────────────
+    { name:'Arial',            css:'Arial, sans-serif',                          cat:'Sans-Serif' },
+    { name:'Arial Black',      css:'"Arial Black", Gadget, sans-serif',          cat:'Sans-Serif' },
+    { name:'Helvetica',        css:'Helvetica, Arial, sans-serif',               cat:'Sans-Serif' },
+    { name:'Verdana',          css:'Verdana, Geneva, sans-serif',                cat:'Sans-Serif' },
+    { name:'Tahoma',           css:'Tahoma, Geneva, sans-serif',                 cat:'Sans-Serif' },
+    { name:'Trebuchet MS',     css:'"Trebuchet MS", Helvetica, sans-serif',      cat:'Sans-Serif' },
+    { name:'Calibri',          css:'Calibri, Candara, Segoe, sans-serif',        cat:'Sans-Serif' },
+    { name:'Segoe UI',         css:'"Segoe UI", Tahoma, Geneva, sans-serif',     cat:'Sans-Serif' },
+    { name:'Times New Roman',  css:'"Times New Roman", Times, serif',            cat:'Serif' },
+    { name:'Georgia',          css:'Georgia, serif',                             cat:'Serif' },
+    { name:'Palatino',         css:'"Palatino Linotype", Palatino, serif',       cat:'Serif' },
+    { name:'Garamond',         css:'Garamond, serif',                            cat:'Serif' },
+    { name:'Book Antiqua',     css:'"Book Antiqua", Palatino, serif',            cat:'Serif' },
+    { name:'Baskerville',      css:'Baskerville, "Baskerville Old Face", serif', cat:'Serif' },
+    { name:'Courier New',      css:'"Courier New", Courier, monospace',          cat:'Monospace' },
+    { name:'Lucida Console',   css:'"Lucida Console", Monaco, monospace',        cat:'Monospace' },
+    { name:'Consolas',         css:'Consolas, "Courier New", monospace',         cat:'Monospace' },
+    { name:'Impact',           css:'Impact, Charcoal, sans-serif',               cat:'Display' },
+    { name:'Comic Sans MS',    css:'"Comic Sans MS", cursive',                   cat:'Handwriting' },
+
+    // ── Google Fonts — Sans-Serif ─────────────────────────────────────
+    { name:'Roboto',           css:'"Roboto", sans-serif',           cat:'Sans-Serif', google:'Roboto' },
+    { name:'Open Sans',        css:'"Open Sans", sans-serif',        cat:'Sans-Serif', google:'Open+Sans' },
+    { name:'Lato',             css:'"Lato", sans-serif',             cat:'Sans-Serif', google:'Lato' },
+    { name:'Nunito',           css:'"Nunito", sans-serif',           cat:'Sans-Serif', google:'Nunito' },
+    { name:'Poppins',          css:'"Poppins", sans-serif',          cat:'Sans-Serif', google:'Poppins' },
+    { name:'Raleway',          css:'"Raleway", sans-serif',          cat:'Sans-Serif', google:'Raleway' },
+    { name:'Montserrat',       css:'"Montserrat", sans-serif',       cat:'Sans-Serif', google:'Montserrat' },
+    { name:'Source Sans Pro',  css:'"Source Sans Pro", sans-serif',  cat:'Sans-Serif', google:'Source+Sans+Pro' },
+    { name:'Ubuntu',           css:'"Ubuntu", sans-serif',           cat:'Sans-Serif', google:'Ubuntu' },
+    { name:'Noto Sans',        css:'"Noto Sans", sans-serif',        cat:'Sans-Serif', google:'Noto+Sans' },
+    { name:'Inter',            css:'"Inter", sans-serif',            cat:'Sans-Serif', google:'Inter' },
+    { name:'Figtree',          css:'"Figtree", sans-serif',          cat:'Sans-Serif', google:'Figtree' },
+    { name:'DM Sans',          css:'"DM Sans", sans-serif',          cat:'Sans-Serif', google:'DM+Sans' },
+    { name:'Outfit',           css:'"Outfit", sans-serif',           cat:'Sans-Serif', google:'Outfit' },
+    { name:'Manrope',          css:'"Manrope", sans-serif',          cat:'Sans-Serif', google:'Manrope' },
+    { name:'Rubik',            css:'"Rubik", sans-serif',            cat:'Sans-Serif', google:'Rubik' },
+    { name:'Jost',             css:'"Jost", sans-serif',             cat:'Sans-Serif', google:'Jost' },
+    { name:'Exo 2',            css:'"Exo 2", sans-serif',            cat:'Sans-Serif', google:'Exo+2' },
+    { name:'Oxanium',          css:'"Oxanium", sans-serif',          cat:'Display',    google:'Oxanium' },
+
+    // ── Google Fonts — Serif ──────────────────────────────────────────
+    { name:'Lora',             css:'"Lora", serif',                  cat:'Serif',      google:'Lora' },
+    { name:'Merriweather',     css:'"Merriweather", serif',          cat:'Serif',      google:'Merriweather' },
+    { name:'Playfair Display', css:'"Playfair Display", serif',      cat:'Serif',      google:'Playfair+Display' },
+    { name:'Cormorant',        css:'"Cormorant", serif',             cat:'Serif',      google:'Cormorant' },
+    { name:'EB Garamond',      css:'"EB Garamond", serif',           cat:'Serif',      google:'EB+Garamond' },
+    { name:'Libre Baskerville',css:'"Libre Baskerville", serif',     cat:'Serif',      google:'Libre+Baskerville' },
+    { name:'Crimson Text',     css:'"Crimson Text", serif',          cat:'Serif',      google:'Crimson+Text' },
+    { name:'Noto Serif',       css:'"Noto Serif", serif',            cat:'Serif',      google:'Noto+Serif' },
+    { name:'PT Serif',         css:'"PT Serif", serif',              cat:'Serif',      google:'PT+Serif' },
+
+    // ── Google Fonts — Monospace ───────────────────────────────────────
+    { name:'Fira Code',        css:'"Fira Code", monospace',         cat:'Monospace',  google:'Fira+Code' },
+    { name:'JetBrains Mono',   css:'"JetBrains Mono", monospace',    cat:'Monospace',  google:'JetBrains+Mono' },
+    { name:'Source Code Pro',  css:'"Source Code Pro", monospace',   cat:'Monospace',  google:'Source+Code+Pro' },
+    { name:'Space Mono',       css:'"Space Mono", monospace',        cat:'Monospace',  google:'Space+Mono' },
+    { name:'Inconsolata',      css:'"Inconsolata", monospace',       cat:'Monospace',  google:'Inconsolata' },
+    { name:'IBM Plex Mono',    css:'"IBM Plex Mono", monospace',     cat:'Monospace',  google:'IBM+Plex+Mono' },
+
+    // ── Google Fonts — Display / Decorative ───────────────────────────
+    { name:'Bebas Neue',       css:'"Bebas Neue", cursive',          cat:'Display',    google:'Bebas+Neue' },
+    { name:'Oswald',           css:'"Oswald", sans-serif',           cat:'Display',    google:'Oswald' },
+    { name:'Righteous',        css:'"Righteous", cursive',           cat:'Display',    google:'Righteous' },
+    { name:'Teko',             css:'"Teko", sans-serif',             cat:'Display',    google:'Teko' },
+    { name:'Orbitron',         css:'"Orbitron", sans-serif',         cat:'Display',    google:'Orbitron' },
+    { name:'Audiowide',        css:'"Audiowide", sans-serif',        cat:'Display',    google:'Audiowide' },
+    { name:'Cinzel',           css:'"Cinzel", serif',                cat:'Display',    google:'Cinzel' },
+    { name:'Josefin Sans',     css:'"Josefin Sans", sans-serif',     cat:'Display',    google:'Josefin+Sans' },
+    { name:'Pacifico',         css:'"Pacifico", cursive',            cat:'Handwriting',google:'Pacifico' },
+
+    // ── Google Fonts — Handwriting ────────────────────────────────────
+    { name:'Dancing Script',   css:'"Dancing Script", cursive',      cat:'Handwriting',google:'Dancing+Script' },
+    { name:'Caveat',           css:'"Caveat", cursive',              cat:'Handwriting',google:'Caveat' },
+    { name:'Satisfy',          css:'"Satisfy", cursive',             cat:'Handwriting',google:'Satisfy' },
+    { name:'Kalam',            css:'"Kalam", cursive',               cat:'Handwriting',google:'Kalam' },
+    { name:'Handlee',          css:'"Handlee", cursive',             cat:'Handwriting',google:'Handlee' },
+    { name:'Patrick Hand',     css:'"Patrick Hand", cursive',        cat:'Handwriting',google:'Patrick+Hand' },
+    { name:'Indie Flower',     css:'"Indie Flower", cursive',        cat:'Handwriting',google:'Indie+Flower' },
+    { name:'Permanent Marker', css:'"Permanent Marker", cursive',    cat:'Handwriting',google:'Permanent+Marker' },
+    { name:'Shadows Into Light',css:'"Shadows Into Light", cursive', cat:'Handwriting',google:'Shadows+Into+Light' },
+  ];
+
+  var CATS = ['All', 'Sans-Serif', 'Serif', 'Monospace', 'Display', 'Handwriting'];
+  var loadedGoogleFonts = {};
+  var currentCat = 'All';
+  var currentFont = FONTS[0];
+  var panelOpen = false;
+
+  // ── Google Font loader ──────────────────────────────────────────────
+  function loadGoogleFont(family) {
+    if (loadedGoogleFonts[family]) return;
+    loadedGoogleFonts[family] = true;
+    var link = document.createElement('link');
+    link.rel  = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=' + family + ':wght@400;700&display=swap';
+    document.head.appendChild(link);
+  }
+
+  // Preload a few popular ones silently
+  ['Roboto','Open+Sans','Lato','Poppins','Montserrat','Lora','Playfair+Display'].forEach(loadGoogleFont);
+
+  // ── Build category chips ────────────────────────────────────────────
+  var $cats = $('#font-picker-categories');
+  CATS.forEach(function(cat) {
+    var chip = $('<button class="font-cat-chip">' + cat + '</button>');
+    if (cat === 'All') chip.addClass('active');
+    chip.on('click', function() {
+      currentCat = cat;
+      $('.font-cat-chip').removeClass('active');
+      chip.addClass('active');
+      renderList($('#font-picker-search').val().trim());
+    });
+    $cats.append(chip);
+  });
+
+  // ── Render list ─────────────────────────────────────────────────────
+  function renderList(query) {
+    var q = (query || '').toLowerCase();
+    var $list = $('#font-picker-list').empty();
+    var filtered = FONTS.filter(function(f) {
+      var catOk = currentCat === 'All' || f.cat === currentCat;
+      var qOk   = !q || f.name.toLowerCase().indexOf(q) !== -1 || f.cat.toLowerCase().indexOf(q) !== -1;
+      return catOk && qOk;
+    });
+    if (!filtered.length) {
+      $list.append('<div class="font-no-results">No fonts match "<b>' + query + '</b>"</div>');
+      return;
+    }
+    filtered.forEach(function(font) {
+      // Load google font so preview renders
+      if (font.google) loadGoogleFont(font.google);
+      var isActive = currentFont && currentFont.name === font.name;
+      var item = $('<div class="font-item' + (isActive ? ' active' : '') + '"></div>');
+      item.append('<span class="font-item-name">' + font.name + '</span>');
+      item.append('<span class="font-item-preview" style="font-family:' + font.css + '">Aa</span>');
+      item.append('<span class="font-item-cat">' + font.cat + '</span>');
+      item.on('click', function() {
+        selectFont(font);
+        closePanel();
+      });
+      $list.append(item);
+    });
+    // Scroll active item into view
+    var $active = $list.find('.font-item.active');
+    if ($active.length) {
+      $list[0].scrollTop = Math.max(0, $active[0].offsetTop - 80);
+    }
+  }
+
+  // ── Select font ─────────────────────────────────────────────────────
+  function selectFont(font) {
+    currentFont = font;
+    if (font.google) loadGoogleFont(font.google);
+    // Update trigger label & hidden input (keeps compatibility with existing code)
+    $('#font-trigger-label').text(font.name).css('font-family', font.css);
+    $('#font-family-select').val(font.css).trigger('change');
+  }
+
+  // ── Open / close panel ──────────────────────────────────────────────
+  function openPanel() {
+    if (panelOpen) { closePanel(); return; }
+    panelOpen = true;
+    $('#font-dropdown-trigger').addClass('open');
+
+    var panel = $('#font-picker-panel');
+    var PANEL_W = 280;
+    var PANEL_H = 420; // worst-case height
+
+    var trig   = $('#font-dropdown-trigger');
+    var off    = trig.offset();
+    var trigH  = trig.outerHeight();
+    var ww     = $(window).width();
+    var wh     = $(window).height();
+
+    // vertical: prefer below, flip above if no room
+    var topBelow = off.top + trigH + 4;
+    var top = (topBelow + PANEL_H <= wh - 8) ? topBelow : (off.top - PANEL_H - 4);
+    top = Math.max(8, top);
+
+    // horizontal: align left edge of trigger, clamp so panel stays on screen
+    var left = Math.min(off.left, ww - PANEL_W - 8);
+    left = Math.max(8, left);
+
+    // Apply position first, then show — avoids layout flash
+    panel.css({ top: top + 'px', left: left + 'px', width: PANEL_W + 'px' });
+    panel.addClass('open');
+
+    $('#font-picker-search').val('').focus();
+    $('#font-search-clear').hide();
+    renderList('');
+  }
+
+  function closePanel() {
+    panelOpen = false;
+    $('#font-dropdown-trigger').removeClass('open');
+    $('#font-picker-panel').removeClass('open');
+  }
+
+  $('#font-dropdown-trigger').on('click', function(e) {
+    e.stopPropagation();
+    openPanel();
+  });
+
+  // Close on outside click
+  $(document).on('click', function(e) {
+    if (!$(e.target).closest('#font-picker-panel, #font-dropdown-trigger').length) {
+      closePanel();
+    }
+  });
+
+  // ── Search input ────────────────────────────────────────────────────
+  $('#font-picker-search').on('input', function() {
+    var q = $(this).val().trim();
+    $('#font-search-clear').toggle(!!q);
+    renderList(q);
+  });
+  $('#font-search-clear').on('click', function() {
+    $('#font-picker-search').val('').focus();
+    $(this).hide();
+    renderList('');
+  });
+
+  // Keyboard navigation in panel
+  $('#font-picker-search').on('keydown', function(e) {
+    if (e.key === 'Escape') { closePanel(); return; }
+    var $items = $('#font-picker-list .font-item');
+    if (!$items.length) return;
+    var $cur = $items.filter('.active');
+    var idx = $items.index($cur);
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      var next = Math.min(idx + 1, $items.length - 1);
+      $items.removeClass('active');
+      $items.eq(next).addClass('active');
+      $items[0].parentNode.scrollTop = $items.eq(next)[0].offsetTop - 80;
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      var prev = Math.max(idx - 1, 0);
+      $items.removeClass('active');
+      $items.eq(prev).addClass('active');
+      $items[0].parentNode.scrollTop = $items.eq(prev)[0].offsetTop - 80;
+    } else if (e.key === 'Enter') {
+      var $sel = $items.filter('.active');
+      if ($sel.length) $sel.click();
+    }
+  });
+
+  // Also prevent the toolbar keyboard shortcuts from firing while panel is open
+  $('#font-picker-panel').on('keydown', function(e) { e.stopPropagation(); });
+
 })();
 
 // ── Help modal ────────────────────────────────────────────────────────────────
