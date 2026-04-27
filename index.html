@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
@@ -266,6 +267,182 @@
       --shadow-sm:   0 2px 12px rgba(0,0,0,.3);
     }
 
+    /* ── Create PDF modal ───────────────────────────────────────────── */
+    .pdf-size-btn.active, .pdf-orient-btn.active {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    html.light .pdf-size-btn.active,
+    html.light .pdf-orient-btn.active {
+      background: rgba(47,110,224,.10);
+      border-color: #2f6ee0;
+      color: #2f6ee0;
+    }
+    .create-bg-btn:hover { transform: scale(1.12); }
+
+    /* ── Light mode btn-primary: blue instead of yellow ───────────── */
+    html.light .btn-primary {
+      background: #2f6ee0;
+      color: #ffffff;
+    }
+    html.light .btn-primary:hover {
+      background: #1a5bc9;
+      box-shadow: 0 4px 16px rgba(47,110,224,0.35);
+    }
+
+    /* ── Light / White theme ────────────────────────────────────────── */
+    html.light {
+      --bg:          #f0f2f8;
+      --surface:     #ffffff;
+      --surface2:    #f5f6fc;
+      --surface3:    #eceef8cc;
+      --border:      #dde0ee;
+      --border2:     #c8ccdf;
+      --accent:      #c49a00;
+      --accent2:     #d4aa10;
+      --accent-dim:  #c49a0018;
+      --accent-glow: #c49a0030;
+      --red:         #e03545;
+      --green:       #1da462;
+      --blue:        #2f6ee0;
+      --purple:      #7c5cf0;
+      --text:        #1a1c2e;
+      --text2:       #5c5f7a;
+      --text3:       #9496b0;
+      --shadow:      0 8px 32px rgba(100,110,180,.14);
+      --shadow-sm:   0 2px 12px rgba(100,110,180,.10);
+    }
+
+    /* ── Smooth theme transition ────────────────────────────────────── */
+    *, *::before, *::after {
+      transition:
+        background-color .25s ease,
+        border-color .25s ease,
+        color .15s ease,
+        box-shadow .25s ease !important;
+    }
+    /* But keep fast transitions for interactive elements */
+    .tool-btn, .btn-forge, .zoom-btn, .color-dot,
+    .page-thumb, #btn-shortcuts, #btn-help, #btn-theme-toggle {
+      transition: all .15s !important;
+    }
+
+    /* ── Light mode specific overrides ─────────────────────────────── */
+    html.light #canvas-wrap {
+      background:
+        radial-gradient(ellipse at 30% 20%, #c8ceff18 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, #c49a0010 0%, transparent 50%),
+        var(--bg);
+    }
+    html.light #canvas-container {
+      box-shadow: 0 12px 60px rgba(80,90,180,.18);
+    }
+    html.light .ann-text-toolbar {
+      background: #ffffff;
+      box-shadow: 0 4px 20px rgba(80,90,180,.15);
+    }
+    html.light .annotation .ann-del,
+    html.light .ann-text-wrap .ann-del {
+      background: #ffffff;
+    }
+    html.light .page-num {
+      background: rgba(30,32,60,.55);
+    }
+    html.light .toast-item {
+      box-shadow: 0 4px 20px rgba(80,90,180,.15);
+    }
+    html.light #shortcuts-modal,
+    html.light #help-modal {
+      box-shadow: 0 24px 80px rgba(80,90,180,.20);
+    }
+    html.light #text-color-popup {
+      box-shadow: 0 12px 40px rgba(80,90,180,.18);
+    }
+    html.light .drop-icon {
+      background: linear-gradient(135deg, #e8edff 0%, #f5f0d8 100%);
+    }
+    html.light .stat-box {
+      background: linear-gradient(135deg, #f0f3ff 0%, #faf8f0 100%);
+    }
+    html.light #topbar {
+      background: linear-gradient(90deg, #ffffff 0%, #fafbff 100%);
+      border-bottom: 1.5px solid var(--border);
+    }
+    html.light #sidebar {
+      background: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
+    }
+    html.light #props-panel {
+      background: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
+    }
+    html.light #toolbar {
+      background: linear-gradient(90deg, #f5f6fc 0%, #f0f2f8 100%);
+    }
+    html.light #statusbar {
+      background: #ffffff;
+      border-top: 1.5px solid var(--border);
+    }
+    html.light .shortcut-row:hover {
+      background: var(--surface2);
+    }
+    html.light input[type="range"] {
+      accent-color: var(--accent);
+    }
+    /* Theme toggle button */
+    #btn-theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 11px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border2);
+      background: var(--surface2);
+      color: var(--text2);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    #btn-theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+    #btn-theme-toggle .toggle-track {
+      width: 30px;
+      height: 16px;
+      border-radius: 99px;
+      background: var(--border2);
+      position: relative;
+      transition: background .25s;
+      flex-shrink: 0;
+    }
+    #btn-theme-toggle .toggle-thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--text3);
+      transition: left .25s cubic-bezier(.34,1.56,.64,1), background .25s;
+    }
+    html.light #btn-theme-toggle .toggle-track {
+      background: var(--accent);
+    }
+    html.light #btn-theme-toggle .toggle-thumb {
+      left: 16px;
+      background: #fff;
+    }
+    html.light #btn-theme-toggle {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
     /* ── Reset & base ───────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; overflow: hidden; }
@@ -520,11 +697,11 @@
       display: none;
       align-items: center;
       gap: 3px;
-      background: #1a1b26;
+      background: var(--surface);
       border: 1px solid var(--border2);
       border-radius: 8px;
       padding: 4px 6px;
-      box-shadow: 0 4px 16px rgba(0,0,0,.5);
+      box-shadow: 0 4px 16px rgba(0,0,0,.25);
       white-space: nowrap;
       z-index: 100;
     }
@@ -599,7 +776,7 @@
       right: -13px;
       width: 26px;
       height: 26px;
-      background: #1a1b26;
+      background: var(--surface);
       border-radius: 50%;
       border: 2px solid #ff5f6b;
       color: #ff5f6b;
@@ -722,7 +899,7 @@
     }
     .btn-primary {
       background: var(--accent);
-      color: #0d0e14;
+      color: #ffffff;
     }
     .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
     .btn-ghost {
@@ -981,6 +1158,44 @@
       line-height: 1.6;
     }
 
+
+    /* ── Font selector in toolbar ───────────────────────────────────── */
+    .font-selector-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0 4px;
+    }
+    .font-selector-wrap label {
+      font-size: 11px;
+      color: var(--text3);
+      white-space: nowrap;
+    }
+    #font-family-select {
+      height: 28px;
+      padding: 0 24px 0 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 12px;
+      font-family: var(--font-body);
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239899b0'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      transition: border-color .15s, background-color .15s;
+      min-width: 130px;
+    }
+    #font-family-select:focus { border-color: var(--accent); }
+    #font-family-select:hover { border-color: var(--border2); background-color: var(--surface2); }
+    html.light #font-family-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235c5f7a'/%3E%3C/svg%3E");
+    }
+
     .hidden { display: none !important; }
 
     /* page nav */
@@ -1022,10 +1237,17 @@
         <button id="next-page" disabled title="Next page"><i class="bi bi-chevron-right"></i></button>
       </div>
       <div class="topbar-sep"></div>
+      <!-- Theme toggle -->
+      <button id="btn-theme-toggle" title="Toggle Light / Dark mode">
+        <span id="theme-toggle-icon" class="bi bi-sun-fill" style="font-size:13px;"></span>
+        <span id="theme-toggle-label">Light</span>
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      </button>
+      <div class="topbar-sep"></div>
       <button id="btn-help" title="Help & Rules" style="
         display:inline-flex;align-items:center;gap:5px;
         padding:5px 14px;border-radius:7px;border:none;
-        background:var(--accent);color:#0d0e14;
+        background:var(--accent);color:#ffffff;
         font-family:var(--font-body);font-size:12px;font-weight:700;
         cursor:pointer;transition:all .15s;
       ">
@@ -1081,6 +1303,22 @@
     <button class="tool-btn" id="btn-undo" title="Undo">
       <i class="bi bi-arrow-left-short"></i> Undo
     </button>
+    <div class="tool-sep"></div>
+    <div class="font-selector-wrap">
+      <label for="font-family-select"><i class="bi bi-type" style="font-size:13px;color:var(--accent);"></i></label>
+      <select id="font-family-select" title="Font family for text annotations">
+        <option value="Arial" style="font-family:Arial">Arial</option>
+        <option value="'Times New Roman', Times, serif" style="font-family:'Times New Roman'">Times New Roman</option>
+        <option value="'Courier New', Courier, monospace" style="font-family:'Courier New'">Courier New</option>
+        <option value="Georgia, serif" style="font-family:Georgia">Georgia</option>
+        <option value="Verdana, Geneva, sans-serif" style="font-family:Verdana">Verdana</option>
+        <option value="Tahoma, Geneva, sans-serif" style="font-family:Tahoma">Tahoma</option>
+        <option value="'Trebuchet MS', Helvetica, sans-serif" style="font-family:'Trebuchet MS'">Trebuchet MS</option>
+        <option value="Impact, Charcoal, sans-serif" style="font-family:Impact">Impact</option>
+        <option value="'Comic Sans MS', cursive" style="font-family:'Comic Sans MS'">Comic Sans MS</option>
+        <option value="'Palatino Linotype', Palatino, serif" style="font-family:'Palatino Linotype'">Palatino</option>
+      </select>
+    </div>
   </div>
 
   <!-- ── Main workspace ───────────────────────────────────────────────── -->
@@ -1100,10 +1338,18 @@
       <div id="drop-zone">
         <div class="drop-icon"><i class="bi bi-file-earmark-pdf"></i></div>
         <div class="drop-title">Drop your PDF here</div>
-        <div class="drop-sub">or click to browse files</div>
-        <button class="btn-forge btn-primary" id="btn-drop-open">
-          <i class="bi bi-folder2-open"></i> Browse PDF
-        </button>
+        <div class="drop-sub">or choose an option below</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+          <button class="btn-forge btn-primary" id="btn-drop-open">
+            <i class="bi bi-folder2-open"></i> Browse PDF
+          </button>
+          <button class="btn-forge btn-ghost" id="btn-create-pdf">
+            <i class="bi bi-file-earmark-plus"></i> Create PDF
+          </button>
+        </div>
+        <div class="drop-sub" style="font-size:11px;margin-top:-4px;">
+          <i class="bi bi-info-circle" style="color:var(--accent);"></i> Create a blank PDF or one from text/images
+        </div>
       </div>
 
       <!-- PDF canvas (hidden until file loaded) -->
@@ -1272,6 +1518,80 @@
 
 </div>
 
+<!-- ── Create PDF Modal ────────────────────────────────────────────────── -->
+<div id="create-pdf-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9100;align-items:center;justify-content:center;">
+  <div id="create-pdf-modal" style="background:var(--surface);border:1px solid var(--border2);border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.8);width:520px;max-width:95vw;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;animation:modalIn .2s cubic-bezier(.34,1.56,.64,1) both;">
+    <div class="modal-head">
+      <div class="modal-title">
+        <i class="bi bi-file-earmark-plus" style="color:var(--accent)"></i> Create New PDF
+      </div>
+      <button class="modal-close" id="create-pdf-close" title="Close">&#x2715;</button>
+    </div>
+    <div style="padding:20px 24px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:16px;">
+
+      <!-- Page size -->
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;">Page Size</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="pdf-size-btn btn-forge btn-ghost active" data-size="A4" style="flex:1;justify-content:center;">A4 (210×297mm)</button>
+          <button class="pdf-size-btn btn-forge btn-ghost" data-size="Letter" style="flex:1;justify-content:center;">Letter (8.5×11in)</button>
+          <button class="pdf-size-btn btn-forge btn-ghost" data-size="A3" style="flex:1;justify-content:center;">A3 (297×420mm)</button>
+          <button class="pdf-size-btn btn-forge btn-ghost" data-size="Legal" style="flex:1;justify-content:center;">Legal (8.5×14in)</button>
+        </div>
+      </div>
+
+      <!-- Orientation -->
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;">Orientation</div>
+        <div style="display:flex;gap:8px;">
+          <button class="pdf-orient-btn btn-forge btn-ghost active" data-orient="portrait" style="flex:1;justify-content:center;"><i class="bi bi-file-earmark"></i> Portrait</button>
+          <button class="pdf-orient-btn btn-forge btn-ghost" data-orient="landscape" style="flex:1;justify-content:center;"><i class="bi bi-file-earmark" style="transform:rotate(90deg);display:inline-block;"></i> Landscape</button>
+        </div>
+      </div>
+
+      <!-- Pages -->
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;">Number of Pages</div>
+        <input type="number" id="create-pdf-pages" value="1" min="1" max="100"
+          style="width:100%;padding:8px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:var(--font-mono);font-size:13px;outline:none;transition:border .15s;"
+          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border2)'">
+      </div>
+
+      <!-- Background color -->
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;">Page Background</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div id="create-bg-white" class="create-bg-btn" data-bg="white" title="White"
+            style="width:32px;height:32px;border-radius:6px;background:#ffffff;border:2px solid var(--accent);cursor:pointer;transition:all .12s;"></div>
+          <div id="create-bg-cream" class="create-bg-btn" data-bg="cream" title="Cream"
+            style="width:32px;height:32px;border-radius:6px;background:#fdf6e3;border:2px solid transparent;cursor:pointer;transition:all .12s;"></div>
+          <div id="create-bg-gray" class="create-bg-btn" data-bg="gray" title="Light Gray"
+            style="width:32px;height:32px;border-radius:6px;background:#f5f5f5;border:2px solid transparent;cursor:pointer;transition:all .12s;"></div>
+          <div id="create-bg-dark" class="create-bg-btn" data-bg="dark" title="Dark"
+            style="width:32px;height:32px;border-radius:6px;background:#1a1b26;border:2px solid transparent;cursor:pointer;transition:all .12s;"></div>
+          <span id="create-bg-label" style="font-size:12px;color:var(--text2);margin-left:4px;">White</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <span class="modal-footer-tip" style="font-size:11px;"><i class="bi bi-cursor-text" style="color:var(--accent)"></i> PDF opens ready to type — just click anywhere on the page</span>
+      <button class="btn-forge btn-ghost" id="create-pdf-cancel">Cancel</button>
+      <button class="btn-forge btn-primary" id="create-pdf-confirm"><i class="bi bi-file-earmark-check"></i> Create PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Free-type mode banner (shown when new PDF is created) ──────────── -->
+<div id="free-type-banner" style="display:none;position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:8000;
+  background:var(--surface);border:1.5px solid var(--accent);border-radius:12px;
+  box-shadow:0 8px 32px rgba(0,0,0,.35);padding:10px 20px;
+  display:none;align-items:center;gap:14px;white-space:nowrap;animation:toastIn .3s ease both;">
+  <i class="bi bi-cursor-text" style="font-size:18px;color:var(--accent);"></i>
+  <span style="font-size:13px;font-weight:600;color:var(--text);">Free typing mode — <span style="color:var(--accent);">click anywhere</span> on the page to place text</span>
+  <button id="free-type-exit" style="padding:4px 12px;border-radius:6px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);font-size:11px;font-weight:600;cursor:pointer;transition:all .12s;font-family:var(--font-body);">Exit</button>
+</div>
+
 <!-- ── Help modal ──────────────────────────────────────────────────────── -->
 <div id="help-modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9100;align-items:center;justify-content:center;">
   <div id="help-modal" style="background:var(--surface);border:1px solid var(--border2);border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.8);width:560px;max-width:95vw;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;animation:modalIn .2s cubic-bezier(.34,1.56,.64,1) both;">
@@ -1329,7 +1649,7 @@
     <input type="color" id="text-color-custom" value="#e8c547" style="width:36px;height:28px;border:1px solid var(--border2);border-radius:5px;background:var(--surface2);cursor:pointer;padding:2px;">
     <span id="text-color-custom-hex" style="font-family:var(--font-mono);font-size:11px;color:var(--text2);">#e8c547</span>
   </div>
-  <button id="text-color-confirm" style="width:100%;padding:8px;border-radius:7px;border:none;background:var(--accent);color:#0d0e14;font-family:var(--font-body);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;">
+  <button id="text-color-confirm" style="width:100%;padding:8px;border-radius:7px;border:none;background:var(--accent);color:#ffffff;font-family:var(--font-body);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;">
     <i class="bi bi-check-lg"></i> Confirm Color &amp; Place Text
   </button>
 </div>
@@ -1464,6 +1784,7 @@ const state = {
   strokeWidth: 2,
   opacity: 1.0,
   fontSize: 16,
+  fontFamily: 'Arial',
   annotations: {},                 // { pageNum: [annotDom elements] }
   drawPaths: {},                   // { pageNum: [ImageData or path array] }
   history: [],                     // undo stack
@@ -1742,15 +2063,47 @@ function placeTextBox(pos) {
   const btnAlignR = makeTb('text-right',  'Align right',  () => { document.execCommand('justifyRight');  btnAlignR.addClass('active'); btnAlignL.removeClass('active'); btnAlignC.removeClass('active'); });
   btnAlignL.addClass('active');
 
-  toolbar.append(btnBold, btnItalic, btnUnder, tbSep1, btnSmall, sizeDisplay, btnLarge, tbSep2, btnAlignL, btnAlignC, btnAlignR);
+  // Mini font selector for the floating toolbar
+  const tbFontSelect = $('<select class="ann-tb-font-sel" title="Change font">')
+    .css({
+      height: '22px', fontSize: '11px', border: '1px solid var(--border2)',
+      borderRadius: '4px', background: 'var(--surface2)', color: 'var(--text)',
+      fontFamily: 'var(--font-body)', padding: '0 4px', cursor: 'pointer',
+      outline: 'none', maxWidth: '110px',
+    });
+  const FONTS = [
+    ['Arial', 'Arial'],
+    ["'Times New Roman', Times, serif", 'Times New Roman'],
+    ["'Courier New', Courier, monospace", 'Courier New'],
+    ['Georgia, serif', 'Georgia'],
+    ['Verdana, Geneva, sans-serif', 'Verdana'],
+    ['Tahoma, Geneva, sans-serif', 'Tahoma'],
+    ["'Trebuchet MS', Helvetica, sans-serif", 'Trebuchet MS'],
+    ['Impact, Charcoal, sans-serif', 'Impact'],
+    ["'Comic Sans MS', cursive", 'Comic Sans MS'],
+    ["'Palatino Linotype', Palatino, serif", 'Palatino'],
+  ];
+  FONTS.forEach(([val, label]) => {
+    tbFontSelect.append($('<option>').val(val).text(label).css('font-family', val));
+  });
+  tbFontSelect.val(state.fontFamily || 'Arial');
+  tbFontSelect.on('mousedown', e => e.stopPropagation());
+  tbFontSelect.on('change', function(e) {
+    e.preventDefault();
+    textEl.css('font-family', $(this).val());
+    textEl[0].focus();
+  });
+  const tbSep3 = $('<div class="ann-tb-sep">');
+  toolbar.append(btnBold, btnItalic, btnUnder, tbSep1, btnSmall, sizeDisplay, btnLarge, tbSep2, btnAlignL, btnAlignC, btnAlignR, tbSep3, tbFontSelect);
 
   // ── Editable text region ──────────────────────────────────────────────
   const textEl = $('<div class="ann-text" contenteditable="true">')
     .css({
-      fontSize: fs + 'px',
-      color:    col,
-      minWidth: '120px',
-      minHeight: (fs * 1.8) + 'px',
+      fontSize:   fs + 'px',
+      fontFamily: state.fontFamily || 'Arial',
+      color:      col,
+      minWidth:   '120px',
+      minHeight:  (fs * 1.8) + 'px',
     });
   currentFontSize = fs;
 
@@ -1855,6 +2208,11 @@ $('#annotation-layer').on('click', function(e) {
   if (state.tool !== 'text') return;
   if ($(e.target).closest('.ann-text-wrap').length) return;
   if ($(e.target).closest('.annotation').length) return;
+  // In free-type mode, default to near-black text so it's readable on any bg
+  if (state._freeTypeMode && (!state.strokeColor || state.strokeColor === '#ff5f6b')) {
+    state.strokeColor = '#111111';
+    state.color       = '#111111';
+  }
   placeTextBox(getLayerPos(e));
 });
 
@@ -2102,6 +2460,7 @@ async function savePDF() {
           const textNode = $el.hasClass('ann-text-wrap') ? $el.find('.ann-text') : $el;
           const txt = textNode.text() || '';
           const fs  = (parseFloat(textNode.css('font-size')) || 16) * scale;
+          const ff  = textNode.css('font-family') || 'Arial';
           const col = hexToRgb(textNode.css('color') || '#111111');
           if (txt.trim()) {
             // Split by newlines to handle multi-line
@@ -2528,6 +2887,158 @@ $('#opacity-val').on('input', function() {
   }
 });
 $('#font-size').on('change', function() { state.fontSize = +$(this).val(); });
+$('#font-family-select').on('change', function() { state.fontFamily = $(this).val(); });
+
+// ── Theme toggle ─────────────────────────────────────────────────────────────
+(function() {
+  var STORAGE_KEY = 'yfd-theme';
+  var saved = localStorage.getItem(STORAGE_KEY);
+
+  function applyTheme(isLight) {
+    if (isLight) {
+      document.documentElement.classList.add('light');
+      $('#theme-toggle-icon').removeClass('bi-moon-fill').addClass('bi-sun-fill');
+      $('#theme-toggle-label').text('Light');
+      $('#btn-theme-toggle').attr('title', 'Switch to Dark mode');
+    } else {
+      document.documentElement.classList.remove('light');
+      $('#theme-toggle-icon').removeClass('bi-sun-fill').addClass('bi-moon-fill');
+      $('#theme-toggle-label').text('Dark');
+      $('#btn-theme-toggle').attr('title', 'Switch to Light mode');
+    }
+    localStorage.setItem(STORAGE_KEY, isLight ? 'light' : 'dark');
+  }
+
+  // Apply saved preference (default light)
+  applyTheme(saved !== 'dark');
+
+  $('#btn-theme-toggle').on('click', function() {
+    var isCurrentlyLight = document.documentElement.classList.contains('light');
+    applyTheme(!isCurrentlyLight);
+  });
+})();
+
+// ── Create PDF ────────────────────────────────────────────────────────────────
+(function() {
+  var selectedSize   = 'A4';
+  var selectedOrient = 'portrait';
+  var selectedBg     = 'white';
+
+  var BG_COLORS = { white: [1,1,1], cream: [0.992,0.965,0.890], gray: [0.961,0.961,0.961], dark: [0.102,0.106,0.149] };
+  var BG_LABELS = { white: 'White', cream: 'Cream', gray: 'Light Gray', dark: 'Dark' };
+
+  // Page dimensions in points (72pt = 1 inch)
+  var SIZES = {
+    A4:     [595.28, 841.89],
+    Letter: [612, 792],
+    A3:     [841.89, 1190.55],
+    Legal:  [612, 1008],
+  };
+
+  function openCreateModal() {
+    $('#create-pdf-backdrop').css('display','flex');
+    $('body').css('overflow','hidden');
+  }
+  function closeCreateModal() {
+    $('#create-pdf-backdrop').css('display','none');
+    $('body').css('overflow','');
+  }
+
+  $('#btn-create-pdf').on('click', openCreateModal);
+  $('#create-pdf-close, #create-pdf-cancel').on('click', closeCreateModal);
+  $('#create-pdf-backdrop').on('click', function(e) { if (e.target === this) closeCreateModal(); });
+
+  // Size buttons
+  $(document).on('click', '.pdf-size-btn', function() {
+    selectedSize = $(this).data('size');
+    $('.pdf-size-btn').removeClass('active');
+    $(this).addClass('active');
+  });
+
+  // Orientation buttons
+  $(document).on('click', '.pdf-orient-btn', function() {
+    selectedOrient = $(this).data('orient');
+    $('.pdf-orient-btn').removeClass('active');
+    $(this).addClass('active');
+  });
+
+  // Background buttons
+  $(document).on('click', '.create-bg-btn', function() {
+    selectedBg = $(this).data('bg');
+    $('.create-bg-btn').css('border-color','transparent');
+    $(this).css('border-color','var(--accent)');
+    $('#create-bg-label').text(BG_LABELS[selectedBg]);
+  });
+
+  // ── Free-type mode ───────────────────────────────────────────────────────
+  function enterFreeTypeMode() {
+    // Auto-activate the Text tool
+    $('.tool-btn[data-tool="text"]').click();
+    // Show the banner
+    $('#free-type-banner').css('display','flex');
+    // Mark state so placeTextBox knows not to ask for color (use default black)
+    state._freeTypeMode = true;
+  }
+
+  function exitFreeTypeMode() {
+    $('#free-type-banner').css('display','none');
+    state._freeTypeMode = false;
+    // Switch back to select tool
+    $('.tool-btn[data-tool="select"]').click();
+  }
+
+  $('#free-type-exit').on('click', exitFreeTypeMode);
+
+  // Also exit free-type mode when user manually picks another tool
+  $(document).on('click', '.tool-btn[data-tool]', function() {
+    if ($(this).data('tool') !== 'text' && state._freeTypeMode) {
+      exitFreeTypeMode();
+    }
+  });
+
+  // Confirm — generate blank PDF via pdf-lib, then enter free-type mode
+  $('#create-pdf-confirm').on('click', async function() {
+    try {
+      var numPages  = Math.max(1, Math.min(100, parseInt($('#create-pdf-pages').val()) || 1));
+      var dims      = SIZES[selectedSize] || SIZES['A4'];
+      var w = selectedOrient === 'landscape' ? dims[1] : dims[0];
+      var h = selectedOrient === 'landscape' ? dims[0] : dims[1];
+      var bg        = BG_COLORS[selectedBg] || BG_COLORS['white'];
+
+      const { PDFDocument, rgb } = PDFLib;
+      const doc = await PDFDocument.create();
+
+      for (var i = 0; i < numPages; i++) {
+        var page = doc.addPage([w, h]);
+        if (selectedBg !== 'white') {
+          page.drawRectangle({ x:0, y:0, width:w, height:h, color: rgb(bg[0],bg[1],bg[2]) });
+        }
+      }
+
+      var pdfBytes = await doc.save();
+      var blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      var fileName = 'new-document-' + selectedSize.toLowerCase() + '.pdf';
+      var file = new File([blob], fileName, { type: 'application/pdf' });
+      closeCreateModal();
+
+      // Load PDF, then enter free-type mode after render
+      loadPDF(file);
+
+      // Wait for PDF to load and render, then activate free-type
+      var checkReady = setInterval(function() {
+        if (state.pdf && !$('#canvas-container').hasClass('hidden')) {
+          clearInterval(checkReady);
+          // Small delay so the canvas is fully painted
+          setTimeout(enterFreeTypeMode, 200);
+        }
+      }, 80);
+
+      toast('New ' + selectedSize + ' PDF — click anywhere to start typing');
+    } catch (err) {
+      toast('Failed to create PDF: ' + err.message, 'error');
+    }
+  });
+})();
 
 // ── Help modal ────────────────────────────────────────────────────────────────
 function openHelpModal() {
@@ -2600,6 +3111,7 @@ function hideTextColorPopup() {
 
 // Hook into text tool button click to show color picker
 $(document).on('click', '.tool-btn[data-tool="text"]', function() {
+  if (state._freeTypeMode) return;   // free-type mode: skip color picker
   setTimeout(showTextColorPopup, 0);
 });
 
@@ -2767,6 +3279,8 @@ $('#btn-save').on('click', savePDF);
 $('#btn-close-pdf').on('click', () => {
   state.pdf = null; state.pdfBytes = null;
   state.annotations = {}; state.drawPaths = {};
+  state._freeTypeMode = false;
+  $('#free-type-banner').css('display','none');
   $('#drop-zone').removeClass('hidden');
   $('#canvas-container').addClass('hidden');
   $('#file-name-badge').text('No file');
