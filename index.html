@@ -1,0 +1,2402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DocForge — PDF Editor</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ── Design tokens ──────────────────────────────────────────────── */
+    :root {
+      --bg:          #0d0e14;
+      --surface:     #13141c;
+      --surface2:    #1a1b26;
+      --surface3:    #22233280;
+      --border:      #2a2b3d;
+      --border2:     #353650;
+      --accent:      #e8c547;
+      --accent2:     #f0d76a;
+      --accent-dim:  #e8c54722;
+      --accent-glow: #e8c54740;
+      --red:         #ff5f6b;
+      --green:       #4ade9a;
+      --blue:        #5b8dee;
+      --purple:      #a78bfa;
+      --text:        #e8e9f0;
+      --text2:       #9899b0;
+      --text3:       #5a5b72;
+      --font-head:   'Syne', sans-serif;
+      --font-body:   'Manrope', sans-serif;
+      --font-mono:   'DM Mono', monospace;
+      --radius:      10px;
+      --radius-lg:   16px;
+      --shadow:      0 8px 32px rgba(0,0,0,.5);
+      --shadow-sm:   0 2px 12px rgba(0,0,0,.3);
+    }
+
+    /* ── Reset & base ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 13px;
+    }
+
+    /* ── Scrollbar ──────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+
+    /* ── Layout ─────────────────────────────────────────────────────── */
+    #app { display: flex; flex-direction: column; height: 100vh; }
+
+    /* ── Topbar ─────────────────────────────────────────────────────── */
+    #topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px;
+      height: 52px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .brand {
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .brand span { color: var(--text2); font-weight: 700; }
+    .topbar-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; }
+    .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+    /* ── Toolbar (tool strip) ───────────────────────────────────────── */
+    #toolbar {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 0 16px;
+      height: 44px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .tool-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--text2);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all .15s;
+    }
+    .tool-btn:hover { background: var(--surface3); color: var(--text); }
+    .tool-btn.active { background: var(--accent-dim); color: var(--accent); }
+    .tool-btn i { font-size: 14px; }
+    .tool-sep { width: 1px; height: 22px; background: var(--border); margin: 0 4px; flex-shrink: 0; }
+
+    /* ── Main area ──────────────────────────────────────────────────── */
+    #main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── Left sidebar — pages ───────────────────────────────────────── */
+    #sidebar {
+      width: 180px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .sidebar-header {
+      padding: 10px 14px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text3);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #page-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .page-thumb {
+      position: relative;
+      border-radius: 6px;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all .15s;
+      background: #fff;
+    }
+    .page-thumb:hover { border-color: var(--border2); }
+    .page-thumb.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-dim); }
+    .page-thumb canvas { display: block; width: 100%; height: auto; }
+    .page-num {
+      position: absolute;
+      bottom: 4px;
+      right: 6px;
+      font-size: 9px;
+      font-family: var(--font-mono);
+      color: var(--text2);
+      background: rgba(0,0,0,.55);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+    .page-thumb .del-page {
+      display: none;
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 20px;
+      height: 20px;
+      background: var(--red);
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 11px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+    .page-thumb:hover .del-page { display: flex; }
+
+    /* ── Canvas area ────────────────────────────────────────────────── */
+    #canvas-wrap {
+      flex: 1;
+      overflow: auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 28px;
+      background:
+        radial-gradient(ellipse at 30% 20%, #1e1f3020 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, #e8c54708 0%, transparent 50%),
+        var(--bg);
+    }
+    #canvas-container {
+      position: relative;
+      box-shadow: 0 12px 60px rgba(0,0,0,.7);
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: crosshair;
+      background: white;
+    }
+    #pdf-canvas { display: block; }
+    #annotation-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #annotation-layer.draw-mode  { pointer-events: all; cursor: crosshair; }
+    #annotation-layer.text-mode  { pointer-events: all; cursor: text; }
+    #annotation-layer.erase-mode { pointer-events: all; cursor: cell; }
+
+    /* ── Annotation elements ────────────────────────────────────────── */
+    .annotation {
+      position: absolute;
+      pointer-events: all;
+      cursor: move;
+    }
+    /* ── Text annotation wrapper ───────────────────────────────────── */
+    .ann-text-wrap {
+      position: absolute;
+      /* no border/bg here — wrapper is just a positionable container */
+    }
+    /* The actual editable region — NEVER contains the delete button */
+    .ann-text {
+      display: block;
+      min-width: 80px;
+      min-height: 28px;
+      padding: 5px 10px;
+      border: 1.5px dashed var(--accent);
+      background: rgba(232,197,71,.10);
+      border-radius: 6px;
+      /* Text color comes from inline style set by JS */
+      font-size: 16px;
+      font-family: var(--font-body);
+      line-height: 1.5;
+      outline: none;
+      cursor: text;
+      resize: both;
+      overflow: hidden;
+      white-space: pre-wrap;
+      word-break: break-word;
+      transition: border-color .15s, background .15s, box-shadow .15s;
+      box-sizing: border-box;
+      /* caret always appears at text start, not near delete button */
+      direction: ltr;
+      text-align: left;
+      vertical-align: top;
+    }
+    .ann-text:focus {
+      border-color: var(--accent);
+      background: rgba(232,197,71,.13);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    .ann-text:empty::before {
+      content: 'Type here…';
+      color: rgba(0,0,0,.3);
+      pointer-events: none;
+      font-style: italic;
+    }
+    /* Frozen: invisible chrome, plain-text look */
+    .ann-text.frozen {
+      border-color: transparent;
+      background: transparent;
+      box-shadow: none;
+      resize: none;
+      cursor: move;
+    }
+    .ann-text.frozen:empty { display: none; }
+    /* Hover on frozen shows subtle outline so user knows it's selectable */
+    .ann-text-wrap:hover .ann-text.frozen:not(:empty) {
+      border: 1.5px dashed rgba(232,197,71,.35);
+    }
+    /* Floating toolbar above the text box while editing */
+    .ann-text-toolbar {
+      position: absolute;
+      top: -36px;
+      left: 0;
+      display: none;
+      align-items: center;
+      gap: 3px;
+      background: #1a1b26;
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 4px 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.5);
+      white-space: nowrap;
+      z-index: 100;
+    }
+    .ann-text-wrap.editing .ann-text-toolbar { display: flex; }
+    .ann-tb-btn {
+      width: 24px; height: 24px;
+      border-radius: 5px;
+      border: none;
+      background: transparent;
+      color: var(--text2);
+      font-size: 12px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .1s, color .1s;
+    }
+    .ann-tb-btn:hover { background: var(--surface2); color: var(--text); }
+    .ann-tb-btn.active { background: var(--accent-dim); color: var(--accent); }
+    .ann-tb-sep { width: 1px; height: 16px; background: var(--border); margin: 0 2px; }
+    /* Size indicator badge */
+    .ann-tb-size {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text3);
+      padding: 0 4px;
+      min-width: 28px;
+      text-align: center;
+    }
+    .ann-highlight {
+      border-radius: 2px;
+      opacity: .35;
+      mix-blend-mode: multiply;
+    }
+    .ann-shape {
+      border: 2px solid var(--red);
+      border-radius: 2px;
+      background: rgba(255,95,107,0.15); /* default semi-fill; JS overrides */
+    }
+    .ann-shape.circle { border-radius: 50%; }
+    /* Image annotation */
+    .ann-image {
+      border: 2px dashed #5b8dee;
+      border-radius: 4px;
+      overflow: hidden;
+      background: transparent;
+      cursor: move;
+      box-sizing: border-box;
+    }
+    .ann-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+    .ann-image .img-resize-handle {
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 14px; height: 14px;
+      background: #5b8dee;
+      border-radius: 3px 0 3px 0;
+      cursor: se-resize;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ann-image .img-resize-handle i { font-size: 9px; color: #fff; pointer-events: none; }
+    .ann-image.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
+    .annotation .ann-del,
+    .ann-text-wrap .ann-del {
+      display: none;
+      position: absolute;
+      top: -13px;
+      right: -13px;
+      width: 26px;
+      height: 26px;
+      background: #1a1b26;
+      border-radius: 50%;
+      border: 2px solid #ff5f6b;
+      color: #ff5f6b;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      box-shadow: 0 2px 8px rgba(0,0,0,.5);
+      transition: background .12s, color .12s, transform .12s;
+    }
+    .annotation:hover .ann-del, .ann-text-wrap:hover .ann-del { display: flex; }
+    .ann-del:hover { background: #ff5f6b !important; color: #fff !important; transform: scale(1.15); }
+
+    /* ── Right panel — properties ───────────────────────────────────── */
+    #props-panel {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    /* Override inline margin-top:auto on last section — not needed when scrolling */
+    #props-panel .panel-section:last-child { margin-top: 0; }
+    .panel-section {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .panel-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 10px;
+    }
+    .prop-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .prop-row label { color: var(--text2); font-size: 12px; }
+    .prop-input {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 4px 8px;
+      width: 80px;
+      transition: border .15s;
+    }
+    .prop-input:focus { outline: none; border-color: var(--accent); }
+    .color-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .color-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all .12s;
+    }
+    .color-dot:hover { transform: scale(1.15); }
+    .color-dot.active { border-color: var(--text); }
+    .zoom-row { display: flex; align-items: center; gap: 8px; }
+    .zoom-btn {
+      width: 28px; height: 28px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text2);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      transition: all .12s;
+    }
+    .zoom-btn:hover { border-color: var(--accent); color: var(--accent); }
+    #zoom-val {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text);
+      min-width: 40px;
+      text-align: center;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .stat-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .stat-val { font-size: 18px; font-weight: 700; font-family: var(--font-mono); color: var(--accent); }
+    .stat-lbl { font-size: 10px; color: var(--text3); margin-top: 2px; }
+
+    /* ── Buttons ────────────────────────────────────────────────────── */
+    .btn-forge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 7px;
+      border: none;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0d0e14;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
+    .btn-ghost {
+      background: var(--surface2);
+      color: var(--text2);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--border2); }
+    .btn-danger {
+      background: transparent;
+      color: var(--red);
+      border: 1px solid #ff5f6b44;
+    }
+    .btn-danger:hover { background: #ff5f6b22; }
+
+    /* ── Drop zone ──────────────────────────────────────────────────── */
+    #drop-zone {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      height: 100%;
+      width: 100%;
+    }
+    .drop-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius-lg);
+      background: var(--accent-dim);
+      border: 2px dashed var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: var(--accent);
+      transition: all .2s;
+    }
+    #drop-zone.drag-over .drop-icon { transform: scale(1.1); background: var(--accent-glow); }
+    .drop-title { font-family: var(--font-head); font-size: 22px; font-weight: 800; }
+    .drop-sub { color: var(--text2); font-size: 13px; }
+
+    /* ── Status bar ─────────────────────────────────────────────────── */
+    #statusbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 16px;
+      height: 26px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text3);
+    }
+    #statusbar .sep { width: 1px; height: 12px; background: var(--border); }
+    #status-msg { margin-left: auto; color: var(--green); }
+
+    /* ── Toast ──────────────────────────────────────────────────────── */
+    #toast-wrap {
+      position: fixed;
+      bottom: 40px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .toast-item {
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 500;
+      box-shadow: var(--shadow);
+      animation: toastIn .25s ease both;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast-item.success { border-color: #4ade9a44; }
+    .toast-item.success i { color: var(--green); }
+    .toast-item.error { border-color: #ff5f6b44; }
+    .toast-item.error i { color: var(--red); }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ── Drawing canvas ─────────────────────────────────────────────── */
+    #draw-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #draw-canvas.active { pointer-events: all; cursor: crosshair; }
+
+    /* ── Misc ───────────────────────────────────────────────────────── */
+    .badge-forge {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 99px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid var(--accent-glow);
+    }
+    #file-input { display: none; }
+
+    /* ── Keyboard shortcut badge ─────────────────────────────────── */
+    .kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text);
+      white-space: nowrap;
+      box-shadow: 0 1px 0 var(--border2);
+    }
+
+    /* range slider */
+    input[type=range] { accent-color: var(--accent); }
+
+    /* ── Shortcuts modal ────────────────────────────────────────── */
+    #shortcuts-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.65);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 9000;
+      align-items: center;
+      justify-content: center;
+    }
+    #shortcuts-modal-backdrop.open { display: flex; }
+    #shortcuts-modal {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.8);
+      width: 580px;
+      max-width: 95vw;
+      max-height: 85vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: modalIn .2s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes modalIn {
+      from { opacity:0; transform: scale(.92) translateY(12px); }
+      to   { opacity:1; transform: scale(1)  translateY(0); }
+    }
+    #shortcuts-modal .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px 14px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    #shortcuts-modal .modal-title {
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    #shortcuts-modal .modal-title i { color: var(--accent); font-size: 20px; }
+    #shortcuts-modal .modal-close {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border2);
+      background: var(--surface2);
+      color: var(--text2);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      transition: all .12s;
+    }
+    #shortcuts-modal .modal-close:hover { background: var(--red); color: #fff; border-color: var(--red); }
+    #shortcuts-modal .modal-body {
+      padding: 20px 22px;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 24px;
+    }
+    .shortcut-group { display: flex; flex-direction: column; gap: 2px; }
+    .shortcut-group-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    .shortcut-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-radius: 5px;
+    }
+    .shortcut-row:hover { background: var(--surface2); padding: 4px 6px; margin: 0 -6px; }
+    .shortcut-desc { font-size: 12px; color: var(--text2); }
+    .shortcut-keys { display: flex; gap: 3px; align-items: center; }
+    .modal-footer {
+      padding: 12px 22px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .modal-footer-tip { font-size: 11px; color: var(--text3); }
+    /* Shortcut trigger button in topbar */
+    #btn-shortcuts {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 7px;
+      border: 1px solid var(--border2);
+      background: var(--surface2);
+      color: var(--text2);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    #btn-shortcuts:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+    #btn-shortcuts kbd {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 4px;
+      padding: 0 4px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .hidden { display: none !important; }
+
+    /* page nav */
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .page-nav button {
+      width: 26px; height: 26px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text2);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      transition: all .12s;
+    }
+    .page-nav button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .page-nav button:disabled { opacity: .3; cursor: not-allowed; }
+    #page-indicator { font-family: var(--font-mono); font-size: 12px; color: var(--text2); }
+  </style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Top bar ──────────────────────────────────────────────────────── -->
+  <div id="topbar">
+    <div class="brand">Doc<span>Forge</span></div>
+    <div class="topbar-sep"></div>
+    <span class="badge-forge" id="file-name-badge">No file</span>
+
+    <div class="topbar-right">
+      <div class="page-nav">
+        <button id="prev-page" disabled title="Previous page"><i class="bi bi-chevron-left"></i></button>
+        <span id="page-indicator">—</span>
+        <button id="next-page" disabled title="Next page"><i class="bi bi-chevron-right"></i></button>
+      </div>
+      <div class="topbar-sep"></div>
+      <button id="btn-shortcuts" title="Keyboard shortcuts  ?">
+        <i class="bi bi-keyboard"></i> Shortcuts <kbd>?</kbd>
+      </button>
+      <button class="btn-forge btn-ghost" id="btn-open"><i class="bi bi-folder2-open"></i> Open PDF</button>
+      <button class="btn-forge btn-primary" id="btn-save" disabled><i class="bi bi-download"></i> Save PDF</button>
+    </div>
+  </div>
+
+  <!-- ── Tool strip ───────────────────────────────────────────────────── -->
+  <div id="toolbar">
+    <button class="tool-btn active" data-tool="select" title="Select / move annotations">
+      <i class="bi bi-cursor"></i> Select
+    </button>
+    <div class="tool-sep"></div>
+    <button class="tool-btn" data-tool="text" title="Add text annotation">
+      <i class="bi bi-fonts"></i> Text
+    </button>
+    <button class="tool-btn" data-tool="highlight" title="Highlight (draw rectangle)">
+      <i class="bi bi-highlighter"></i> Highlight
+    </button>
+    <button class="tool-btn" data-tool="draw" title="Freehand draw">
+      <i class="bi bi-pen"></i> Draw
+    </button>
+    <button class="tool-btn" data-tool="rect" title="Draw rectangle">
+      <i class="bi bi-square"></i> Rect
+    </button>
+    <button class="tool-btn" data-tool="circle" title="Draw circle">
+      <i class="bi bi-circle"></i> Circle
+    </button>
+    <div class="tool-sep"></div>
+    <button class="tool-btn" data-tool="erase" title="Erase annotations">
+      <i class="bi bi-eraser"></i> Erase
+    </button>
+    <button class="tool-btn" id="btn-insert-image" title="Insert image (PNG/JPG/SVG)">
+      <i class="bi bi-image"></i> Image
+    </button>
+    <div class="tool-sep"></div>
+    <button class="tool-btn" id="btn-rotate-cw" title="Rotate page clockwise">
+      <i class="bi bi-arrow-clockwise"></i> Rotate CW
+    </button>
+    <button class="tool-btn" id="btn-rotate-ccw" title="Rotate page counter-clockwise">
+      <i class="bi bi-arrow-counterclockwise"></i> Rotate CCW
+    </button>
+    <div class="tool-sep"></div>
+    <button class="tool-btn" id="btn-clear-ann" title="Clear all annotations on this page">
+      <i class="bi bi-trash2"></i> Clear Page
+    </button>
+    <button class="tool-btn" id="btn-undo" title="Undo">
+      <i class="bi bi-arrow-left-short"></i> Undo
+    </button>
+  </div>
+
+  <!-- ── Main workspace ───────────────────────────────────────────────── -->
+  <div id="main">
+
+    <!-- Pages sidebar -->
+    <div id="sidebar">
+      <div class="sidebar-header">
+        Pages <span id="page-count-badge">0</span>
+      </div>
+      <div id="page-list"></div>
+    </div>
+
+    <!-- Canvas viewport -->
+    <div id="canvas-wrap">
+      <!-- Drop zone (shown when no PDF) -->
+      <div id="drop-zone">
+        <div class="drop-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+        <div class="drop-title">Drop your PDF here</div>
+        <div class="drop-sub">or click to browse files</div>
+        <button class="btn-forge btn-primary" id="btn-drop-open">
+          <i class="bi bi-folder2-open"></i> Browse PDF
+        </button>
+      </div>
+
+      <!-- PDF canvas (hidden until file loaded) -->
+      <div id="canvas-container" class="hidden">
+        <canvas id="pdf-canvas"></canvas>
+        <canvas id="draw-canvas"></canvas>
+        <div id="annotation-layer"></div>
+      </div>
+    </div>
+
+    <!-- Right properties panel -->
+    <div id="props-panel">
+
+      <!-- ── Paint-style color controls ──────────────────────────────── -->
+      <div class="panel-section">
+        <div class="panel-label">Fill &amp; Stroke</div>
+
+        <!-- Stroke / Fill swatch row -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <!-- Fill swatch -->
+          <div style="position:relative;">
+            <div style="font-size:9px;color:var(--text3);margin-bottom:3px;text-align:center;">Fill</div>
+            <div id="swatch-fill" title="Click to change fill color"
+              style="width:32px;height:32px;border-radius:6px;border:2px solid var(--border2);
+                     cursor:pointer;background:#ff5f6b22;position:relative;overflow:hidden;">
+              <!-- checkerboard for transparent indicator -->
+              <div id="fill-transparent-indicator" style="display:none;position:absolute;inset:0;
+                background:repeating-conic-gradient(#aaa 0% 25%,#fff 0% 50%) 0 0/8px 8px;opacity:.4;"></div>
+            </div>
+            <input type="color" id="fill-color-input" value="#ff5f6b"
+              style="position:absolute;opacity:0;width:0;height:0;pointer-events:none;">
+          </div>
+          <!-- Stroke swatch -->
+          <div style="position:relative;">
+            <div style="font-size:9px;color:var(--text3);margin-bottom:3px;text-align:center;">Border</div>
+            <div id="swatch-stroke" title="Click to change border color"
+              style="width:32px;height:32px;border-radius:6px;border:3px solid #ff5f6b;
+                     background:transparent;cursor:pointer;">
+            </div>
+            <input type="color" id="stroke-color-input" value="#ff5f6b"
+              style="position:absolute;opacity:0;width:0;height:0;pointer-events:none;">
+          </div>
+          <!-- Transparent fill toggle -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div style="font-size:9px;color:var(--text3);">No Fill</div>
+            <button id="btn-no-fill" title="Toggle transparent fill"
+              style="width:32px;height:32px;border-radius:6px;border:2px solid var(--border2);
+                     background:var(--surface2);cursor:pointer;color:var(--text2);font-size:14px;
+                     display:flex;align-items:center;justify-content:center;transition:all .12s;">
+              <i class="bi bi-slash-circle"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Full palette grid -->
+        <div id="color-palette" style="display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin-bottom:8px;">
+        </div>
+
+        <!-- Custom color input row -->
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:11px;color:var(--text3);">Custom</span>
+          <input type="color" id="custom-color-picker" value="#e8c547"
+            style="width:28px;height:22px;padding:1px;border:1px solid var(--border2);
+                   border-radius:4px;background:var(--surface2);cursor:pointer;">
+          <span id="custom-hex-display"
+            style="font-family:var(--font-mono);font-size:11px;color:var(--text2);">#e8c547</span>
+          <button id="btn-apply-custom-fill" title="Apply as Fill"
+            style="font-size:10px;padding:2px 6px;border-radius:4px;border:1px solid var(--border2);
+                   background:var(--surface2);color:var(--text2);cursor:pointer;">F</button>
+          <button id="btn-apply-custom-stroke" title="Apply as Stroke"
+            style="font-size:10px;padding:2px 6px;border-radius:4px;border:1px solid var(--border2);
+                   background:var(--surface2);color:var(--text2);cursor:pointer;">S</button>
+        </div>
+      </div>
+
+      <!-- ── Stroke width + opacity ────────────────────────────────── -->
+      <div class="panel-section">
+        <div class="panel-label">Style</div>
+        <div class="prop-row">
+          <label>Border px</label>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <input type="range" min="0" max="20" value="2" id="stroke-width" style="width:60px">
+            <span id="stroke-width-val" style="font-family:var(--font-mono);font-size:11px;
+              color:var(--text2);min-width:18px;">2</span>
+          </div>
+        </div>
+        <div class="prop-row">
+          <label>Opacity</label>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <input type="range" min="10" max="100" value="100" id="opacity-val" style="width:60px">
+            <span id="opacity-val-label" style="font-family:var(--font-mono);font-size:11px;
+              color:var(--text2);min-width:28px;">100%</span>
+          </div>
+        </div>
+        <div class="prop-row">
+          <label>Font size</label>
+          <input class="prop-input" type="number" value="16" min="8" max="72" id="font-size">
+        </div>
+      </div>
+
+      <!-- ── Zoom ──────────────────────────────────────────────────── -->
+      <div class="panel-section">
+        <div class="panel-label">Zoom</div>
+        <div class="zoom-row">
+          <button class="zoom-btn" id="zoom-out" title="-  or Ctrl+Scroll"><i class="bi bi-dash"></i></button>
+          <span id="zoom-val">100%</span>
+          <button class="zoom-btn" id="zoom-in"  title="+  or Ctrl+Scroll"><i class="bi bi-plus"></i></button>
+          <button class="zoom-btn" id="zoom-fit" title="0 — Fit to window"><i class="bi bi-arrows-angle-contract"></i></button>
+        </div>
+      </div>
+
+      <!-- ── Shortcuts button (opens modal) ───────────────────────────── -->
+      <div class="panel-section">
+        <div class="panel-label">Shortcuts</div>
+        <button id="btn-shortcuts-panel"
+          style="width:100%;display:flex;align-items:center;justify-content:space-between;
+                 padding:8px 12px;border-radius:8px;border:1px solid var(--border2);
+                 background:var(--surface2);color:var(--text2);cursor:pointer;
+                 font-family:var(--font-body);font-size:12px;font-weight:500;
+                 transition:all .15s;">
+          <span style="display:flex;align-items:center;gap:8px;">
+            <i class="bi bi-keyboard" style="font-size:15px;color:var(--accent);"></i>
+            View all shortcuts
+          </span>
+          <kbd class="kbd" style="font-size:11px;">?</kbd>
+        </button>
+      </div>
+
+      <!-- ── Doc info ───────────────────────────────────────────────── -->
+      <div class="panel-section">
+        <div class="panel-label">Document</div>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-val" id="stat-pages">0</div>
+            <div class="stat-lbl">Pages</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="stat-anns">0</div>
+            <div class="stat-lbl">Annotations</div>
+          </div>
+          <div class="stat-box" style="grid-column:1/-1">
+            <div class="stat-val" id="stat-size" style="font-size:13px">—</div>
+            <div class="stat-lbl">File size</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <button class="btn-forge btn-danger w-100" id="btn-close-pdf" style="justify-content:center">
+          <i class="bi bi-x-circle"></i> Close PDF
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Status bar -->
+  <div id="statusbar">
+    <span id="cursor-pos">x: — &nbsp; y: —</span>
+    <div class="sep"></div>
+    <span id="cur-tool-status">Tool: Select</span>
+    <div class="sep"></div>
+    <span id="cur-page-status">Page: —</span>
+    <span id="status-msg"></span>
+  </div>
+
+</div>
+
+<!-- ── Shortcuts modal ────────────────────────────────────────────────── -->
+<div id="shortcuts-modal-backdrop">
+  <div id="shortcuts-modal" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
+
+    <div class="modal-head">
+      <div class="modal-title">
+        <i class="bi bi-keyboard"></i> Keyboard Shortcuts
+      </div>
+      <button class="modal-close" id="shortcuts-modal-close" title="Close  Esc">&#x2715;</button>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- Tools -->
+      <div class="shortcut-group">
+        <div class="shortcut-group-title">Tools</div>
+        <div class="shortcut-row"><span class="shortcut-desc">Select / Move</span><div class="shortcut-keys"><kbd class="kbd">V</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Text</span><div class="shortcut-keys"><kbd class="kbd">T</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Freehand Draw</span><div class="shortcut-keys"><kbd class="kbd">D</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Rectangle</span><div class="shortcut-keys"><kbd class="kbd">R</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Circle</span><div class="shortcut-keys"><kbd class="kbd">C</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Highlight</span><div class="shortcut-keys"><kbd class="kbd">H</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Erase</span><div class="shortcut-keys"><kbd class="kbd">E</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Insert Image</span><div class="shortcut-keys"><kbd class="kbd">I</kbd></div></div>
+      </div>
+
+      <!-- File -->
+      <div class="shortcut-group">
+        <div class="shortcut-group-title">File</div>
+        <div class="shortcut-row"><span class="shortcut-desc">Open PDF</span><div class="shortcut-keys"><kbd class="kbd">Ctrl</kbd><span style="color:var(--text3);font-size:11px;">+</span><kbd class="kbd">O</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Save PDF</span><div class="shortcut-keys"><kbd class="kbd">Ctrl</kbd><span style="color:var(--text3);font-size:11px;">+</span><kbd class="kbd">S</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Undo</span><div class="shortcut-keys"><kbd class="kbd">Ctrl</kbd><span style="color:var(--text3);font-size:11px;">+</span><kbd class="kbd">Z</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Delete selected</span><div class="shortcut-keys"><kbd class="kbd">Del</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Show shortcuts</span><div class="shortcut-keys"><kbd class="kbd">?</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Close modal</span><div class="shortcut-keys"><kbd class="kbd">Esc</kbd></div></div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="shortcut-group">
+        <div class="shortcut-group-title">Navigation</div>
+        <div class="shortcut-row"><span class="shortcut-desc">Previous page</span><div class="shortcut-keys"><kbd class="kbd">←</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Next page</span><div class="shortcut-keys"><kbd class="kbd">→</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">First page</span><div class="shortcut-keys"><kbd class="kbd">Ctrl</kbd><span style="color:var(--text3);font-size:11px;">+</span><kbd class="kbd">Home</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Last page</span><div class="shortcut-keys"><kbd class="kbd">Ctrl</kbd><span style="color:var(--text3);font-size:11px;">+</span><kbd class="kbd">End</kbd></div></div>
+      </div>
+
+      <!-- Zoom -->
+      <div class="shortcut-group">
+        <div class="shortcut-group-title">Zoom</div>
+        <div class="shortcut-row"><span class="shortcut-desc">Zoom in</span><div class="shortcut-keys"><kbd class="kbd">+</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Zoom out</span><div class="shortcut-keys"><kbd class="kbd">−</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Fit to window</span><div class="shortcut-keys"><kbd class="kbd">0</kbd></div></div>
+        <div class="shortcut-row"><span class="shortcut-desc">Scroll zoom</span><div class="shortcut-keys"><kbd class="kbd">Ctrl</kbd><span style="color:var(--text3);font-size:11px;">+</span><kbd class="kbd">Scroll</kbd></div></div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <span class="modal-footer-tip"><i class="bi bi-info-circle" style="color:var(--accent)"></i> Press <kbd class="kbd">?</kbd> anytime to open this panel</span>
+      <button class="btn-forge btn-ghost" id="shortcuts-modal-close-btn">Close</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Hidden file input -->
+<input type="file" id="file-input" accept=".pdf">
+<input type="file" id="img-file-input" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml">
+
+<!-- Toast container -->
+<div id="toast-wrap"></div>
+
+<!-- ── Scripts ─────────────────────────────────────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
+<!-- pdf-lib for writing annotations back into the PDF binary -->
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+<script>
+// ── pdf.js: load dynamically so we are guaranteed it is ready ─────────────
+// Injecting a <script> tag and waiting for its onload event is the only
+// reliable way to use the UMD build from a CDN without a module bundler.
+let pdfjsLib = null;
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+async function initPdfJs() {
+  await loadScript('https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js');
+  pdfjsLib = window['pdfjs-dist/build/pdf'];
+  // When opened as file:// the browser blocks cross-origin web workers.
+  // Setting workerSrc to '' makes pdf.js run its worker inline on the main
+  // thread (fake worker). Slightly slower but works from any origin.
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+}
+
+// Boot everything after pdf.js + pdf-lib are both ready
+$(document).ready(function () {
+  initPdfJs().then(() => {
+    setupApp();
+  }).catch(err => {
+    alert('Failed to load PDF.js: ' + err.message);
+  });
+});
+
+function setupApp() {
+
+// ── State ─────────────────────────────────────────────────────────────────
+const state = {
+  pdf: null,
+  pdfBytes: null,
+  fileName: 'document.pdf',
+  currentPage: 1,
+  totalPages: 0,
+  zoom: 1.0,
+  rotation: 0,                     // per-page rotation (degrees)
+  rotations: {},
+  tool: 'select',
+  color: '#e8c547',
+  strokeWidth: 2,
+  opacity: 1.0,
+  fontSize: 16,
+  annotations: {},                 // { pageNum: [annotDom elements] }
+  drawPaths: {},                   // { pageNum: [ImageData or path array] }
+  history: [],                     // undo stack
+  selectedAnn: null,               // currently selected annotation DOM el
+  isDrawing: false,
+  activeColorTarget: 'fill',
+  fillColor: 'rgba(255,95,107,0.2)',
+  strokeColor: '#ff5f6b',
+  drawStart: null,
+  currentPath: [],
+  shapeEl: null,
+};
+
+// ── Toast ─────────────────────────────────────────────────────────────────
+function toast(msg, type = 'success') {
+  const icon = type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill';
+  const el = $(`<div class="toast-item ${type}"><i class="bi ${icon}"></i>${msg}</div>`);
+  $('#toast-wrap').append(el);
+  setTimeout(() => el.fadeOut(300, () => el.remove()), 2800);
+}
+
+function setStatus(msg) { $('#status-msg').text(msg); }
+
+// ── File loading ──────────────────────────────────────────────────────────
+function loadPDF(file) {
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    state.pdfBytes = new Uint8Array(e.target.result);
+    state.fileName = file.name;
+    try {
+      state.pdf = await pdfjsLib.getDocument({ data: state.pdfBytes.slice() }).promise;
+      state.totalPages = state.pdf.numPages;
+      state.currentPage = 1;
+      state.annotations = {};
+      state.drawPaths   = {};
+      state.rotations   = {};
+      state.zoom        = 1.0;
+
+      $('#file-name-badge').text(file.name.length > 22
+        ? file.name.slice(0, 20) + '…' : file.name);
+      $('#stat-pages').text(state.totalPages);
+      $('#stat-size').text(formatBytes(file.size));
+      $('#btn-save').prop('disabled', false);
+      $('#drop-zone').addClass('hidden');
+      $('#canvas-container').removeClass('hidden');
+
+      await buildSidebar();
+      await renderPage(state.currentPage);
+      initHistory();   // baseline snapshot after PDF loads
+      toast('PDF loaded — ' + state.totalPages + ' page(s)');
+    } catch (err) {
+      toast('Failed to load PDF: ' + err.message, 'error');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function formatBytes(b) {
+  if (b < 1024) return b + ' B';
+  if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+  return (b/1048576).toFixed(1) + ' MB';
+}
+
+// ── Sidebar ───────────────────────────────────────────────────────────────
+async function buildSidebar() {
+  $('#page-list').empty();
+  $('#page-count-badge').text(state.totalPages);
+  for (let i = 1; i <= state.totalPages; i++) {
+    const page = await state.pdf.getPage(i);
+    const vp   = page.getViewport({ scale: 0.18 });
+    const c    = $('<canvas>').attr({ width: vp.width, height: vp.height });
+    await page.render({ canvasContext: c[0].getContext('2d'), viewport: vp }).promise;
+    const thumb = $(`<div class="page-thumb" data-page="${i}">`)
+      .append(c)
+      .append(`<div class="page-num">${i}</div>`)
+      .append(`<button class="del-page" title="Delete page"><i class="bi bi-x"></i></button>`);
+    $('#page-list').append(thumb);
+  }
+  updateSidebarActive();
+}
+
+function updateSidebarActive() {
+  $('.page-thumb').removeClass('active');
+  $(`.page-thumb[data-page="${state.currentPage}"]`).addClass('active');
+}
+
+// ── Page render ───────────────────────────────────────────────────────────
+async function renderPage(num) {
+  if (!state.pdf) return;
+  state.currentPage = num;
+
+  const page     = await state.pdf.getPage(num);
+  const rotation = (page.rotate + (state.rotations[num] || 0)) % 360;
+  const vp       = page.getViewport({ scale: state.zoom, rotation });
+
+  const canvas = document.getElementById('pdf-canvas');
+  const ctx    = canvas.getContext('2d');
+  canvas.width  = vp.width;
+  canvas.height = vp.height;
+
+  const drawCanvas = document.getElementById('draw-canvas');
+  drawCanvas.width  = vp.width;
+  drawCanvas.height = vp.height;
+
+  await page.render({ canvasContext: ctx, viewport: vp }).promise;
+
+  // Restore freehand drawings
+  restoreDrawings(num);
+
+  // Resize annotation layer
+  $('#annotation-layer').css({ width: vp.width, height: vp.height });
+
+  // Show annotations for this page
+  $('#annotation-layer').empty();
+  const anns = state.annotations[num] || [];
+  anns.forEach(a => $('#annotation-layer').append(a));
+
+  // Container size
+  $('#canvas-container').css({ width: vp.width, height: vp.height });
+
+  updateNavButtons();
+  updateSidebarActive();
+  updateCounts();
+
+  $('#page-indicator').text(`${num} / ${state.totalPages}`);
+  $('#cur-page-status').text(`Page: ${num}/${state.totalPages}`);
+  $('#zoom-val').text(Math.round(state.zoom * 100) + '%');
+}
+
+function updateNavButtons() {
+  $('#prev-page').prop('disabled', state.currentPage <= 1);
+  $('#next-page').prop('disabled', state.currentPage >= state.totalPages);
+}
+
+function updateCounts() {
+  let total = 0;
+  Object.values(state.annotations).forEach(a => total += a.length);
+  $('#stat-anns').text(total);
+}
+
+// ── Drawing (freehand) ────────────────────────────────────────────────────
+let drawCtx = null;
+
+function getDrawCtx() {
+  if (!drawCtx) drawCtx = document.getElementById('draw-canvas').getContext('2d');
+  return drawCtx;
+}
+
+function restoreDrawings(pageNum) {
+  drawCtx = document.getElementById('draw-canvas').getContext('2d');
+  drawCtx.clearRect(0, 0, drawCtx.canvas.width, drawCtx.canvas.height);
+  const paths = state.drawPaths[pageNum] || [];
+  paths.forEach(p => replayPath(drawCtx, p));
+}
+
+function replayPath(ctx, p) {
+  ctx.save();
+  ctx.globalAlpha = p.opacity;
+  ctx.strokeStyle = p.color;
+  ctx.lineWidth   = p.width;
+  ctx.lineCap     = 'round';
+  ctx.lineJoin    = 'round';
+  ctx.beginPath();
+  p.pts.forEach((pt, i) => i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y));
+  ctx.stroke();
+  ctx.restore();
+}
+
+// ── Annotation helpers ────────────────────────────────────────────────────
+function addAnnotation(el) {
+  const page = state.currentPage;
+  if (!state.annotations[page]) state.annotations[page] = [];
+  saveHistory();   // snapshot before adding so undo removes this annotation
+  state.annotations[page].push(el[0]);
+  $('#annotation-layer').append(el);
+  updateCounts();
+}
+
+function makeMovable(el) {
+  let ox, oy, mx, my, moving = false;
+  el.on('mousedown', function(e) {
+    if (state.tool !== 'select') return;
+    if ($(e.target).hasClass('ann-del') || $(e.target).closest('.ann-del').length) return;
+    e.stopPropagation();
+    state.selectedAnn = el[0];
+    moving = true;
+    ox = e.clientX - el.offset().left;
+    oy = e.clientY - el.offset().top;
+    $(document).on('mousemove.ann', function(e) {
+      if (!moving) return;
+      const layer = $('#annotation-layer').offset();
+      el.css({
+        left: e.clientX - layer.left - ox,
+        top:  e.clientY - layer.top  - oy,
+      });
+    });
+    $(document).on('mouseup.ann', function() {
+      moving = false;
+      $(document).off('.ann');
+    });
+  });
+  // Delete button
+  const delBtn = $('<button class="ann-del" title="Delete (Del)">&#x2715;</button>');
+  delBtn.on('click', function(e) {
+    e.stopPropagation();
+    el[0].remove();
+    const page = state.currentPage;
+    state.annotations[page] = (state.annotations[page] || []).filter(a => a !== el[0]);
+    updateCounts();
+  });
+  el.append(delBtn);
+}
+
+// ── Tool handlers ─────────────────────────────────────────────────────────
+function getLayerPos(e) {
+  const off = $('#annotation-layer').offset();
+  return { x: e.clientX - off.left, y: e.clientY - off.top };
+}
+
+// ── Text tool ─────────────────────────────────────────────────────────────
+//
+//  Architecture:
+//    .ann-text-wrap   — outer wrapper, positioned on annotation-layer, draggable
+//      .ann-text-toolbar  — floating mini-toolbar (bold/italic/size/color/align)
+//      .ann-text          — the contenteditable region ONLY — no delete btn inside
+//      .ann-del           — outside the editable region, no caret interference
+//
+//  States:
+//    .editing  (on wrap)  — toolbar visible, editable
+//    .frozen   (on text)  — border invisible, cursor=move, not editable
+//
+//  Caret fix: delete button is appended to the WRAP, not to the text div,
+//  so the browser never sees it as editable content.
+// ──────────────────────────────────────────────────────────────────────────
+
+let currentFontSize = 16;   // tracks live font size for toolbar +/-
+
+function placeTextBox(pos) {
+  const fs   = state.fontSize || 16;
+  const col  = state.strokeColor || '#111111';
+
+  // ── Outer wrapper (this is what gets moved, stored as annotation) ────
+  const wrap = $('<div class="ann-text-wrap">').css({
+    left: pos.x,
+    top:  pos.y,
+  });
+
+  // ── Floating mini-toolbar ────────────────────────────────────────────
+  const toolbar = $('<div class="ann-text-toolbar">');
+  const makeTb  = (icon, title, action) =>
+    $(`<button class="ann-tb-btn" title="${title}"><i class="bi bi-${icon}"></i></button>`)
+      .on('mousedown', function(e) {
+        e.preventDefault();   // don't blur the text box
+        action(this);
+      });
+
+  const sizeDisplay = $('<span class="ann-tb-size">' + fs + 'px</span>');
+
+  const btnBold   = makeTb('type-bold',    'Bold (Ctrl+B)',   () => document.execCommand('bold'));
+  const btnItalic = makeTb('type-italic',  'Italic (Ctrl+I)', () => document.execCommand('italic'));
+  const btnUnder  = makeTb('type-underline','Underline (Ctrl+U)', () => document.execCommand('underline'));
+  const tbSep1    = $('<div class="ann-tb-sep">');
+  const btnSmall  = makeTb('dash-lg', 'Smaller font', () => {
+    currentFontSize = Math.max(8, currentFontSize - 2);
+    textEl.css('font-size', currentFontSize + 'px');
+    sizeDisplay.text(currentFontSize + 'px');
+  });
+  const btnLarge  = makeTb('plus-lg', 'Larger font', () => {
+    currentFontSize = Math.min(120, currentFontSize + 2);
+    textEl.css('font-size', currentFontSize + 'px');
+    sizeDisplay.text(currentFontSize + 'px');
+  });
+  const tbSep2    = $('<div class="ann-tb-sep">');
+  const btnAlignL = makeTb('text-left',   'Align left',   () => { document.execCommand('justifyLeft');   btnAlignL.addClass('active'); btnAlignC.removeClass('active'); btnAlignR.removeClass('active'); });
+  const btnAlignC = makeTb('text-center', 'Align center', () => { document.execCommand('justifyCenter'); btnAlignC.addClass('active'); btnAlignL.removeClass('active'); btnAlignR.removeClass('active'); });
+  const btnAlignR = makeTb('text-right',  'Align right',  () => { document.execCommand('justifyRight');  btnAlignR.addClass('active'); btnAlignL.removeClass('active'); btnAlignC.removeClass('active'); });
+  btnAlignL.addClass('active');
+
+  toolbar.append(btnBold, btnItalic, btnUnder, tbSep1, btnSmall, sizeDisplay, btnLarge, tbSep2, btnAlignL, btnAlignC, btnAlignR);
+
+  // ── Editable text region ──────────────────────────────────────────────
+  const textEl = $('<div class="ann-text" contenteditable="true">')
+    .css({
+      fontSize: fs + 'px',
+      color:    col,
+      minWidth: '120px',
+      minHeight: (fs * 1.8) + 'px',
+    });
+  currentFontSize = fs;
+
+  // ── Blur: freeze ──────────────────────────────────────────────────────
+  textEl.on('blur', function() {
+    // Small delay so toolbar button mousedown doesn't trigger freeze
+    setTimeout(() => {
+      if ($(document.activeElement).closest('.ann-text-toolbar').length) return;
+      const text = $(this).text().trim();
+      if (!text) {
+        wrap[0].remove();
+        const page = state.currentPage;
+        state.annotations[page] = (state.annotations[page] || []).filter(a => a !== wrap[0]);
+        updateCounts();
+        return;
+      }
+      wrap.removeClass('editing');
+      $(this).addClass('frozen').attr('contenteditable', 'false');
+      saveHistory();
+    }, 120);
+  });
+
+  // ── Focus: enter editing mode ─────────────────────────────────────────
+  textEl.on('focus', function() {
+    wrap.addClass('editing');
+  });
+
+  // ── Double-click on frozen text → re-edit ────────────────────────────
+  textEl.on('dblclick', function(e) {
+    e.stopPropagation();
+    $(this).removeClass('frozen').attr('contenteditable', 'true');
+    wrap.addClass('editing');
+    // Place caret at the END of content
+    const range = document.createRange();
+    const sel   = window.getSelection();
+    range.selectNodeContents(this);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+    $(this).focus();
+  });
+
+  // ── Delete button — appended to WRAP, NOT to textEl ──────────────────
+  const delBtn = $('<button class="ann-del" title="Delete (Del)">&#x2715;</button>');
+  delBtn.on('click', function(e) {
+    e.stopPropagation();
+    wrap[0].remove();
+    const page = state.currentPage;
+    state.annotations[page] = (state.annotations[page] || []).filter(a => a !== wrap[0]);
+    updateCounts();
+  });
+
+  // ── Drag: move the wrapper ────────────────────────────────────────────
+  let dragging = false, odx, ody;
+  wrap.on('mousedown', function(e) {
+    if (state.tool !== 'select') return;
+    if ($(e.target).hasClass('ann-del') || $(e.target).closest('.ann-del').length) return;
+    if ($(e.target).hasClass('ann-text') && !$(e.target).hasClass('frozen')) return;
+    if ($(e.target).closest('.ann-text-toolbar').length) return;
+    e.stopPropagation();
+    state.selectedAnn = wrap[0];
+    dragging = true;
+    odx = e.clientX - wrap.offset().left;
+    ody = e.clientY - wrap.offset().top;
+    $(document).on('mousemove.textwrap', function(e) {
+      if (!dragging) return;
+      const lOff = $('#annotation-layer').offset();
+      wrap.css({ left: e.clientX - lOff.left - odx, top: e.clientY - lOff.top - ody });
+    });
+    $(document).on('mouseup.textwrap', function() {
+      dragging = false;
+      $(document).off('.textwrap');
+    });
+  });
+
+  // ── Assemble: toolbar + textEl → wrap, del outside textEl ────────────
+  wrap.append(toolbar).append(textEl).append(delBtn);
+
+  // Register the WRAP as the annotation (not textEl)
+  const page = state.currentPage;
+  if (!state.annotations[page]) state.annotations[page] = [];
+  saveHistory();
+  state.annotations[page].push(wrap[0]);
+  $('#annotation-layer').append(wrap);
+  updateCounts();
+
+  // Focus with caret at START on fresh box
+  setTimeout(() => {
+    textEl[0].focus();
+    // Place caret at very beginning
+    const range = document.createRange();
+    const sel   = window.getSelection();
+    range.setStart(textEl[0], 0);
+    range.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }, 0);
+}
+
+// Click on empty canvas area → place text box
+$('#annotation-layer').on('click', function(e) {
+  if (state.tool !== 'text') return;
+  if ($(e.target).closest('.ann-text-wrap').length) return;
+  if ($(e.target).closest('.annotation').length) return;
+  placeTextBox(getLayerPos(e));
+});
+
+// Shape drawing (rect, circle, highlight) + freehand
+let shapeStart = null;
+let tempShape  = null;
+
+// ── helper: position relative to the canvas container ───────────────────
+function getCanvasPos(e) {
+  const off = $('#canvas-container').offset();
+  return {
+    x: e.clientX - off.left,
+    y: e.clientY - off.top,
+  };
+}
+
+// ── Freehand draw — events on draw-canvas directly ───────────────────────
+$('#draw-canvas').on('mousedown', function(e) {
+  if (state.tool !== 'draw') return;
+  e.preventDefault();
+  const pos = getCanvasPos(e);
+  state.isDrawing   = true;
+  state.currentPath = [pos];
+  drawCtx = this.getContext('2d');
+  drawCtx.beginPath();
+  drawCtx.moveTo(pos.x, pos.y);
+});
+
+// ── Shape drawing — events on annotation-layer ───────────────────────────
+$('#annotation-layer').on('mousedown', function(e) {
+  if (!['rect','circle','highlight'].includes(state.tool)) return;
+  if ($(e.target).closest('.annotation').length) return;
+  e.preventDefault();
+  const pos = getLayerPos(e);
+  shapeStart = pos;
+  tempShape = $('<div class="annotation">')
+    .css({ left: pos.x, top: pos.y, width: 0, height: 0, pointerEvents: 'none' });
+  if (state.tool === 'highlight') {
+    tempShape.addClass('ann-highlight').css('background', state.strokeColor);
+  } else {
+    // Apply fill (transparent or color) and stroke separately
+    const bgColor = state.noFill ? 'transparent' : state.fillColor;
+    tempShape.addClass('ann-shape')
+      .css({
+        'background':    bgColor,
+        'border-color':  state.strokeColor,
+        'border-width':  Math.max(1, state.strokeWidth) + 'px',
+        'border-style':  'solid',
+      });
+    if (state.tool === 'circle') tempShape.addClass('circle');
+  }
+  $('#annotation-layer').append(tempShape);
+});
+
+// ── Global mousemove — handles both draw and shape resize ────────────────
+$(document).on('mousemove', function(e) {
+  // Freehand stroke
+  if (state.tool === 'draw' && state.isDrawing && drawCtx) {
+    const pos = getCanvasPos(e);
+    state.currentPath.push(pos);
+    drawCtx.globalAlpha = state.opacity;
+    drawCtx.strokeStyle = state.color;
+    drawCtx.lineWidth   = state.strokeWidth;
+    drawCtx.lineCap     = 'round';
+    drawCtx.lineJoin    = 'round';
+    drawCtx.lineTo(pos.x, pos.y);
+    drawCtx.stroke();
+    return;
+  }
+  // Shape resize
+  if (!shapeStart || !tempShape) return;
+  const pos = getLayerPos(e);
+  const x = Math.min(pos.x, shapeStart.x);
+  const y = Math.min(pos.y, shapeStart.y);
+  const w = Math.abs(pos.x - shapeStart.x);
+  const h = Math.abs(pos.y - shapeStart.y);
+  tempShape.css({ left: x, top: y, width: w, height: h });
+});
+
+// ── Global mouseup — commit stroke or shape ──────────────────────────────
+$(document).on('mouseup', function(e) {
+  // Commit freehand path
+  if (state.tool === 'draw' && state.isDrawing) {
+    state.isDrawing = false;
+    if (state.currentPath.length > 1) {
+      const page = state.currentPage;
+      if (!state.drawPaths[page]) state.drawPaths[page] = [];
+      saveHistory();   // snapshot BEFORE pushing so undo removes this stroke
+      state.drawPaths[page].push({
+        pts:     state.currentPath,
+        color:   state.color,
+        width:   state.strokeWidth,
+        opacity: state.opacity,
+      });
+    }
+    state.currentPath = [];
+    return;
+  }
+  // Commit shape
+  if (!shapeStart || !tempShape) return;
+  const pos = getLayerPos(e);
+  const w = Math.abs(pos.x - shapeStart.x);
+  const h = Math.abs(pos.y - shapeStart.y);
+  if (w > 4 && h > 4) {
+    tempShape.css('pointer-events', 'all');
+    makeMovable(tempShape);
+    addAnnotation(tempShape);
+  } else {
+    tempShape.remove();
+  }
+  shapeStart = null;
+  tempShape  = null;
+});
+
+// Erase
+$('#annotation-layer').on('click', '.annotation, .ann-text-wrap', function(e) {
+  if (state.tool !== 'erase') return;
+  $(this).remove();
+  const page = state.currentPage;
+  state.annotations[page] = (state.annotations[page] || []).filter(a => a !== this);
+  updateCounts();
+});
+
+// ── History ───────────────────────────────────────────────────────────────
+// ── Save a full snapshot BEFORE any action (call BEFORE mutating state) ──
+function saveHistory() {
+  const snap = {
+    annotations: {},
+    drawPaths: {},
+  };
+  // Snapshot annotation HTML for every page
+  Object.keys(state.annotations).forEach(p => {
+    snap.annotations[p] = state.annotations[p].map(el => el.outerHTML);
+  });
+  // Deep-clone drawPaths (arrays of plain objects — safe to JSON-round-trip)
+  Object.keys(state.drawPaths).forEach(p => {
+    snap.drawPaths[p] = state.drawPaths[p].map(path => ({
+      color:   path.color,
+      width:   path.width,
+      opacity: path.opacity,
+      pts:     path.pts.map(pt => ({ x: pt.x, y: pt.y })),
+    }));
+  });
+  // Snapshot imgDataStore references (dataURLs are immutable so reference is fine)
+  snap.imgDataStore = Object.assign({}, imgDataStore);
+  state.history.push(JSON.stringify(snap));
+  if (state.history.length > 50) state.history.shift();
+}
+
+// ── Record initial empty state on app boot so first undo has a target ─────
+function initHistory() {
+  state.history = [];
+  saveHistory();   // push the "empty canvas" baseline snapshot
+}
+
+function undo() {
+  if (state.history.length < 2) {
+    toast('Nothing to undo', 'error');
+    return;
+  }
+  // Discard current state
+  state.history.pop();
+  // Restore previous state
+  const snap = JSON.parse(state.history[state.history.length - 1]);
+
+  // Restore annotations (re-hydrate HTML strings → DOM nodes)
+  state.annotations = {};
+  Object.keys(snap.annotations).forEach(p => {
+    state.annotations[p] = snap.annotations[p].map(html => $(html)[0]);
+  });
+
+  // Restore freehand draw paths
+  state.drawPaths = {};
+  Object.keys(snap.drawPaths).forEach(p => {
+    state.drawPaths[p] = snap.drawPaths[p];
+  });
+  // Restore image data references
+  if (snap.imgDataStore) {
+    Object.assign(imgDataStore, snap.imgDataStore);
+  }
+
+  renderPage(state.currentPage);
+  toast('Undone (' + (state.history.length - 1) + ' left)');
+}
+
+// ── Helper: rasterise any image via <canvas> → PNG bytes for pdf-lib ───────
+function embedAsCanvas(pdfDoc, dataUrl, w, h) {
+  return new Promise((resolve, reject) => {
+    const tmpImg = new Image();
+    tmpImg.onload = async () => {
+      const c   = document.createElement('canvas');
+      c.width   = Math.round(w);
+      c.height  = Math.round(h);
+      c.getContext('2d').drawImage(tmpImg, 0, 0, c.width, c.height);
+      const pngUrl   = c.toDataURL('image/png');
+      const resp     = await fetch(pngUrl);
+      const pngBytes = await resp.arrayBuffer();
+      resolve(await pdfDoc.embedPng(pngBytes));
+    };
+    tmpImg.onerror = reject;
+    tmpImg.src = dataUrl;
+  });
+}
+
+// ── Saving ────────────────────────────────────────────────────────────────
+async function savePDF() {
+  if (!state.pdfBytes) return;
+  setStatus('Saving…');
+  try {
+    const { PDFDocument, rgb, StandardFonts } = PDFLib;
+    const pdfDoc = await PDFDocument.load(state.pdfBytes);
+    const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const pages = pdfDoc.getPages();
+
+    for (let i = 1; i <= state.totalPages; i++) {
+      const page     = pages[i - 1];
+      const { width, height } = page.getSize();
+
+      // Freehand paths — rasterize to image
+      const paths = state.drawPaths[i] || [];
+      if (paths.length) {
+        const tmp = document.createElement('canvas');
+        tmp.width  = width;
+        tmp.height = height;
+        const ctx  = tmp.getContext('2d');
+        paths.forEach(p => replayPath(ctx, p));
+        const dataUrl  = tmp.toDataURL('image/png');
+        const imgBytes = await fetch(dataUrl).then(r => r.arrayBuffer());
+        const img = await pdfDoc.embedPng(imgBytes);
+        page.drawImage(img, { x: 0, y: 0, width, height, opacity: 1 });
+      }
+
+      // DOM annotations (text + shapes)
+      const anns = state.annotations[i] || [];
+      const scale = 1 / state.zoom;
+
+      for (const el of anns) {
+        const $el  = $(el);
+        const l    = parseFloat($el.css('left'))  * scale;
+        const t    = parseFloat($el.css('top'))   * scale;
+        const pdfY = height - t;
+
+        if ($el.hasClass('ann-text') || $el.hasClass('ann-text-wrap')) {
+          // Handle both old-style .ann-text and new-style .ann-text-wrap
+          const textNode = $el.hasClass('ann-text-wrap') ? $el.find('.ann-text') : $el;
+          const txt = textNode.text() || '';
+          const fs  = (parseFloat(textNode.css('font-size')) || 16) * scale;
+          const col = hexToRgb(textNode.css('color') || '#111111');
+          if (txt.trim()) {
+            // Split by newlines to handle multi-line
+            const lines = txt.split('\n');
+            lines.forEach((line, idx) => {
+              if (!line.trim()) return;
+              page.drawText(line, {
+                x: l, y: pdfY - fs - (idx * fs * 1.4),
+                size: Math.max(6, fs),
+                font: helvetica,
+                color: rgb(col.r, col.g, col.b),
+                opacity: parseFloat(textNode.css('opacity')) || 1,
+              });
+            });
+          }
+        } else if ($el.hasClass('ann-highlight') || $el.hasClass('ann-shape')) {
+          const w   = parseFloat($el.css('width'))  * scale;
+          const h   = parseFloat($el.css('height')) * scale;
+
+          if ($el.hasClass('ann-highlight')) {
+            const col = hexToRgb($el.css('background-color') || '#e8c547');
+            page.drawRectangle({
+              x: l, y: pdfY - h, width: w, height: h,
+              color: rgb(col.r, col.g, col.b), opacity: 0.35,
+            });
+          } else {
+            // Read fill and stroke independently
+            const bgRaw  = $el.css('background-color') || 'transparent';
+            const hasFill = bgRaw !== 'transparent' && bgRaw !== 'rgba(0, 0, 0, 0)';
+            const bc     = hexToRgb($el.css('border-color') || '#ff5f6b');
+            const bw     = (parseFloat($el.css('border-width')) || 2) * scale;
+            const fillCol = hasFill ? hexToRgb(bgRaw) : null;
+            // Compute fill opacity from rgba if present
+            const fillOp  = hasFill ? parseCssAlpha(bgRaw) : 0;
+
+            if ($el.hasClass('circle')) {
+              page.drawEllipse({
+                x: l + w/2, y: pdfY - h/2,
+                xScale: w/2, yScale: h/2,
+                ...(hasFill ? { color: rgb(fillCol.r, fillCol.g, fillCol.b), opacity: fillOp } : {}),
+                borderColor: rgb(bc.r, bc.g, bc.b),
+                borderWidth: bw,
+              });
+            } else {
+              page.drawRectangle({
+                x: l, y: pdfY - h, width: w, height: h,
+                ...(hasFill ? { color: rgb(fillCol.r, fillCol.g, fillCol.b), opacity: fillOp } : {}),
+                borderColor: rgb(bc.r, bc.g, bc.b),
+                borderWidth: bw,
+              });
+            }
+          }
+
+        } else if ($el.hasClass('ann-image')) {
+          // ── Embed inserted image into the PDF ─────────────────────────
+          const imgId   = $el.attr('data-img-id');
+          const imgData = imgDataStore[imgId];
+          if (imgData) {
+            const w = parseFloat($el.css('width'))  * scale;
+            const h = parseFloat($el.css('height')) * scale;
+            try {
+              // Fetch the dataURL as an ArrayBuffer so pdf-lib can embed it
+              const resp     = await fetch(imgData.dataUrl);
+              const imgBytes = await resp.arrayBuffer();
+              let   pdfImg;
+              // pdf-lib supports PNG and JPEG natively
+              const mt = imgData.mimeType;
+              if (mt === 'image/jpeg' || mt === 'image/jpg') {
+                pdfImg = await pdfDoc.embedJpg(imgBytes);
+              } else {
+                // PNG, WebP, GIF, SVG — convert via off-screen canvas → PNG
+                pdfImg = await embedAsCanvas(pdfDoc, imgData.dataUrl, w, h);
+              }
+              page.drawImage(pdfImg, {
+                x: l, y: pdfY - h, width: w, height: h, opacity: 1,
+              });
+            } catch(imgErr) {
+              console.warn('Could not embed image:', imgErr);
+            }
+          }
+        }
+      }
+    }
+
+    const bytes = await pdfDoc.save();
+    const blob  = new Blob([bytes], { type: 'application/pdf' });
+    const url   = URL.createObjectURL(blob);
+    const a     = document.createElement('a');
+    a.href      = url;
+    a.download  = state.fileName.replace('.pdf', '') + '_edited.pdf';
+    a.click();
+    URL.revokeObjectURL(url);
+    setStatus('');
+    toast('PDF saved ✔');
+  } catch(err) {
+    setStatus('');
+    toast('Save error: ' + err.message, 'error');
+    console.error(err);
+  }
+}
+
+function parseCssAlpha(cssColor) {
+  // Extract alpha from rgba(r,g,b,a) string, default 1
+  const m = cssColor.match(/rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(?:,\s*([\d.]+))?\s*\)/);
+  return m && m[1] !== undefined ? parseFloat(m[1]) : 1;
+}
+
+function hexToRgb(cssColor) {
+  // handles hex and rgb() formats
+  if (cssColor.startsWith('#')) {
+    const r = parseInt(cssColor.slice(1,3),16)/255;
+    const g = parseInt(cssColor.slice(3,5),16)/255;
+    const b = parseInt(cssColor.slice(5,7),16)/255;
+    return { r, g, b };
+  }
+  const m = cssColor.match(/\d+/g);
+  if (m) return { r: +m[0]/255, g: +m[1]/255, b: +m[2]/255 };
+  return { r: 0, g: 0, b: 0 };
+}
+
+// ── Zoom ──────────────────────────────────────────────────────────────────
+function setZoom(z) {
+  state.zoom = Math.max(0.3, Math.min(3.0, z));
+  renderPage(state.currentPage);
+}
+$('#zoom-in').on('click', () => setZoom(state.zoom + 0.15));
+$('#zoom-out').on('click', () => setZoom(state.zoom - 0.15));
+$('#zoom-fit').on('click', () => {
+  const wrap = $('#canvas-wrap');
+  const pad  = 56;
+  state.pdf.getPage(state.currentPage).then(page => {
+    const vp = page.getViewport({ scale: 1 });
+    const z  = Math.min((wrap.width() - pad) / vp.width, (wrap.height() - pad) / vp.height);
+    setZoom(z);
+  });
+});
+
+// Mouse-wheel zoom
+$('#canvas-wrap').on('wheel', function(e) {
+  if (!e.ctrlKey && !e.metaKey) return;
+  e.preventDefault();
+  setZoom(state.zoom + (e.originalEvent.deltaY < 0 ? 0.1 : -0.1));
+}, { passive: false });
+
+// ── Rotation ──────────────────────────────────────────────────────────────
+$('#btn-rotate-cw').on('click', () => {
+  state.rotations[state.currentPage] = ((state.rotations[state.currentPage] || 0) + 90) % 360;
+  renderPage(state.currentPage);
+  toast('Rotated 90° CW');
+});
+$('#btn-rotate-ccw').on('click', () => {
+  state.rotations[state.currentPage] = ((state.rotations[state.currentPage] || 0) + 270) % 360;
+  renderPage(state.currentPage);
+  toast('Rotated 90° CCW');
+});
+
+// ── Image insertion ──────────────────────────────────────────────────────────
+
+// Store image data-URLs keyed by annotation element id so we can
+// embed them into the PDF on save without re-reading the file.
+const imgDataStore = {};   // { annId: dataURL }
+let   imgIdCounter  = 0;
+
+function insertImageFromDataUrl(dataUrl, mimeType) {
+  if (!state.pdf) { toast('Open a PDF first', 'error'); return; }
+
+  const annId = 'img-' + (++imgIdCounter);
+  imgDataStore[annId] = { dataUrl, mimeType };
+
+  // Default size: 200×200, user can resize
+  const defaultW = 200;
+  const defaultH = 200;
+
+  // Place near centre of visible canvas area
+  const wrap   = $('#canvas-wrap');
+  const cont   = $('#canvas-container');
+  const contOff = cont.offset();
+  const wrapOff = wrap.offset();
+  const cx = (wrap.width()  / 2) - (defaultW / 2);
+  const cy = (wrap.height() / 2) - (defaultH / 2);
+
+  const el = $('<div class="annotation ann-image">')
+    .attr('data-img-id', annId)
+    .css({ left: cx, top: cy, width: defaultW, height: defaultH });
+
+  const img = $('<img>').attr('src', dataUrl).attr('draggable', 'false');
+  const handle = $('<div class="img-resize-handle"><i class="bi bi-arrows-angle-expand"></i></div>');
+  el.append(img).append(handle);
+
+  // ── Resize handle ───────────────────────────────────────────────────
+  handle.on('mousedown', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startW = el.width();
+    const startH = el.height();
+
+    $(document).on('mousemove.resize', function(e) {
+      const newW = Math.max(40, startW + (e.clientX - startX));
+      const newH = Math.max(40, startH + (e.clientY - startY));
+      el.css({ width: newW, height: newH });
+    });
+    $(document).on('mouseup.resize', function() {
+      $(document).off('.resize');
+    });
+  });
+
+  makeMovable(el);
+  addAnnotation(el);
+  toast('Image inserted — drag to move, corner to resize');
+}
+
+// Button click → trigger file picker
+$('#btn-insert-image').on('click', function() {
+  if (!state.pdf) { toast('Open a PDF first', 'error'); return; }
+  $('#img-file-input').val('').click();
+});
+
+// File selected → read as dataURL → insert
+$('#img-file-input').on('change', function() {
+  const file = this.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) {
+    toast('Image too large (max 10 MB)', 'error'); return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => insertImageFromDataUrl(e.target.result, file.type);
+  reader.readAsDataURL(file);
+  this.value = '';
+});
+
+// ── Tool switching ────────────────────────────────────────────────────────
+$('.tool-btn[data-tool]').on('click', function() {
+  const tool = $(this).data('tool');
+  state.tool = tool;
+  $('.tool-btn[data-tool]').removeClass('active');
+  $(this).addClass('active');
+  $('#cur-tool-status').text('Tool: ' + $(this).text().trim());
+
+  const layer = $('#annotation-layer');
+  // Reset all pointer-event states
+  layer.removeClass('draw-mode text-mode erase-mode');
+  $('#draw-canvas').removeClass('active').css('pointer-events', 'none');
+  layer.css('pointer-events', 'none');
+
+  if (tool === 'draw') {
+    // Freehand: only draw-canvas gets events
+    $('#draw-canvas').addClass('active').css('pointer-events', 'all');
+  } else if (tool === 'text') {
+    layer.addClass('text-mode').css('pointer-events', 'all');
+  } else if (tool === 'erase') {
+    layer.addClass('erase-mode').css('pointer-events', 'all');
+  } else if (['rect','circle','highlight'].includes(tool)) {
+    layer.addClass('draw-mode').css('pointer-events', 'all');
+  } else if (tool === 'select') {
+    layer.css('pointer-events', 'all');
+  }
+});
+
+// ══════════════════════════════════════════════════════════════════════════
+// PAINT-STYLE COLOR SYSTEM
+// state.fillColor  → background of shapes (rgba or 'transparent')
+// state.strokeColor → border color of shapes / pen color for draw/text
+// state.noFill     → if true, shapes have transparent background
+// ══════════════════════════════════════════════════════════════════════════
+
+// Extended palette — 40 colors
+const PALETTE = [
+  '#000000','#1a1a2e','#16213e','#0f3460','#1e3a5f','#2d4a7a',
+  '#ffffff','#f8f9fa','#e9ecef','#dee2e6','#adb5bd','#6c757d',
+  '#e8c547','#ffd166','#f4a261','#e76f51','#e63946','#c1121f',
+  '#ff914d','#fb5607','#ff006e','#8338ec','#a78bfa','#7c3aed',
+  '#4ade9a','#06d6a0','#2ec4b6','#3a86ff','#5b8dee','#4361ee',
+  '#48cae4','#00b4d8','#0096c7','#023e8a','#10002b','#240046',
+  '#f72585','#b5179e','#7209b7','#560bad',
+];
+
+function buildPalette() {
+  const grid = $('#color-palette');
+  grid.empty();
+  PALETTE.forEach(hex => {
+    const dot = $('<div>')
+      .css({
+        width: '20px', height: '20px', borderRadius: '4px',
+        background: hex, cursor: 'pointer',
+        border: '1.5px solid transparent',
+        transition: 'transform .1s, border-color .1s',
+      })
+      .attr('title', hex)
+      .attr('data-color', hex);
+    if (hex === '#ffffff' || hex === '#f8f9fa' || hex === '#e9ecef' || hex === '#dee2e6')
+      dot.css('border-color', '#555');
+    dot.on('click', function() {
+      const c = $(this).data('color');
+      if (state.activeColorTarget === 'stroke') {
+        applyStrokeColor(c);
+      } else {
+        applyFillColor(c);
+      }
+    });
+    dot.on('mouseenter', function() { $(this).css('transform','scale(1.2)'); });
+    dot.on('mouseleave', function() { $(this).css('transform','scale(1)'); });
+    grid.append(dot);
+  });
+}
+
+// Which swatch is "selected" — clicking palette applies to this target
+state.activeColorTarget = 'fill';   // 'fill' | 'stroke'
+state.fillColor   = 'rgba(255,95,107,0.2)';
+state.strokeColor = '#ff5f6b';
+state.noFill      = false;
+// keep state.color for backward compat (draw/text use strokeColor)
+state.color = state.strokeColor;
+
+function applyFillColor(hex) {
+  state.noFill    = false;
+  state.fillColor = hexToRgba(hex, state.opacity);
+  state.color     = hex;
+  updateSwatches();
+  // Sync custom picker
+  $('#custom-color-picker').val(hex);
+  $('#custom-hex-display').text(hex);
+  $('#fill-transparent-indicator').hide();
+}
+
+function applyStrokeColor(hex) {
+  state.strokeColor = hex;
+  state.color       = hex;
+  updateSwatches();
+  $('#custom-color-picker').val(hex);
+  $('#custom-hex-display').text(hex);
+}
+
+function applyNoFill() {
+  state.noFill    = true;
+  state.fillColor = 'transparent';
+  updateSwatches();
+}
+
+function hexToRgba(hex, alpha) {
+  // hex can be shorthand #rgb or full #rrggbb
+  let r = parseInt(hex.slice(1,3)||'00', 16);
+  let g = parseInt(hex.slice(3,5)||'00', 16);
+  let b = parseInt(hex.slice(5,7)||'00', 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function updateSwatches() {
+  // Fill swatch
+  if (state.noFill) {
+    $('#swatch-fill').css('background', 'transparent');
+    $('#fill-transparent-indicator').show();
+    $('#btn-no-fill').css({ background: 'var(--accent-dim)', color: 'var(--accent)', borderColor: 'var(--accent)' });
+  } else {
+    $('#swatch-fill').css('background', state.fillColor);
+    $('#fill-transparent-indicator').hide();
+    $('#btn-no-fill').css({ background: 'var(--surface2)', color: 'var(--text2)', borderColor: 'var(--border2)' });
+  }
+  // Stroke swatch
+  $('#swatch-stroke').css('border-color', state.strokeColor);
+  // Highlight active target
+  $('#swatch-fill').css('box-shadow',   state.activeColorTarget === 'fill'   ? '0 0 0 2px var(--accent)' : 'none');
+  $('#swatch-stroke').css('box-shadow', state.activeColorTarget === 'stroke' ? '0 0 0 2px var(--accent)' : 'none');
+}
+
+// Swatch clicks → set active target
+$('#swatch-fill').on('click', function() {
+  state.activeColorTarget = 'fill';
+  updateSwatches();
+});
+$('#swatch-stroke').on('click', function() {
+  state.activeColorTarget = 'stroke';
+  updateSwatches();
+});
+$('#btn-no-fill').on('click', function() {
+  applyNoFill();
+});
+
+// Native color input (fill)
+$('#fill-color-input').on('input change', function() {
+  applyFillColor(this.value);
+});
+$('#swatch-fill').on('dblclick', function() {
+  $('#fill-color-input').click();
+});
+
+// Native color input (stroke)
+$('#stroke-color-input').on('input change', function() {
+  applyStrokeColor(this.value);
+});
+$('#swatch-stroke').on('dblclick', function() {
+  $('#stroke-color-input').click();
+});
+
+// Custom picker
+$('#custom-color-picker').on('input change', function() {
+  const hex = this.value;
+  $('#custom-hex-display').text(hex);
+});
+$('#btn-apply-custom-fill').on('click', function() {
+  applyFillColor($('#custom-color-picker').val());
+});
+$('#btn-apply-custom-stroke').on('click', function() {
+  applyStrokeColor($('#custom-color-picker').val());
+});
+
+// Build palette on init
+buildPalette();
+updateSwatches();
+
+// ── Stroke width / opacity / font-size ───────────────────────────────────
+$('#stroke-width').on('input', function() {
+  state.strokeWidth = +$(this).val();
+  $('#stroke-width-val').text(state.strokeWidth);
+});
+$('#opacity-val').on('input', function() {
+  state.opacity = +$(this).val() / 100;
+  $('#opacity-val-label').text($(this).val() + '%');
+  // Update fill with new opacity if not transparent
+  if (!state.noFill) {
+    state.fillColor = hexToRgba(state.color, state.opacity);
+    updateSwatches();
+  }
+});
+$('#font-size').on('change', function() { state.fontSize = +$(this).val(); });
+
+// ── Shortcuts modal ──────────────────────────────────────────────────────────
+function openShortcutsModal() {
+  $('#shortcuts-modal-backdrop').addClass('open');
+  // prevent body scroll while modal open
+  $('body').css('overflow', 'hidden');
+}
+function closeShortcutsModal() {
+  $('#shortcuts-modal-backdrop').removeClass('open');
+  $('body').css('overflow', '');
+}
+
+$('#btn-shortcuts, #btn-shortcuts-panel').on('click', openShortcutsModal);
+$('#shortcuts-modal-close, #shortcuts-modal-close-btn').on('click', closeShortcutsModal);
+
+// Close on backdrop click
+$('#shortcuts-modal-backdrop').on('click', function(e) {
+  if (e.target === this) closeShortcutsModal();
+});
+
+// Hover style for panel button
+$('#btn-shortcuts-panel').on('mouseenter', function() {
+  $(this).css({ color: 'var(--accent)', borderColor: 'var(--accent)', background: 'var(--accent-dim)' });
+}).on('mouseleave', function() {
+  $(this).css({ color: 'var(--text2)', borderColor: 'var(--border2)', background: 'var(--surface2)' });
+});
+
+// ── Page navigation ───────────────────────────────────────────────────────
+$('#prev-page').on('click', () => renderPage(state.currentPage - 1));
+$('#next-page').on('click', () => renderPage(state.currentPage + 1));
+
+$(document).on('keydown', e => {
+  if ($(e.target).is('input,textarea,[contenteditable]')) return;
+  const ctrl = e.ctrlKey || e.metaKey;
+
+  // ── Global shortcuts (always active) ────────────────────────────────
+  if (ctrl && e.key === 'z') { e.preventDefault(); undo(); return; }
+  if (ctrl && e.key === 's') { e.preventDefault(); if (state.pdf) savePDF(); return; }
+  if (ctrl && e.key === 'o') { e.preventDefault(); $('#file-input').click(); return; }
+
+  if (!state.pdf) return;
+
+  // ── Page navigation ──────────────────────────────────────────────────
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')
+    renderPage(Math.max(1, state.currentPage - 1));
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown')
+    renderPage(Math.min(state.totalPages, state.currentPage + 1));
+
+  // ── Zoom ─────────────────────────────────────────────────────────────
+  if (e.key === '=' || e.key === '+') { e.preventDefault(); setZoom(state.zoom + 0.15); }
+  if (e.key === '-')                  { e.preventDefault(); setZoom(state.zoom - 0.15); }
+  if (e.key === '0')                  { e.preventDefault(); $('#zoom-fit').click(); }
+
+  // ── Tool shortcuts ───────────────────────────────────────────────────
+  const toolMap = {
+    'v': 'select', 'V': 'select',
+    't': 'text',   'T': 'text',
+    'd': 'draw',   'D': 'draw',
+    'r': 'rect',   'R': 'rect',
+    'c': 'circle', 'C': 'circle',
+    'h': 'highlight','H':'highlight',
+    'e': 'erase',  'E': 'erase',
+    'i': 'image',  'I': 'image',
+  };
+  if (!ctrl && toolMap[e.key]) {
+    e.preventDefault();
+    if (e.key.toLowerCase() === 'i') {
+      $('#btn-insert-image').click();
+    } else {
+      $(`.tool-btn[data-tool="${toolMap[e.key]}"]`).click();
+    }
+    return;
+  }
+
+  // ── Delete selected annotation (Del / Backspace) ──────────────────
+  // ── Shortcuts modal toggle ──────────────────────────────────────────
+  if (e.key === '?' || e.key === '/') { e.preventDefault(); openShortcutsModal(); return; }
+  if (e.key === 'Escape') { closeShortcutsModal(); return; }
+
+  // ── First / last page ────────────────────────────────────────────────
+  if (ctrl && e.key === 'Home') { e.preventDefault(); renderPage(1); return; }
+  if (ctrl && e.key === 'End')  { e.preventDefault(); renderPage(state.totalPages); return; }
+
+  // ── Delete selected annotation ───────────────────────────────────────
+  if ((e.key === 'Delete' || e.key === 'Backspace') && state.selectedAnn) {
+    $(state.selectedAnn).find('.ann-del').click();
+    state.selectedAnn = null;
+  }
+});
+
+// Sidebar page click
+$(document).on('click', '.page-thumb', function(e) {
+  if ($(e.target).closest('.del-page').length) return;
+  renderPage(+$(this).data('page'));
+});
+
+// Delete page
+$(document).on('click', '.del-page', async function(e) {
+  e.stopPropagation();
+  if (state.totalPages <= 1) { toast('Cannot delete only page', 'error'); return; }
+  const pageNum = +$(this).closest('.page-thumb').data('page');
+  const { PDFDocument } = PDFLib;
+  const doc = await PDFDocument.load(state.pdfBytes);
+  doc.removePage(pageNum - 1);
+  state.pdfBytes    = await doc.save();
+  state.pdf         = await pdfjsLib.getDocument({ data: state.pdfBytes.slice() }).promise;
+  state.totalPages  = state.pdf.numPages;
+  state.currentPage = Math.min(state.currentPage, state.totalPages);
+  await buildSidebar();
+  await renderPage(state.currentPage);
+  toast('Page ' + pageNum + ' deleted');
+});
+
+// ── Clear / Undo ──────────────────────────────────────────────────────────
+$('#btn-clear-ann').on('click', () => {
+  saveHistory();
+  state.annotations[state.currentPage] = [];
+  state.drawPaths[state.currentPage]   = [];
+  renderPage(state.currentPage);
+  toast('Page annotations cleared');
+});
+$('#btn-undo').on('click', undo);
+
+// ── Open / Save ───────────────────────────────────────────────────────────
+$('#btn-open, #btn-drop-open').on('click', () => $('#file-input').click());
+$('#file-input').on('change', function() {
+  if (this.files[0]) loadPDF(this.files[0]);
+  this.value = '';
+});
+
+$('#btn-save').on('click', savePDF);
+
+$('#btn-close-pdf').on('click', () => {
+  state.pdf = null; state.pdfBytes = null;
+  state.annotations = {}; state.drawPaths = {};
+  $('#drop-zone').removeClass('hidden');
+  $('#canvas-container').addClass('hidden');
+  $('#file-name-badge').text('No file');
+  $('#stat-pages').text('0'); $('#stat-anns').text('0'); $('#stat-size').text('—');
+  $('#btn-save').prop('disabled', true);
+  $('#page-list').empty(); $('#page-count-badge').text('0');
+  $('#page-indicator').text('—');
+});
+
+// ── Drag & drop ───────────────────────────────────────────────────────────
+const dropZone = document.getElementById('drop-zone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); $(dropZone).addClass('drag-over'); });
+dropZone.addEventListener('dragleave', ()  => $(dropZone).removeClass('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  $(dropZone).removeClass('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type === 'application/pdf') loadPDF(file);
+  else toast('Please drop a PDF file', 'error');
+});
+
+// ── Cursor position ───────────────────────────────────────────────────────
+$('#canvas-container').on('mousemove', function(e) {
+  const off = $(this).offset();
+  const x   = Math.round((e.clientX - off.left) / state.zoom);
+  const y   = Math.round((e.clientY - off.top)  / state.zoom);
+  $('#cursor-pos').text(`x: ${x}  y: ${y}`);
+});
+
+} // end setupApp
+</script>
+</body>
+</html>
