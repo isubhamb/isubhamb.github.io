@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YourFreeDocs 免费在线PDF编辑器使用指南 — 完整教程 2025</title>
+  <meta name="description" content="完整的YourFreeDocs免费在线PDF编辑器使用教程。学习如何在浏览器中注释、绘图、高亮、填写表单和签署PDF。无需下载或注册。" />
+  <meta name="keywords" content="免费PDF编辑器, 在线PDF编辑, PDF高亮, PDF添加文字, 免费PDF工具, 在线PDF注释教程" />
+  <meta name="author" content="YourFreeDocs" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://yourfreedocs.com/zh/pdf-editor-tutorial-zh.html" />
+
+  <!-- hreflang alternates -->
+  <link rel="alternate" hreflang="en"      href="https://yourfreedocs.com/pdf-editor-tutorial.html" />
+  <link rel="alternate" hreflang="bn"      href="https://yourfreedocs.com/bn/pdf-editor-tutorial-bn.html" />
+  <link rel="alternate" hreflang="hi"      href="https://yourfreedocs.com/hi/pdf-editor-tutorial-hi.html" />
+  <link rel="alternate" hreflang="zh-Hans" href="https://yourfreedocs.com/zh/pdf-editor-tutorial-zh.html" />
+  <link rel="alternate" hreflang="ja"      href="https://yourfreedocs.com/ja/pdf-editor-tutorial-ja.html" />
+  <link rel="alternate" hreflang="x-default" href="https://yourfreedocs.com/pdf-editor-tutorial.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="YourFreeDocs 免费在线PDF编辑器使用指南 — 完整教程 2025" />
+  <meta property="og:description" content="完整的YourFreeDocs免费在线PDF编辑器使用教程。学习如何在浏览器中注释、绘图、高亮、填写表单和签署PDF。无需下载或注册。" />
+  <meta property="og:url" content="https://yourfreedocs.com/zh/pdf-editor-tutorial-zh.html" />
+  <meta property="og:image" content="https://yourfreedocs.com/og-image.png" />
+  <meta property="og:site_name" content="YourFreeDocs" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32x32.png" />
+  <link rel="shortcut icon" href="../favicon.ico" />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "YourFreeDocs 免费在线PDF编辑器使用指南 — 完整教程 2025",
+    "description": "完整的YourFreeDocs免费在线PDF编辑器使用教程。学习如何在浏览器中注释、绘图、高亮、填写表单和签署PDF。无需下载或注册。",
+    "url": "https://yourfreedocs.com/zh/pdf-editor-tutorial-zh.html",
+    "image": "https://yourfreedocs.com/og-image.png",
+    "inLanguage": "zh-Hans",
+    "publisher": {"@type": "Organization", "name": "YourFreeDocs", "url": "https://yourfreedocs.com/"}
+  }
+  </script>
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --blue:       #2f6ee0;
+      --blue2:      #4a84f5;
+      --blue-dim:   rgba(47,110,224,.10);
+      --blue-glow:  rgba(47,110,224,.20);
+      --bg:         #f4f7fd;
+      --white:      #ffffff;
+      --border:     #dde3f5;
+      --text:       #1a1c2e;
+      --text2:      #4a5068;
+      --text3:      #8890b0;
+      --green:      #1da462;
+      --red:        #e03545;
+      --mono:       'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    /* ── Sticky nav ── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(47,110,224,.07);
+    }
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--blue);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--text2); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text2);
+      text-decoration: none;
+      transition: color .15s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta {
+      background: var(--blue);
+      color: #fff !important;
+      padding: 7px 18px;
+      border-radius: 7px;
+      transition: background .15s, box-shadow .15s !important;
+    }
+    .nav-cta:hover { background: var(--blue2) !important; box-shadow: 0 4px 14px var(--blue-glow); }
+
+    /* ── Layout ── */
+    .page-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 56px 0 48px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--blue-dim);
+      border: 1px solid var(--blue-glow);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 99px;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+    .hero h1 em { font-style: normal; color: var(--blue); }
+    .hero-sub {
+      font-size: 17px;
+      color: var(--text2);
+      max-width: 620px;
+      margin: 0 auto 28px;
+    }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      font-size: 13px;
+      color: var(--text3);
+      flex-wrap: wrap;
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 5px; }
+    .hero-meta i { color: var(--blue); }
+
+    /* ── TOC ── */
+    .toc-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin-bottom: 48px;
+      box-shadow: 0 2px 16px rgba(47,110,224,.06);
+    }
+    .toc-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toc-title i { color: var(--blue); }
+    .toc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 24px;
+    }
+    .toc-grid a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--blue);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 0;
+      border-bottom: 1px solid transparent;
+      transition: border-color .15s;
+    }
+    .toc-grid a:hover { border-color: var(--blue-glow); }
+    .toc-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      background: var(--blue-dim);
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Article sections ── */
+    .section {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 40px;
+      margin-bottom: 32px;
+      box-shadow: 0 2px 16px rgba(47,110,224,.05);
+      scroll-margin-top: 72px;
+    }
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--blue-dim);
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+    }
+    .section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+    .section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 28px 0 10px;
+    }
+    .section p {
+      color: var(--text2);
+      margin-bottom: 16px;
+    }
+    .section p strong { color: var(--text); }
+    .section ul, .section ol {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+    .section li {
+      color: var(--text2);
+      margin-bottom: 6px;
+    }
+    .section li strong { color: var(--text); }
+
+    /* ── Screenshot mockup ── */
+    .mockup {
+      background: #f0f4fb;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 24px 0;
+      box-shadow: 0 4px 24px rgba(47,110,224,.09);
+    }
+    .mockup-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text3);
+    }
+    .mockup-dots { display: flex; gap: 5px; }
+    .mockup-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .mockup-dot.r { background: #ff6058; }
+    .mockup-dot.y { background: #ffbd2e; }
+    .mockup-dot.g { background: #28ca41; }
+    .mockup-url {
+      flex: 1;
+      background: #f4f6fd;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 4px 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text2);
+    }
+    .mockup-body { padding: 0; }
+
+    /* ── App toolbar mockup ── */
+    .app-topbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 16px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+    .app-brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--blue);
+    }
+    .app-brand span { color: var(--text2); }
+    .app-badge {
+      background: var(--blue-dim);
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 99px;
+      border: 1px solid var(--blue-glow);
+    }
+    .app-sep { width: 1px; height: 18px; background: var(--border); }
+    .app-spacer { flex: 1; }
+    .app-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #f4f6fd;
+      color: var(--text2);
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .app-btn.primary {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    .app-toolbar {
+      background: #f4f6fd;
+      border-bottom: 1px solid var(--border);
+      padding: 0 14px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+    }
+    .tool-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text2);
+      background: transparent;
+      white-space: nowrap;
+      cursor: default;
+    }
+    .tool-pill.active {
+      background: var(--blue-dim);
+      color: var(--blue);
+    }
+    .tool-pill i { font-size: 12px; }
+    .tsep { width: 1px; height: 16px; background: var(--border); margin: 0 2px; }
+
+    .app-workspace {
+      display: flex;
+      height: 220px;
+    }
+    .app-sidebar {
+      width: 110px;
+      background: #fff;
+      border-right: 1px solid var(--border);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .thumb {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 5px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--text3);
+      position: relative;
+    }
+    .thumb.active { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue-dim); }
+    .thumb-num {
+      position: absolute;
+      bottom: 3px; right: 5px;
+      font-size: 8px;
+      font-family: var(--mono);
+      color: var(--text3);
+    }
+    .app-canvas {
+      flex: 1;
+      background: #e8edf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .pdf-page-mock {
+      width: 180px;
+      height: 200px;
+      background: #fff;
+      border-radius: 3px;
+      box-shadow: 0 8px 32px rgba(47,110,224,.15);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pdf-line {
+      height: 6px;
+      border-radius: 3px;
+      background: #e8edf8;
+      margin-bottom: 6px;
+    }
+    .pdf-line.short { width: 60%; }
+    .pdf-line.med   { width: 80%; }
+    .pdf-line.full  { width: 100%; }
+    .ann-demo {
+      position: absolute;
+      border-radius: 3px;
+    }
+    .ann-text-demo {
+      top: 20px; left: 12px;
+      border: 1.5px solid var(--blue);
+      padding: 3px 6px;
+      font-size: 9px;
+      color: var(--blue);
+      background: rgba(47,110,224,.05);
+      border-radius: 3px;
+    }
+    .ann-highlight-demo {
+      top: 55px; left: 12px;
+      width: 100px; height: 10px;
+      background: rgba(255,220,0,.45);
+      border-radius: 2px;
+    }
+    .ann-rect-demo {
+      top: 80px; left: 40px;
+      width: 80px; height: 44px;
+      border: 2px solid var(--red);
+      background: rgba(224,53,69,.06);
+      border-radius: 3px;
+    }
+    .ann-draw-demo {
+      bottom: 20px; left: 8px;
+      width: 90px; height: 30px;
+    }
+    .app-panel {
+      width: 160px;
+      background: #fff;
+      border-left: 1px solid var(--border);
+      padding: 10px;
+    }
+    .panel-row {
+      margin-bottom: 10px;
+    }
+    .panel-lbl {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 5px;
+    }
+    .color-dots-row { display: flex; gap: 4px; }
+    .cdot {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+    }
+    .swatch-row { display: flex; gap: 6px; align-items: center; }
+    .swatch {
+      width: 26px; height: 26px;
+      border-radius: 5px;
+      border: 2px solid var(--border);
+    }
+
+    /* ── Step boxes ── */
+    .steps { display: flex; flex-direction: column; gap: 16px; margin: 20px 0; }
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .step-num {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-content h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .step-content p {
+      font-size: 14px;
+      color: var(--text2);
+      margin: 0;
+    }
+
+    /* ── Feature grid ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .feature-card {
+      background: #f4f7fd;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .feature-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 16px var(--blue-dim);
+    }
+    .fc-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: var(--blue-dim);
+      color: var(--blue);
+      font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 10px;
+    }
+    .fc-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .fc-desc  { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+    /* ── Kbd shortcut table ── */
+    .kbd-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 24px;
+      margin: 16px 0;
+    }
+    .kbd-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .kbd-desc { color: var(--text2); }
+    .kbd-keys { display: flex; gap: 3px; }
+    .k {
+      display: inline-flex;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: #f4f6fd;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text);
+      box-shadow: 0 1px 0 var(--border);
+    }
+
+    /* ── Tips ── */
+    .tip-box {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: var(--blue-dim);
+      border: 1px solid var(--blue-glow);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 20px 0;
+    }
+    .tip-box i { color: var(--blue); font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+    .tip-box p { font-size: 13px; color: var(--text); margin: 0; line-height: 1.6; }
+
+    .warn-box {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: rgba(255,220,0,.12);
+      border: 1px solid rgba(200,160,0,.25);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 20px 0;
+    }
+    .warn-box i { color: #b38600; font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+    .warn-box p { font-size: 13px; color: var(--text); margin: 0; line-height: 1.6; }
+
+    /* ── CTA strip ── */
+    .cta-strip {
+      background: linear-gradient(135deg, var(--blue) 0%, #4a84f5 100%);
+      border-radius: 16px;
+      padding: 40px 40px;
+      text-align: center;
+      color: #fff;
+      margin: 48px 0 32px;
+    }
+    .cta-strip h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .cta-strip p { font-size: 15px; opacity: .88; margin-bottom: 24px; }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 12px 28px;
+      border-radius: 9px;
+      text-decoration: none;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+
+    /* ── Internal links strip ── */
+    .related-strip {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin-bottom: 32px;
+    }
+    .related-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+    .related-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .related-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--blue-dim);
+      border: 1px solid var(--blue-glow);
+      padding: 5px 12px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .related-link:hover { background: rgba(47,110,224,.18); }
+
+    /* ── FAQ ── */
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      display: flex;
+      gap: 10px;
+    }
+    .faq-q i { color: var(--blue); flex-shrink: 0; margin-top: 2px; }
+    .faq-a { font-size: 14px; color: var(--text2); padding-left: 26px; }
+    .faq-a a { color: var(--blue); text-decoration: none; }
+    .faq-a a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      padding: 32px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text3);
+    }
+    .site-footer a { color: var(--blue); text-decoration: none; }
+    .site-footer a:hover { text-decoration: underline; }
+
+    /* ── Highlight ── */
+    .hl { color: var(--blue); font-weight: 700; }
+
+    @media (max-width: 640px) {
+      .section { padding: 24px 20px; }
+      .toc-grid { grid-template-columns: 1fr; }
+      .kbd-grid { grid-template-columns: 1fr; }
+      .app-workspace { height: 160px; }
+      .app-panel { display: none; }
+      .pdf-page-mock { width: 130px; height: 150px; }
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links .hide-mob { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="site-nav">
+  <a href="https://yourfreedocs.com/zh/" class="nav-brand">YourFree<span>Docs</span></a>
+  <div class="nav-links">
+    <a href="https://yourfreedocs.com/zh/" class="hide-mob">PDF Editor</a>
+    <a href="https://yourfreedocs.com/zh/#converters" class="hide-mob">Converters</a>
+    <a href="https://yourfreedocs.com/zh/" class="nav-cta"><i class="bi bi-pencil-square"></i> Open Free</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+    <header class="hero">
+      <div class="hero-badge"><i class="bi bi-book-half"></i> 完整教程 2025</div>
+      <h1>免费<em>在线PDF编辑器</em>使用指南 — 完整教程</h1>
+      <p class="hero-sub">直接在浏览器中编辑、注释、绘图、高亮、填写表单和签署PDF — 无需下载，无需注册，完全免费。</p>
+      <div class="hero-meta">
+        <span><i class="bi bi-clock"></i> 阅读约8分钟</span>
+        <span><i class="bi bi-calendar3"></i> 2025年6月更新</span>
+        <span><i class="bi bi-shield-check"></i> 100%浏览器处理，无需上传</span>
+        <span><i class="bi bi-star-fill"></i> 免费 — 无水印，无需登录</span>
+      </div>
+    </header>
+
+    <section class="section" id="what-is">
+      <div class="section-badge"><i class="bi bi-info-circle"></i> 简介</div>
+      <h2>YourFreeDocs PDF编辑器是什么？</h2>
+      <p><strong>YourFreeDocs</strong> 是一款完全在您的网络浏览器中运行的<strong>免费在线PDF编辑器</strong>。您可以<strong>在线免费为PDF添加注释</strong>、输入文字、高亮内容、插入图片并保存更改 — 无需安装任何软件或创建账户。</p>
+      <p>这是真正的<strong>无需注册的免费PDF编辑器</strong> — 您的文件永远不会离开您的设备。</p>
+      <div class="feature-grid">
+        <div class="feature-card"><div class="fc-icon"><i class="bi bi-shield-lock"></i></div><div class="fc-title">100%隐私保护</div><div class="fc-desc">文件不会上传到任何服务器，所有内容保留在您的设备上。</div></div>
+        <div class="feature-card"><div class="fc-icon"><i class="bi bi-tag"></i></div><div class="fc-title">完全免费</div><div class="fc-desc">无隐藏收费，无水印。</div></div>
+        <div class="feature-card"><div class="fc-icon"><i class="bi bi-person-x"></i></div><div class="fc-title">无需注册</div><div class="fc-desc">打开编辑器即可立即开始使用。</div></div>
+        <div class="feature-card"><div class="fc-icon"><i class="bi bi-phone"></i></div><div class="fc-title">支持手机</div><div class="fc-desc">在任何智能手机或平板浏览器上均可使用完整编辑器。</div></div>
+      </div>
+    </section>
+
+    <section class="section" id="open-pdf">
+      <div class="section-badge"><i class="bi bi-folder2-open"></i> 开始使用</div>
+      <h2>如何打开PDF文件</h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-content"><h4>拖放文件</h4><p>从电脑中将PDF文件拖放到首页的大拖放区域。</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-content"><h4>浏览文件</h4><p>点击<strong>浏览 PDF</strong>或<strong>打开 PDF</strong>按钮，从文件选择器中选择PDF。</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-content"><h4>键盘快捷键</h4><p>随时按<kbd>Ctrl + O</kbd>打开文件选择器。</p></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="text-tool">
+      <div class="section-badge"><i class="bi bi-fonts"></i> 工具指南</div>
+      <h2>如何在PDF中添加文字</h2>
+      <p><strong>文字工具</strong>可让您在PDF任意位置免费添加文字 — 选择字体、大小和颜色。</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-content"><h4>点击文字工具（或按<kbd>T</kbd>）</h4><p>颜色选择器弹窗将出现。选择文字颜色。</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-content"><h4>点击PDF上的任意位置</h4><p>文字框将出现，立即开始输入。</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-content"><h4>使用浮动工具栏</h4><p><strong>粗体</strong>、<em>斜体</em>、<u>下划线</u>、字体大小(+/−)和对齐方式。</p></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-content"><h4>点击外部固定 — 拖动</h4><p>点击外部固定文字框。在<strong>选择</strong>模式下拖动到任意位置。</p></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="draw-tool">
+      <div class="section-badge"><i class="bi bi-pen"></i> 工具指南</div>
+      <h2>如何在PDF上手绘</h2>
+      <p><strong>绘制工具</strong>提供自由手写笔 — 圈出内容、手动下划线或手写签名。</p>
+      <div class="tip-box"><i class="bi bi-lightbulb-fill"></i><p><strong>PDF签名：</strong>使用绘制工具直接在PDF上手写签名。这是无需任何第三方服务<strong>免费在线PDF电子签名</strong>的最简单方式。</p></div>
+    </section>
+
+    <section class="section" id="save-pdf">
+      <div class="section-badge"><i class="bi bi-download"></i> 保存</div>
+      <h2>如何保存和下载编辑后的PDF</h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-content"><h4>点击右上角"保存 PDF"或按<kbd>Ctrl + S</kbd></h4><p>所有注释都将嵌入PDF文件。</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-content"><h4>PDF自动下载</h4><p>文件以原始名称保存。</p></div></div>
+      </div>
+      <div class="tip-box"><i class="bi bi-lightbulb-fill"></i><p><strong>无水印。</strong> YourFreeDocs不会在您保存的PDF中添加任何水印 — 这是真正的<strong>无水印免费PDF编辑器</strong>。</p></div>
+    </section>
+
+    <div class="cta-strip">
+      <h2>准备好编辑您的PDF了吗？</h2>
+      <p>立即打开YourFreeDocs — 免费、私密，无需下载或注册。</p>
+      <a href="https://yourfreedocs.com/zh/" class="cta-btn"><i class="bi bi-pencil-square"></i> 打开免费PDF编辑器</a>
+    </div>
+
+    <div class="related-strip">
+      <div class="related-title">🔗 YourFreeDocs上的更多免费PDF工具</div>
+      <div class="related-links">
+        <a href="https://yourfreedocs.com/zh/#converters" class="related-link"><i class="bi bi-file-earmark-arrow-right"></i> PDF转JPG</a>
+        <a href="https://yourfreedocs.com/zh/#converters" class="related-link"><i class="bi bi-file-zip"></i> PDF压缩</a>
+        <a href="https://yourfreedocs.com/zh/#converters" class="related-link"><i class="bi bi-files"></i> PDF合并</a>
+        <a href="https://yourfreedocs.com/zh/#converters" class="related-link"><i class="bi bi-scissors"></i> PDF拆分</a>
+        <a href="https://yourfreedocs.com/zh/#converters" class="related-link"><i class="bi bi-images"></i> JPG转PDF</a>
+        <a href="https://yourfreedocs.com/zh/#converters" class="related-link"><i class="bi bi-file-earmark-word"></i> Word转PDF</a>
+      </div>
+    </div>
+
+    <section class="section" id="faq">
+      <div class="section-badge"><i class="bi bi-chat-dots"></i> 常见问题</div>
+      <h2>常见问题解答</h2>
+      <div class="faq-item"><div class="faq-q"><i class="bi bi-question-circle-fill"></i> YourFreeDocs真的免费吗？</div><div class="faq-a">是的，完全免费。没有付费计划，保存的PDF不含水印。<a href="https://yourfreedocs.com/zh/">立即体验 →</a></div></div>
+      <div class="faq-item"><div class="faq-q"><i class="bi bi-question-circle-fill"></i> 我的PDF文件会上传到服务器吗？</div><div class="faq-a">不会。YourFreeDocs是100%客户端处理 — 所有操作在您的浏览器中完成，文件永远不会离开您的设备。</div></div>
+      <div class="faq-item"><div class="faq-q"><i class="bi bi-question-circle-fill"></i> 可以在iPhone或Android上编辑PDF吗？</div><div class="faq-a">可以。YourFreeDocs支持任何现代移动浏览器 — 无需下载应用。</div></div>
+    </section>
+
+</div>
+
+<footer class="site-footer">
+  <p style="margin-bottom:8px;">
+    <a href="https://yourfreedocs.com/zh/">YourFreeDocs</a> — Free online PDF editor.
+  </p>
+  <p>
+    <a href="https://yourfreedocs.com/zh/">PDF Editor</a> &nbsp;·&nbsp;
+    <a href="https://yourfreedocs.com/zh/#converters">Converters</a> &nbsp;·&nbsp;
+    <a href="https://yourfreedocs.com/">English</a> &nbsp;·&nbsp;
+    <a href="https://yourfreedocs.com/bn/">বাংলা</a> &nbsp;·&nbsp;
+    <a href="https://yourfreedocs.com/hi/">हिन्दी</a> &nbsp;·&nbsp;
+    <a href="https://yourfreedocs.com/zh/">中文</a> &nbsp;·&nbsp;
+    <a href="https://yourfreedocs.com/ja/">日本語</a>
+  </p>
+  <p style="margin-top:12px;font-size:11px;">© 2025 YourFreeDocs. Files never leave your device.</p>
+</footer>
+
+</body>
+</html>
