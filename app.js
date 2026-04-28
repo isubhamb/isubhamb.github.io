@@ -1214,34 +1214,8 @@ $('#opacity-val').on('input', function() {
 $('#font-size').on('change', function() { state.fontSize = +$(this).val(); });
 $('#font-family-select').on('change', function() { state.fontFamily = $(this).val(); });
 
-// ── Theme toggle ─────────────────────────────────────────────────────────────
-(function() {
-  var STORAGE_KEY = 'yfd-theme';
-  var saved = localStorage.getItem(STORAGE_KEY);
-
-  function applyTheme(isLight) {
-    if (isLight) {
-      document.documentElement.classList.add('light');
-      $('#theme-toggle-icon').removeClass('bi-moon-fill').addClass('bi-sun-fill');
-      $('#theme-toggle-label').text('Light');
-      $('#btn-theme-toggle').attr('title', 'Switch to Dark mode');
-    } else {
-      document.documentElement.classList.remove('light');
-      $('#theme-toggle-icon').removeClass('bi-sun-fill').addClass('bi-moon-fill');
-      $('#theme-toggle-label').text('Dark');
-      $('#btn-theme-toggle').attr('title', 'Switch to Light mode');
-    }
-    localStorage.setItem(STORAGE_KEY, isLight ? 'light' : 'dark');
-  }
-
-  // Apply saved preference (default light)
-  applyTheme(saved !== 'dark');
-
-  $('#btn-theme-toggle').on('click', function() {
-    var isCurrentlyLight = document.documentElement.classList.contains('light');
-    applyTheme(!isCurrentlyLight);
-  });
-})();
+// ── Theme: light-only ──────────────────────────────────────────────────────
+document.documentElement.classList.add('light');
 
 // ── Create PDF ────────────────────────────────────────────────────────────────
 (function() {

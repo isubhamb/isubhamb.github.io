@@ -90,15 +90,15 @@
   <!-- ═══════════════════════════════════════════════════════════════════════
        MICROSOFT / WINDOWS
   ════════════════════════════════════════════════════════════════════════ -->
-  <meta name="msapplication-TileColor"   content="#e8c547" />
+  <meta name="msapplication-TileColor"   content="#2f6ee0" />
   <meta name="msapplication-TileImage"   content="/icons/mstile-144x144.png" />
   <meta name="msapplication-config"      content="/browserconfig.xml" />
 
   <!-- ═══════════════════════════════════════════════════════════════════════
        THEME / PWA
   ════════════════════════════════════════════════════════════════════════ -->
-  <meta name="theme-color" content="#e8c547" />
-  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#2f6ee0" />
+  <meta name="color-scheme" content="light" />
   <!-- <link rel="manifest" href="/manifest.json" /> -->
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -246,39 +246,45 @@
 
   <!-- ── Top bar ──────────────────────────────────────────────────────── -->
   <div id="topbar">
+
+    <!-- Brand + file badge -->
     <div class="brand">YourFree<span>Docs</span></div>
     <div class="topbar-sep"></div>
-    <span class="badge-forge" id="file-name-badge">No file</span>
-      <a href="https://forms.gle/v8k1dTj7vp9jSEQd8" target="_blank">Contact Us</a>
-    <div class="topbar-right">
+    <span class="badge-forge" id="file-name-badge" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">No file</span>
+
+    <!-- Center: page navigation -->
+    <div class="topbar-center">
       <div class="page-nav">
         <button id="prev-page" disabled title="Previous page"><i class="bi bi-chevron-left"></i></button>
-        <span id="page-indicator">—</span>
+        <span id="page-indicator">&#8212;</span>
         <button id="next-page" disabled title="Next page"><i class="bi bi-chevron-right"></i></button>
       </div>
+    </div>
+
+    <!-- Right: links + actions -->
+    <div class="topbar-right">
+      <a href="https://forms.gle/v8k1dTj7vp9jSEQd8" target="_blank" class="topbar-link">
+        <i class="bi bi-envelope"></i> Contact
+      </a>
+      <a href="#tutorials" id="btn-tutorials" class="topbar-link">
+        <i class="bi bi-play-circle"></i> Tutorials
+      </a>
       <div class="topbar-sep"></div>
-      <!-- Theme toggle -->
-      <button id="btn-theme-toggle" title="Toggle Light / Dark mode">
-        <span id="theme-toggle-icon" class="bi bi-sun-fill" style="font-size:13px;"></span>
-        <span id="theme-toggle-label">Light</span>
-        <span class="toggle-track"><span class="toggle-thumb"></span></span>
-      </button>
-      <div class="topbar-sep"></div>
-      <button id="btn-help" title="Help & Rules" style="
-        display:inline-flex;align-items:center;gap:5px;
-        padding:5px 14px;border-radius:7px;border:none;
-        background:var(--accent);color:#ffffff;
-        font-family:var(--font-body);font-size:12px;font-weight:700;
-        cursor:pointer;transition:all .15s;
-      ">
-        <i class="bi bi-question-circle-fill"></i> HELP
+      <button id="btn-help" title="Help &amp; Rules" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;border:none;background:var(--accent);color:#ffffff;font-family:var(--font-body);font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap;">
+        <i class="bi bi-question-circle-fill"></i> Help
       </button>
       <button id="btn-shortcuts" title="Keyboard shortcuts  ?">
         <i class="bi bi-keyboard"></i> Shortcuts <kbd>?</kbd>
       </button>
-      <button class="btn-forge btn-ghost" id="btn-open"><i class="bi bi-folder2-open"></i> Open PDF</button>
-      <button class="btn-forge btn-primary" id="btn-save" disabled><i class="bi bi-download"></i> Save PDF</button>
+      <div class="topbar-sep"></div>
+      <button class="btn-forge btn-ghost" id="btn-open" title="Open PDF">
+        <i class="bi bi-folder2-open"></i> Open PDF
+      </button>
+      <button class="btn-forge btn-primary" id="btn-save" disabled title="Save PDF">
+        <i class="bi bi-download"></i> Save PDF
+      </button>
     </div>
+
   </div>
 
   <!-- ── Tool strip ───────────────────────────────────────────────────── -->

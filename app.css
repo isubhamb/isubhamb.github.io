@@ -1,29 +1,30 @@
 /* ── Design tokens ──────────────────────────────────────────────── */
     :root {
-      --bg:          #0d0e14;
-      --surface:     #13141c;
-      --surface2:    #1a1b26;
-      --surface3:    #22233280;
-      --border:      #2a2b3d;
-      --border2:     #353650;
-      --accent:      #e8c547;
-      --accent2:     #f0d76a;
-      --accent-dim:  #e8c54722;
-      --accent-glow: #e8c54740;
-      --red:         #ff5f6b;
-      --green:       #4ade9a;
-      --blue:        #5b8dee;
-      --purple:      #a78bfa;
-      --text:        #e8e9f0;
-      --text2:       #9899b0;
-      --text3:       #5a5b72;
+      /* Blue & White palette */
+      --bg:          #f0f4fb;
+      --surface:     #ffffff;
+      --surface2:    #f4f6fd;
+      --surface3:    #eaeefc;
+      --border:      #d5daf0;
+      --border2:     #bcc4e8;
+      --accent:      #2f6ee0;
+      --accent2:     #4a84f5;
+      --accent-dim:  rgba(47,110,224,.10);
+      --accent-glow: rgba(47,110,224,.25);
+      --red:         #e03545;
+      --green:       #1da462;
+      --blue:        #2f6ee0;
+      --purple:      #7c5cf0;
+      --text:        #1a1c2e;
+      --text2:       #4a4f6a;
+      --text3:       #8890b0;
       --font-head:   'Syne', sans-serif;
       --font-body:   'Manrope', sans-serif;
       --font-mono:   'DM Mono', monospace;
       --radius:      10px;
       --radius-lg:   16px;
-      --shadow:      0 8px 32px rgba(0,0,0,.5);
-      --shadow-sm:   0 2px 12px rgba(0,0,0,.3);
+      --shadow:      0 8px 32px rgba(47,110,224,.12);
+      --shadow-sm:   0 2px 12px rgba(47,110,224,.08);
     }
 
     /* ── Create PDF modal ───────────────────────────────────────────── */
@@ -32,175 +33,23 @@
       border-color: var(--accent);
       color: var(--accent);
     }
-    html.light .pdf-size-btn.active,
-    html.light .pdf-orient-btn.active {
-      background: rgba(47,110,224,.10);
-      border-color: #2f6ee0;
-      color: #2f6ee0;
-    }
     .create-bg-btn:hover { transform: scale(1.12); }
 
     /* ── Light mode btn-primary: blue instead of yellow ───────────── */
-    html.light .btn-primary {
-      background: #2f6ee0;
-      color: #ffffff;
-    }
-    html.light .btn-primary:hover {
-      background: #1a5bc9;
-      box-shadow: 0 4px 16px rgba(47,110,224,0.35);
-    }
 
-    /* ── Light / White theme ────────────────────────────────────────── */
-    html.light {
-      --bg:          #f0f2f8;
-      --surface:     #ffffff;
-      --surface2:    #f5f6fc;
-      --surface3:    #eceef8cc;
-      --border:      #dde0ee;
-      --border2:     #c8ccdf;
-      --accent:      #c49a00;
-      --accent2:     #d4aa10;
-      --accent-dim:  #c49a0018;
-      --accent-glow: #c49a0030;
-      --red:         #e03545;
-      --green:       #1da462;
-      --blue:        #2f6ee0;
-      --purple:      #7c5cf0;
-      --text:        #1a1c2e;
-      --text2:       #5c5f7a;
-      --text3:       #9496b0;
-      --shadow:      0 8px 32px rgba(100,110,180,.14);
-      --shadow-sm:   0 2px 12px rgba(100,110,180,.10);
-    }
+    
 
-    /* ── Smooth theme transition ────────────────────────────────────── */
-    *, *::before, *::after {
-      transition:
-        background-color .25s ease,
-        border-color .25s ease,
-        color .15s ease,
-        box-shadow .25s ease !important;
-    }
+    
     /* But keep fast transitions for interactive elements */
     .tool-btn, .btn-forge, .zoom-btn, .color-dot,
-    .page-thumb, #btn-shortcuts, #btn-help, #btn-theme-toggle {
-      transition: all .15s !important;
-    }
+    .page-thumb, #btn-shortcuts, #btn-help, 
 
     /* ── Light mode specific overrides ─────────────────────────────── */
-    html.light #canvas-wrap {
-      background:
-        radial-gradient(ellipse at 30% 20%, #c8ceff18 0%, transparent 60%),
-        radial-gradient(ellipse at 70% 80%, #c49a0010 0%, transparent 50%),
-        var(--bg);
-    }
-    html.light #canvas-container {
-      box-shadow: 0 12px 60px rgba(80,90,180,.18);
-    }
-    html.light .ann-text-toolbar {
-      background: #ffffff;
-      box-shadow: 0 4px 20px rgba(80,90,180,.15);
-    }
-    html.light .annotation .ann-del,
-    html.light .ann-text-wrap .ann-del {
-      background: #ffffff;
-    }
-    html.light .page-num {
-      background: rgba(30,32,60,.55);
-    }
-    html.light .toast-item {
-      box-shadow: 0 4px 20px rgba(80,90,180,.15);
-    }
-    html.light #shortcuts-modal,
-    html.light #help-modal {
-      box-shadow: 0 24px 80px rgba(80,90,180,.20);
-    }
-    html.light #text-color-popup {
-      box-shadow: 0 12px 40px rgba(80,90,180,.18);
-    }
-    html.light .drop-icon {
-      background: linear-gradient(135deg, #e8edff 0%, #f5f0d8 100%);
-    }
-    html.light .stat-box {
-      background: linear-gradient(135deg, #f0f3ff 0%, #faf8f0 100%);
-    }
-    html.light #topbar {
-      background: linear-gradient(90deg, #ffffff 0%, #fafbff 100%);
-      border-bottom: 1.5px solid var(--border);
-    }
-    html.light #sidebar {
-      background: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
-    }
-    html.light #props-panel {
-      background: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
-    }
-    html.light #toolbar {
-      background: linear-gradient(90deg, #f5f6fc 0%, #f0f2f8 100%);
-    }
-    html.light #statusbar {
-      background: #ffffff;
-      border-top: 1.5px solid var(--border);
-    }
-    html.light .shortcut-row:hover {
-      background: var(--surface2);
-    }
-    html.light input[type="range"] {
-      accent-color: var(--accent);
-    }
     /* Theme toggle button */
-    #btn-theme-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 11px;
-      border-radius: 20px;
-      border: 1.5px solid var(--border2);
-      background: var(--surface2);
-      color: var(--text2);
-      font-family: var(--font-body);
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all .2s;
-      position: relative;
-      overflow: hidden;
-    }
-    #btn-theme-toggle:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--accent-dim);
-    }
-    #btn-theme-toggle .toggle-track {
-      width: 30px;
-      height: 16px;
-      border-radius: 99px;
-      background: var(--border2);
-      position: relative;
-      transition: background .25s;
-      flex-shrink: 0;
-    }
-    #btn-theme-toggle .toggle-thumb {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--text3);
-      transition: left .25s cubic-bezier(.34,1.56,.64,1), background .25s;
-    }
-    html.light #btn-theme-toggle .toggle-track {
-      background: var(--accent);
-    }
-    html.light #btn-theme-toggle .toggle-thumb {
-      left: 16px;
-      background: #fff;
-    }
-    html.light #btn-theme-toggle {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--accent-dim);
-    }
+    
+    
+    
+    
 
     /* ── Reset & base ───────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -224,9 +73,9 @@
     #topbar {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 0 20px;
-      height: 52px;
+      gap: 8px;
+      padding: 0 14px;
+      height: 48px;
       background: var(--surface);
       border-bottom: 1px solid var(--border);
       flex-shrink: 0;
@@ -243,7 +92,7 @@
     }
     .brand span { color: var(--text2); font-weight: 700; }
     .topbar-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; }
-    .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .topbar-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 
     /* ── Toolbar (tool strip) ───────────────────────────────────────── */
     #toolbar {
@@ -265,7 +114,7 @@
       border-radius: 6px;
       border: none;
       background: transparent;
-      color: var(--text2);
+      color: var(--text);
       font-family: var(--font-body);
       font-size: 12px;
       font-weight: 500;
@@ -365,8 +214,8 @@
       justify-content: center;
       padding: 28px;
       background:
-        radial-gradient(ellipse at 30% 20%, #1e1f3020 0%, transparent 60%),
-        radial-gradient(ellipse at 70% 80%, #e8c54708 0%, transparent 50%),
+        radial-gradient(ellipse at 30% 20%, rgba(47,110,224,.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(47,110,224,.04) 0%, transparent 50%),
         var(--bg);
     }
     #canvas-container {
@@ -431,7 +280,7 @@
     }
     .ann-text:empty::before {
       content: 'Type here…';
-      color: rgba(128,128,128,.5);
+      color: rgba(80,90,130,.4);
       pointer-events: none;
       font-style: italic;
     }
@@ -633,7 +482,7 @@
       gap: 8px;
     }
     .stat-box {
-      background: var(--surface2);
+      background: #f0f4fb;
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 8px 10px;
@@ -660,13 +509,13 @@
       background: var(--accent);
       color: #ffffff;
     }
-    .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); color: #ffffff; }
     .btn-ghost {
-      background: var(--surface2);
-      color: var(--text2);
-      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text);
+      border: 1px solid var(--border2);
     }
-    .btn-ghost:hover { color: var(--text); border-color: var(--border2); }
+    .btn-ghost:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
     .btn-danger {
       background: transparent;
       color: var(--red);
@@ -688,7 +537,7 @@
       width: 80px;
       height: 80px;
       border-radius: var(--radius-lg);
-      background: var(--accent-dim);
+      background: rgba(47,110,224,.08);
       border: 2px dashed var(--accent);
       display: flex;
       align-items: center;
@@ -767,9 +616,9 @@
       font-weight: 500;
       padding: 2px 8px;
       border-radius: 99px;
-      background: var(--accent-dim);
+      background: rgba(47,110,224,.10);
       color: var(--accent);
-      border: 1px solid var(--accent-glow);
+      border: 1px solid rgba(47,110,224,.25);
     }
     #file-input { display: none; }
 
@@ -1089,3 +938,32 @@
     .page-nav button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
     .page-nav button:disabled { opacity: .3; cursor: not-allowed; }
     #page-indicator { font-family: var(--font-mono); font-size: 12px; color: var(--text2); }
+    /* ── Topbar layout ───────────────────────────────────────────── */
+    .topbar-center {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .topbar-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text2);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+      transition: color .15s, background .15s;
+    }
+    .topbar-link:hover { color: var(--accent); background: var(--accent-dim); }
+    .topbar-link i { font-size: 13px; }
