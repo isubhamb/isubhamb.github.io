@@ -147,14 +147,6 @@
     'nav.next-page':        { bn: 'পরের পৃষ্ঠা',   hi: 'अगला पृष्ठ',   zh: '下一页', ja: '次のページ' },
   };
 
-  /* ── Supported languages ─────────────────────────────────────────────── */
-  const LANGUAGES = {
-    en: { label: 'EN', name: 'English',  flag: '🇬🇧' },
-    bn: { label: 'বাং', name: 'বাংলা',   flag: '🇧🇩' },
-    hi: { label: 'हिं',  name: 'हिन्दी',  flag: '🇮🇳' },
-    zh: { label: '中文', name: '中文',    flag: '🇨🇳' },
-    ja: { label: '日本', name: '日本語',  flag: '🇯🇵' },
-  };
 
   const LS_KEY = 'yfd-lang';
 
@@ -166,7 +158,7 @@
   //           (4) browser language
   //           (5) default English
 
-  const SUPPORTED = ['bn', 'hi', 'zh', 'ja'];
+  const SUPPORTED = ['en', 'bn', 'hi', 'zh', 'ja'];
 
   function detectLang() {
     // 1. html element data-lang attribute (most reliable — set by each lang page)
@@ -560,7 +552,6 @@
     // ── Switching TO English: restore snapshot ──
     if (lang === 'en') {
       restoreEnglish();
-      updateLangButtons(lang);
       // Notify converters.js to restore English
       if (typeof window.__convApplyLang === 'function') window.__convApplyLang('en');
       return;
@@ -644,20 +635,12 @@
     // All special elements with icons
     applySpecialTranslations(lang);
 
-    updateLangButtons(lang);
 
     // Notify converters.js
     if (typeof window.__convApplyLang === 'function') window.__convApplyLang(lang);
   }
 
-  /* ── Update lang switcher button styles ──────────────────────────────── */
-  function updateLangButtons(lang) {
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      const isActive = btn.dataset.lang === lang;
-      btn.style.background = isActive ? 'var(--accent)' : 'transparent';
-      btn.style.color      = isActive ? '#ffffff' : 'var(--text2)';
-    });
-  }
+
 
   /* ── Special elements: icon + text ──────────────────────────────────── */
   function applySpecialTranslations(lang) {
@@ -890,33 +873,10 @@
     }
   }
 
-  /* ── Build language switcher UI ──────────────────────────────────────── */
-  function buildSwitcher() {
-    const wrap = document.createElement('div');
-    wrap.id = 'lang-switcher';
-    wrap.style.cssText = 'display:inline-flex;align-items:center;gap:2px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:2px;flex-shrink:0;';
-    Object.entries(LANGUAGES).forEach(([code, info]) => {
-      const btn = document.createElement('button');
-      btn.className = 'lang-btn';
-      btn.dataset.lang = code;
-      btn.title = info.name;
-      btn.textContent = info.label;
-      btn.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;padding:3px 7px;border-radius:6px;border:none;background:transparent;color:var(--text2);font-family:var(--font-body);font-size:11px;font-weight:700;cursor:pointer;transition:all .12s;white-space:nowrap;line-height:1;';
-      btn.addEventListener('mouseenter', () => { if (btn.dataset.lang !== currentLang) { btn.style.background = 'var(--accent-dim)'; btn.style.color = 'var(--accent)'; }});
-      btn.addEventListener('mouseleave', () => { if (btn.dataset.lang !== currentLang) { btn.style.background = 'transparent'; btn.style.color = 'var(--text2)'; }});
-      btn.addEventListener('click', () => applyTranslations(code));
-      wrap.appendChild(btn);
-    });
-    const topbarRight = document.querySelector('.topbar-right');
-    const firstSep = topbarRight ? topbarRight.querySelector('.topbar-sep') : null;
-    if (topbarRight && firstSep) topbarRight.insertBefore(wrap, firstSep);
-    else if (topbarRight) topbarRight.prepend(wrap);
-    updateLangButtons(currentLang);
-  }
+  /* Language switcher removed — users navigate via URL paths /bn/ /hi/ /zh/ /ja/ */
 
   /* ── Init ────────────────────────────────────────────────────────────── */
   function init() {
-    buildSwitcher();
     // Always snapshot English FIRST before any translation
     saveEnglishSnapshot();
     enhancedSnapshot();
@@ -924,8 +884,7 @@
     if (currentLang !== 'en') {
       applyTranslations(currentLang);
     } else {
-      updateLangButtons('en');
-    }
+      }
     // Re-apply on modal open for dynamically shown content
     document.addEventListener('click', function(e) {
       const t2 = e.target;
