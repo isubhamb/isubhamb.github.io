@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -10,17 +9,6 @@
     http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
     http://www.google.com/schemas/sitemap-image/1.1
     http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd">
-
-  <!--
-  ═══════════════════════════════════════════════════════════════════════
-   YourFreeDocs Sitemap
-   Domain  : https://www.yourfreedocs.com
-   Updated : 2026-04-28
-   Pages   : 12 (root + 5 editors + 5 tutorials + 404)
-   Priority: 1.00 EN editor | 0.90 lang editors | 0.85 EN tutorial
-             0.75 lang tutorials | 0.10 utility pages
-  ═══════════════════════════════════════════════════════════════════════
-  -->
 
   <!-- ROOT REDIRECT -->
   <url>
