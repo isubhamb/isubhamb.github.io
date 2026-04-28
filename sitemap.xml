@@ -1,108 +1,208 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  xsi:schemaLocation="
+    http://www.sitemaps.org/schemas/sitemap/0.9
+    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
+    http://www.google.com/schemas/sitemap-image/1.1
+    http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd">
 
-  <!-- ═══ English (default) ═══ -->
+  <!--
+  ═══════════════════════════════════════════════════════════════════════
+   YourFreeDocs Sitemap
+   Domain  : https://www.yourfreedocs.com
+   Updated : 2026-04-28
+   Pages   : 12 (root + 5 editors + 5 tutorials + 404)
+   Priority: 1.00 EN editor | 0.90 lang editors | 0.85 EN tutorial
+             0.75 lang tutorials | 0.10 utility pages
+  ═══════════════════════════════════════════════════════════════════════
+  -->
+
+  <!-- ROOT REDIRECT -->
   <url>
-    <loc>https://yourfreedocs.com/en/</loc>
+    <loc>https://www.yourfreedocs.com/</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.10</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://www.yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="bn"        href="https://www.yourfreedocs.com/bn/"/>
+    <xhtml:link rel="alternate" hreflang="hi"        href="https://www.yourfreedocs.com/hi/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://www.yourfreedocs.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="ja"        href="https://www.yourfreedocs.com/ja/"/>
+  </url>
+
+  <!-- ENGLISH — PDF EDITOR -->
+  <url>
+    <loc>https://www.yourfreedocs.com/en/</loc>
+    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.00</priority>
-    <changefreq>weekly</changefreq>
-    <xhtml:link rel="alternate" hreflang="en"      href="https://yourfreedocs.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="bn"      href="https://yourfreedocs.com/bn/"/>
-    <xhtml:link rel="alternate" hreflang="hi"      href="https://yourfreedocs.com/hi/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yourfreedocs.com/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja"      href="https://yourfreedocs.com/ja/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://www.yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="bn"        href="https://www.yourfreedocs.com/bn/"/>
+    <xhtml:link rel="alternate" hreflang="hi"        href="https://www.yourfreedocs.com/hi/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://www.yourfreedocs.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="ja"        href="https://www.yourfreedocs.com/ja/"/>
+    <image:image>
+      <image:loc>https://www.yourfreedocs.com/og-image.png</image:loc>
+      <image:title>YourFreeDocs — Free Online PDF Editor</image:title>
+      <image:caption>Annotate, draw, highlight, and edit PDFs directly in your browser. No uploads, no installs, fully private and free.</image:caption>
+    </image:image>
   </url>
 
+  <!-- ENGLISH — TUTORIAL -->
   <url>
-    <loc>https://yourfreedocs.com/en/pdf-editor-tutorial.html</loc>
+    <loc>https://www.yourfreedocs.com/en/pdf-editor-tutorial.html</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
-    <priority>0.80</priority>
     <changefreq>monthly</changefreq>
-    <xhtml:link rel="alternate" hreflang="en"      href="https://yourfreedocs.com/pdf-editor-tutorial.html"/>
-    <xhtml:link rel="alternate" hreflang="bn"      href="https://yourfreedocs.com/bn/pdf-editor-tutorial-bn.html"/>
-    <xhtml:link rel="alternate" hreflang="hi"      href="https://yourfreedocs.com/hi/pdf-editor-tutorial-hi.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yourfreedocs.com/zh/pdf-editor-tutorial-zh.html"/>
-    <xhtml:link rel="alternate" hreflang="ja"      href="https://yourfreedocs.com/ja/pdf-editor-tutorial-ja.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://yourfreedocs.com/pdf-editor-tutorial.html"/>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yourfreedocs.com/en/pdf-editor-tutorial.html"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://www.yourfreedocs.com/en/pdf-editor-tutorial.html"/>
+    <xhtml:link rel="alternate" hreflang="bn"        href="https://www.yourfreedocs.com/bn/pdf-editor-tutorial-bn.html"/>
+    <xhtml:link rel="alternate" hreflang="hi"        href="https://www.yourfreedocs.com/hi/pdf-editor-tutorial-hi.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://www.yourfreedocs.com/zh/pdf-editor-tutorial-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="ja"        href="https://www.yourfreedocs.com/ja/pdf-editor-tutorial-ja.html"/>
+    <image:image>
+      <image:loc>https://www.yourfreedocs.com/og-image.png</image:loc>
+      <image:title>How to Use YourFreeDocs Free PDF Editor Online — Complete Tutorial 2025</image:title>
+    </image:image>
   </url>
 
-  <!-- ═══ Bengali ═══ -->
+  <!-- BENGALI — PDF EDITOR -->
   <url>
-    <loc>https://yourfreedocs.com/bn/</loc>
+    <loc>https://www.yourfreedocs.com/bn/</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.90</priority>
-    <changefreq>weekly</changefreq>
-    <xhtml:link rel="alternate" hreflang="en"      href="https://yourfreedocs.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="bn"      href="https://yourfreedocs.com/bn/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://www.yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="bn"        href="https://www.yourfreedocs.com/bn/"/>
+    <xhtml:link rel="alternate" hreflang="hi"        href="https://www.yourfreedocs.com/hi/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://www.yourfreedocs.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="ja"        href="https://www.yourfreedocs.com/ja/"/>
+    <image:image>
+      <image:loc>https://www.yourfreedocs.com/og-image.png</image:loc>
+      <image:title>YourFreeDocs — বিনামূল্যে অনলাইন PDF এডিটর</image:title>
+      <image:caption>টীকা, আঁকুন, হাইলাইট করুন এবং সরাসরি ব্রাউজারে PDF সম্পাদনা করুন।</image:caption>
+    </image:image>
   </url>
 
+  <!-- BENGALI — TUTORIAL -->
   <url>
-    <loc>https://yourfreedocs.com/bn/pdf-editor-tutorial-bn.html</loc>
+    <loc>https://www.yourfreedocs.com/bn/pdf-editor-tutorial-bn.html</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
-    <priority>0.75</priority>
     <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yourfreedocs.com/en/pdf-editor-tutorial.html"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://www.yourfreedocs.com/en/pdf-editor-tutorial.html"/>
+    <xhtml:link rel="alternate" hreflang="bn"        href="https://www.yourfreedocs.com/bn/pdf-editor-tutorial-bn.html"/>
+    <xhtml:link rel="alternate" hreflang="hi"        href="https://www.yourfreedocs.com/hi/pdf-editor-tutorial-hi.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://www.yourfreedocs.com/zh/pdf-editor-tutorial-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="ja"        href="https://www.yourfreedocs.com/ja/pdf-editor-tutorial-ja.html"/>
   </url>
 
-  <!-- ═══ Hindi ═══ -->
+  <!-- HINDI — PDF EDITOR -->
   <url>
-    <loc>https://yourfreedocs.com/hi/</loc>
+    <loc>https://www.yourfreedocs.com/hi/</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.90</priority>
-    <changefreq>weekly</changefreq>
-    <xhtml:link rel="alternate" hreflang="en"      href="https://yourfreedocs.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="hi"      href="https://yourfreedocs.com/hi/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://www.yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="bn"        href="https://www.yourfreedocs.com/bn/"/>
+    <xhtml:link rel="alternate" hreflang="hi"        href="https://www.yourfreedocs.com/hi/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://www.yourfreedocs.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="ja"        href="https://www.yourfreedocs.com/ja/"/>
+    <image:image>
+      <image:loc>https://www.yourfreedocs.com/og-image.png</image:loc>
+      <image:title>YourFreeDocs — मुफ्त ऑनलाइन PDF संपादक</image:title>
+      <image:caption>एनोटेट करें, ड्रॉ करें, हाइलाइट करें और सीधे ब्राउज़र में PDF संपादित करें।</image:caption>
+    </image:image>
   </url>
 
+  <!-- HINDI — TUTORIAL -->
   <url>
-    <loc>https://yourfreedocs.com/hi/pdf-editor-tutorial-hi.html</loc>
+    <loc>https://www.yourfreedocs.com/hi/pdf-editor-tutorial-hi.html</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
-    <priority>0.75</priority>
     <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yourfreedocs.com/en/pdf-editor-tutorial.html"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://www.yourfreedocs.com/en/pdf-editor-tutorial.html"/>
+    <xhtml:link rel="alternate" hreflang="bn"        href="https://www.yourfreedocs.com/bn/pdf-editor-tutorial-bn.html"/>
+    <xhtml:link rel="alternate" hreflang="hi"        href="https://www.yourfreedocs.com/hi/pdf-editor-tutorial-hi.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://www.yourfreedocs.com/zh/pdf-editor-tutorial-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="ja"        href="https://www.yourfreedocs.com/ja/pdf-editor-tutorial-ja.html"/>
   </url>
 
-  <!-- ═══ Chinese ═══ -->
+  <!-- CHINESE — PDF EDITOR -->
   <url>
-    <loc>https://yourfreedocs.com/zh/</loc>
+    <loc>https://www.yourfreedocs.com/zh/</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.90</priority>
-    <changefreq>weekly</changefreq>
-    <xhtml:link rel="alternate" hreflang="en"      href="https://yourfreedocs.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://yourfreedocs.com/zh/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://www.yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="bn"        href="https://www.yourfreedocs.com/bn/"/>
+    <xhtml:link rel="alternate" hreflang="hi"        href="https://www.yourfreedocs.com/hi/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://www.yourfreedocs.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="ja"        href="https://www.yourfreedocs.com/ja/"/>
+    <image:image>
+      <image:loc>https://www.yourfreedocs.com/og-image.png</image:loc>
+      <image:title>YourFreeDocs — 免费在线PDF编辑器</image:title>
+      <image:caption>直接在浏览器中注释、绘制、高亮和编辑PDF。无需上传，完全免费。</image:caption>
+    </image:image>
   </url>
 
+  <!-- CHINESE — TUTORIAL -->
   <url>
-    <loc>https://yourfreedocs.com/zh/pdf-editor-tutorial-zh.html</loc>
+    <loc>https://www.yourfreedocs.com/zh/pdf-editor-tutorial-zh.html</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
-    <priority>0.75</priority>
     <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yourfreedocs.com/en/pdf-editor-tutorial.html"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://www.yourfreedocs.com/en/pdf-editor-tutorial.html"/>
+    <xhtml:link rel="alternate" hreflang="bn"        href="https://www.yourfreedocs.com/bn/pdf-editor-tutorial-bn.html"/>
+    <xhtml:link rel="alternate" hreflang="hi"        href="https://www.yourfreedocs.com/hi/pdf-editor-tutorial-hi.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://www.yourfreedocs.com/zh/pdf-editor-tutorial-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="ja"        href="https://www.yourfreedocs.com/ja/pdf-editor-tutorial-ja.html"/>
   </url>
 
-  <!-- ═══ Japanese ═══ -->
+  <!-- JAPANESE — PDF EDITOR -->
   <url>
-    <loc>https://yourfreedocs.com/ja/</loc>
+    <loc>https://www.yourfreedocs.com/ja/</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.90</priority>
-    <changefreq>weekly</changefreq>
-    <xhtml:link rel="alternate" hreflang="en"      href="https://yourfreedocs.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="ja"      href="https://yourfreedocs.com/ja/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://www.yourfreedocs.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="bn"        href="https://www.yourfreedocs.com/bn/"/>
+    <xhtml:link rel="alternate" hreflang="hi"        href="https://www.yourfreedocs.com/hi/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://www.yourfreedocs.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="ja"        href="https://www.yourfreedocs.com/ja/"/>
+    <image:image>
+      <image:loc>https://www.yourfreedocs.com/og-image.png</image:loc>
+      <image:title>YourFreeDocs — 無料オンラインPDFエディター</image:title>
+      <image:caption>ブラウザで直接PDFに注釈・描画・ハイライト・編集。アップロード不要、完全無料。</image:caption>
+    </image:image>
   </url>
 
+  <!-- JAPANESE — TUTORIAL -->
   <url>
-    <loc>https://yourfreedocs.com/ja/pdf-editor-tutorial-ja.html</loc>
+    <loc>https://www.yourfreedocs.com/ja/pdf-editor-tutorial-ja.html</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
-    <priority>0.75</priority>
     <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.yourfreedocs.com/en/pdf-editor-tutorial.html"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://www.yourfreedocs.com/en/pdf-editor-tutorial.html"/>
+    <xhtml:link rel="alternate" hreflang="bn"        href="https://www.yourfreedocs.com/bn/pdf-editor-tutorial-bn.html"/>
+    <xhtml:link rel="alternate" hreflang="hi"        href="https://www.yourfreedocs.com/hi/pdf-editor-tutorial-hi.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://www.yourfreedocs.com/zh/pdf-editor-tutorial-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="ja"        href="https://www.yourfreedocs.com/ja/pdf-editor-tutorial-ja.html"/>
   </url>
 
 </urlset>
