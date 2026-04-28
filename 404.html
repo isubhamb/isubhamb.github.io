@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Page Not Found | YourFreeDocs</title>
+  <meta name="description" content="The page you're looking for doesn't exist. Go back to YourFreeDocs free online PDF editor." />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="canonical" href="https://www.yourfreedocs.com/en/" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #f0f4fb;
+      --surface: #ffffff;
+      --border:  #d5daf0;
+      --border2: #bcc4e8;
+      --accent:  #2f6ee0;
+      --accent2: #4a84f5;
+      --accent-dim: rgba(47,110,224,.10);
+      --accent-glow: rgba(47,110,224,.22);
+      --text:    #1a1c2e;
+      --text2:   #4a4f6a;
+      --text3:   #8890b0;
+      --red:     #e03545;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: 'Manrope', sans-serif;
+      color: var(--text);
+    }
+
+    /* ── Page shell ── */
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      height: 52px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 12px;
+      box-shadow: 0 2px 12px rgba(47,110,224,.06);
+    }
+    .brand {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: -.5px;
+    }
+    .brand span { color: var(--text2); }
+    .topbar-sep { width: 1px; height: 22px; background: var(--border); }
+    .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .topbar-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      border-radius: 7px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .15s, box-shadow .15s;
+      white-space: nowrap;
+    }
+    .topbar-btn:hover {
+      background: var(--accent2);
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+    .topbar-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text2);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: color .15s, background .15s;
+    }
+    .topbar-link:hover { color: var(--accent); background: var(--accent-dim); }
+
+    /* ── Main content ── */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(47,110,224,.10);
+      padding: 56px 48px 48px;
+      text-align: center;
+      max-width: 540px;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative background blobs */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      pointer-events: none;
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: -40px;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: rgba(47,110,224,.05);
+      pointer-events: none;
+    }
+
+    /* ── 404 number ── */
+    .big-404 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(80px, 18vw, 120px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -4px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── PDF icon in the 0 ── */
+    .icon-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: var(--accent-dim);
+      border: 1.5px solid var(--accent-glow);
+      margin: 0 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .icon-wrap i {
+      font-size: 28px;
+      color: var(--accent);
+    }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-sub {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .card-sub code {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    /* ── Action buttons ── */
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 24px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .15s, transform .15s, box-shadow .15s;
+    }
+    .btn-primary:hover {
+      background: var(--accent2);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 24px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border2);
+      background: var(--surface);
+      color: var(--text2);
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* ── Quick links ── */
+    .quick-links {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+    .quick-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 12px;
+    }
+    .quick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .quick-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      text-decoration: none;
+      color: var(--text2);
+      font-size: 12px;
+      font-weight: 600;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .quick-item:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+    .quick-item i { font-size: 14px; color: var(--accent); flex-shrink: 0; }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: var(--text3);
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    /* ── URL display ── */
+    .url-display {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 6px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text3);
+      margin-bottom: 20px;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      position: relative;
+      z-index: 1;
+    }
+    .url-display i { color: var(--red); flex-shrink: 0; }
+
+    /* ── Auto-redirect countdown ── */
+    .countdown {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .countdown span {
+      font-family: 'DM Mono', monospace;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 40px 24px 32px; }
+      .quick-grid { grid-template-columns: 1fr; }
+      .topbar-link { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Topbar -->
+  <nav class="topbar">
+    <a href="https://www.yourfreedocs.com/en/" class="brand">YourFree<span>Docs</span></a>
+    <div class="topbar-sep"></div>
+    <div class="topbar-right">
+      <a href="https://www.yourfreedocs.com/en/pdf-editor-tutorial.html" class="topbar-link">
+        <i class="bi bi-play-circle"></i> Tutorials
+      </a>
+      <a href="https://www.yourfreedocs.com/en/" class="topbar-btn">
+        <i class="bi bi-pencil-square"></i> Open Editor
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="card">
+
+      <div class="big-404">404</div>
+
+      <div class="icon-wrap">
+        <i class="bi bi-file-earmark-x"></i>
+      </div>
+
+      <h1 class="card-title">Page Not Found</h1>
+
+      <div class="url-display" id="url-display">
+        <i class="bi bi-x-circle-fill"></i>
+        <span id="bad-url">…</span>
+      </div>
+
+      <p class="card-sub">
+        This page doesn't exist or may have been moved.<br>
+        Head back to the editor and keep working on your PDFs.
+      </p>
+
+      <div class="actions">
+        <a href="https://www.yourfreedocs.com/en/" class="btn-primary">
+          <i class="bi bi-house-fill"></i> Go to YourFreeDocs
+        </a>
+        <a href="javascript:history.back()" class="btn-secondary">
+          <i class="bi bi-arrow-left"></i> Go Back
+        </a>
+      </div>
+
+      <p class="countdown" id="countdown-msg">
+        Redirecting in <span id="count">10</span>s…
+      </p>
+
+      <div class="quick-links">
+        <div class="quick-label">Quick Links</div>
+        <div class="quick-grid">
+          <a href="https://www.yourfreedocs.com/en/" class="quick-item">
+            <i class="bi bi-pencil-square"></i> PDF Editor
+          </a>
+          <a href="https://www.yourfreedocs.com/en/pdf-editor-tutorial.html" class="quick-item">
+            <i class="bi bi-book-half"></i> Tutorials
+          </a>
+          <a href="https://www.yourfreedocs.com/bn/" class="quick-item">
+            <i class="bi bi-translate"></i> বাংলা
+          </a>
+          <a href="https://www.yourfreedocs.com/hi/" class="quick-item">
+            <i class="bi bi-translate"></i> हिन्दी
+          </a>
+          <a href="https://www.yourfreedocs.com/zh/" class="quick-item">
+            <i class="bi bi-translate"></i> 中文
+          </a>
+          <a href="https://www.yourfreedocs.com/ja/" class="quick-item">
+            <i class="bi bi-translate"></i> 日本語
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <a href="https://www.yourfreedocs.com/en/">YourFreeDocs</a> — Free online PDF editor. No uploads. No watermarks. 100% private.
+  </footer>
+
+</div>
+
+<script>
+  // Show the bad URL the user tried to visit
+  (function() {
+    const url = window.location.href;
+    const display = document.getElementById('bad-url');
+    if (display) {
+      // Show just the path, truncated if too long
+      const path = window.location.pathname + window.location.search;
+      display.textContent = path.length > 50 ? path.slice(0, 47) + '…' : path;
+    }
+  })();
+
+  // Countdown then auto-redirect to home
+  (function() {
+    let count = 10;
+    const countEl = document.getElementById('count');
+    const msgEl   = document.getElementById('countdown-msg');
+    const HOME    = 'https://www.yourfreedocs.com/en/';
+
+    const timer = setInterval(function() {
+      count--;
+      if (countEl) countEl.textContent = count;
+      if (count <= 0) {
+        clearInterval(timer);
+        if (msgEl) msgEl.textContent = 'Redirecting…';
+        window.location.replace(HOME);
+      }
+    }, 1000);
+
+    // Cancel countdown if user clicks anything
+    document.addEventListener('click', function() {
+      clearInterval(timer);
+      if (msgEl) msgEl.style.display = 'none';
+    }, { once: true });
+  })();
+</script>
+
+</body>
+</html>
